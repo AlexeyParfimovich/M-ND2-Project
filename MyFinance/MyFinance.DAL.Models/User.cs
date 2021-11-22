@@ -18,5 +18,7 @@ namespace MyFinance.DAL.Models
 
         public string Password { get; set; }
 
+        public bool IsActive { get; set; }
+
     }
 }

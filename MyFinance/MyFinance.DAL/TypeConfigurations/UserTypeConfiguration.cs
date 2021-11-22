@@ -24,6 +24,8 @@ namespace MyFinance.DAL.TypeConfigurations
 
             builder.Property(p => p.Password).HasMaxLength(32).IsRequired();
 
+            builder.Property(p => p.IsActive).HasDefaultValue(false).IsRequired();
+
         }
     }
 }

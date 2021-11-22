@@ -26,6 +26,12 @@ namespace MyFinance.DAL
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserTypeConfiguration());
+
+            modelBuilder.Entity<User>().HasData(
+            new User[]
+            {
+                new User { Id=1, FirstName="Administrator", Email="test@test.com", Login="admin", Password="1234", IsActive=true}
+            });
         }
     }
 }
