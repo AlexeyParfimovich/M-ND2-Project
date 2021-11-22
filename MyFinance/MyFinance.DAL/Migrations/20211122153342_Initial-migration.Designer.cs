@@ -9,7 +9,7 @@ using MyFinance.DAL;
 namespace MyFinance.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20211122150321_Initial-migration")]
+    [Migration("20211122153342_Initial-migration")]
     partial class Initialmigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
