@@ -1,11 +1,7 @@
-﻿using System;
-
-namespace MyFinance.DAL.Models
+﻿namespace MyFinance.DAL.Entities
 {
-    public class User
+    public class UserEntity: BaseEntity<long>
     {
-        public long Id { get; set; }
-
         public string FirstName { get; set; }
 
         public string LastName { get; set; }

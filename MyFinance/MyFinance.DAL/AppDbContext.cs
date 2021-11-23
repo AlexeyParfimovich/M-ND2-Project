@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MyFinance.DAL.Models;
+using MyFinance.DAL.Entities;
 using MyFinance.DAL.TypeConfigurations;
 
 namespace MyFinance.DAL
 {
     public class AppDbContext: DbContext
     {
-        public DbSet<User> Users { get; set; }
+        public DbSet<UserEntity> Users { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
@@ -23,14 +23,15 @@ namespace MyFinance.DAL
 
             optionsBuilder.LogTo(System.Console.WriteLine);
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserTypeConfiguration());
 
-            modelBuilder.Entity<User>().HasData(
-            new User[]
+            modelBuilder.Entity<UserEntity>().HasData(
+            new UserEntity[]
             {
-                new User { Id=1, FirstName="Administrator", Email="test@test.com", Login="admin", Password="1234", IsActive=true}
+                new UserEntity { Id=1, FirstName="Administrator", Email="test@test.com", Login="admin", Password="1234", IsActive=true}
             });
         }
     }

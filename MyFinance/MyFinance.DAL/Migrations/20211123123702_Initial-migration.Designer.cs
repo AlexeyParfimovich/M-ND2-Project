@@ -9,7 +9,7 @@ using MyFinance.DAL;
 namespace MyFinance.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20211122153342_Initial-migration")]
+    [Migration("20211123123702_Initial-migration")]
     partial class Initialmigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,7 +20,7 @@ namespace MyFinance.DAL.Migrations
                 .HasAnnotation("ProductVersion", "5.0.12")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("MyFinance.DAL.Models.User", b =>
+            modelBuilder.Entity("MyFinance.DAL.Entities.UserEntity", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -36,6 +36,11 @@ namespace MyFinance.DAL.Migrations
                         .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("nvarchar(32)");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<string>("LastName")
                         .HasMaxLength(32)
@@ -58,6 +63,17 @@ namespace MyFinance.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Email = "test@test.com",
+                            FirstName = "Administrator",
+                            IsActive = true,
+                            Login = "admin",
+                            Password = "1234"
+                        });
                 });
 #pragma warning restore 612, 618
         }

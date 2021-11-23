@@ -1,14 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using MyFinance.DAL.Models;
+using MyFinance.DAL.Entities;
 
 namespace MyFinance.DAL.TypeConfigurations
 {
-    internal class UserTypeConfiguration : IEntityTypeConfiguration<User>
+    internal class UserTypeConfiguration : IEntityTypeConfiguration<UserEntity>
     {
         private readonly string _tableName = "Users";
 
-        public void Configure(EntityTypeBuilder<User> builder)
+        public void Configure(EntityTypeBuilder<UserEntity> builder)
         {
             builder.ToTable(_tableName).HasKey(p => p.Id);
 

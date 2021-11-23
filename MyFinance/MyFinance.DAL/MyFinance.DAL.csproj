@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MyFinance.DAL.Models\MyFinance.DAL.Models.csproj" />
+    <ProjectReference Include="..\MyFinance.DAL.Models\MyFinance.DAL.Entities.csproj" />
   </ItemGroup>
 
   <ItemGroup>
