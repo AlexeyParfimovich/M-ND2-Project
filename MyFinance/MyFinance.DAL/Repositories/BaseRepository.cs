@@ -1,15 +1,16 @@
-﻿using MyFinance.DAL.Entities;
-using MyFinance.DAL.Interfaces;
-using System;
+﻿using System;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using MyFinance.DAL.Entities;
+using MyFinance.DAL.Interfaces;
 
 namespace MyFinance.DAL.Repositories
 {
-    public abstract class BaseRepository<TModel, TKey> : IBaseRepository<TModel, TKey>
-        where TModel : BaseEntity<TKey>
+    public abstract class BaseRepository<TEntity, TKey> : IBaseRepository<TEntity, TKey>
+        where TEntity : BaseEntity<TKey>
     {
         private readonly AppDbContext _context;
 
@@ -18,49 +19,81 @@ namespace MyFinance.DAL.Repositories
             _context = context;
         }
 
-        public Task Clear()
+        public async Task<TEntity> GetById(TKey id) => await _context.Set<TEntity>()
+            .FirstOrDefaultAsync(x => x.Id.Equals(id));
+
+        public async Task<IEnumerable<TEntity>> GetAll() => await _context.Set<TEntity>().ToListAsync();
+
+        public async Task<IEnumerable<TEntity>> Find(Func<TEntity, bool> predicate) => await _context.Set<TEntity>()
+            .Where(predicate).AsQueryable().ToListAsync();
+
+
+        public async Task<TEntity> Create(TEntity entity)
         {
-            throw new NotImplementedException();
+            if (entity is null) return null;
+
+            _context.Set<TEntity>().Add(entity);
+            await _context.SaveChangesAsync();
+
+            return await _context.Set<TEntity>().FindAsync(entity.Id);
         }
 
-        public Task<TModel> Create(TModel item)
+        public async Task<IEnumerable<TEntity>> CreateRange(IEnumerable<TEntity> entities)
         {
-            throw new NotImplementedException();
+            if (entities is null) return null;
+
+            _context.Set<TEntity>().AddRange(entities);
+            await _context.SaveChangesAsync();
+
+            var ids = entities.Select(x => x.Id);
+
+            return await _context.Set<TEntity>()
+                .Where(x => ids.Contains(x.Id)).ToListAsync();
         }
 
-        public Task<IEnumerable<TModel>> CreateRange(IEnumerable<TModel> entities)
+        public async Task<TEntity> Update(TEntity entity)
         {
-            throw new NotImplementedException();
+            if (entity is null) return null;
+
+            _context.Set<TEntity>().Update(entity);
+            await _context.SaveChangesAsync();
+
+            return await _context.Set<TEntity>().FindAsync(entity.Id);
         }
 
-        public Task Delete(TKey id)
+        public async Task<IEnumerable<TEntity>> UpdateRange(IEnumerable<TEntity> entities)
         {
-            throw new NotImplementedException();
+            if (entities is null) return null;
+
+            _context.Set<TEntity>().UpdateRange(entities);
+            await _context.SaveChangesAsync();
+
+            var ids = entities.Select(x => x.Id);
+
+            return await _context.Set<TEntity>()
+                .Where(x => ids.Contains(x.Id)).ToListAsync();
         }
 
-        public Task<IEnumerable<TModel>> Find(Func<TModel, bool> predicate)
+        public async Task Delete(TKey id)
         {
-            throw new NotImplementedException();
+            if (id is null) return;
+
+            var entity = await _context.Set<TEntity>()
+                .FirstOrDefaultAsync(x => x.Id.Equals(id));
+
+            if (entity is not null)
+            {
+                _context.Set<TEntity>().Remove(entity);
+                await _context.SaveChangesAsync();
+            }
         }
 
-        public Task<IEnumerable<TModel>> GetAll()
+        public async Task Clear()
         {
-            throw new NotImplementedException();
-        }
+            var tableName = _context.Model.FindEntityType(typeof(TEntity)).GetTableName();
+            var schemaName = _context.Model.FindEntityType(typeof(TEntity)).GetSchema() ?? "public";
 
-        public Task<TModel> GetById(TKey id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<TModel> Update(TModel item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<TModel>> UpdateRange(IEnumerable<TModel> entities)
-        {
-            throw new NotImplementedException();
+            await _context.Database.ExecuteSqlRawAsync($"TRUNCATE TABLE {schemaName}.{tableName}");
         }
     }
 }

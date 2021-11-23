@@ -5,21 +5,21 @@ using MyFinance.DAL.Entities;
 
 namespace MyFinance.DAL.Interfaces
 {
-    public interface IBaseRepository<TModel, TKey> where TModel : BaseEntity<TKey>
+    public interface IBaseRepository<TEntity, TKey> where TEntity : BaseEntity<TKey>
     {
-        Task<TModel> GetById(TKey id);
+        Task<TEntity> GetById(TKey id);
 
-        Task<IEnumerable<TModel>> GetAll();
+        Task<IEnumerable<TEntity>> GetAll();
 
-        Task<IEnumerable<TModel>> Find(Func<TModel, Boolean> predicate);
+        Task<IEnumerable<TEntity>> Find(Func<TEntity, Boolean> predicate);
 
-        Task<TModel> Create(TModel item);
+        Task<TEntity> Create(TEntity entity);
 
-        Task<IEnumerable<TModel>> CreateRange(IEnumerable<TModel> entities);
+        Task<IEnumerable<TEntity>> CreateRange(IEnumerable<TEntity> entities);
 
-        Task<TModel> Update(TModel item);
+        Task<TEntity> Update(TEntity entity);
 
-        Task<IEnumerable<TModel>> UpdateRange(IEnumerable<TModel> entities);
+        Task<IEnumerable<TEntity>> UpdateRange(IEnumerable<TEntity> entities);
 
         Task Delete(TKey id);
 
