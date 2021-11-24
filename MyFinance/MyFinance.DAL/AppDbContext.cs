@@ -15,13 +15,15 @@ namespace MyFinance.DAL
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            // Connect DevDB by default if ContextOption was not configured
             if (!optionsBuilder.IsConfigured)
             {
                 string dbConnectionString = "server=localhost,49994;database=devdb;user id=sa;password=1234;";
                 optionsBuilder.UseSqlServer(dbConnectionString);
             }
-
+#if DEBUG
             optionsBuilder.LogTo(System.Console.WriteLine);
+#endif
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
