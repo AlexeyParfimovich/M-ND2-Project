@@ -61,17 +61,6 @@ namespace MyFinance.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            Email = "test@test.com",
-                            FirstName = "Administrator",
-                            IsActive = true,
-                            Login = "admin",
-                            Password = "1234"
-                        });
                 });
 #pragma warning restore 612, 618
         }

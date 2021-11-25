@@ -30,11 +30,11 @@ namespace MyFinance.DAL
         {
             modelBuilder.ApplyConfiguration(new UserTypeConfiguration());
 
-            modelBuilder.Entity<UserEntity>().HasData(
-            new UserEntity[]
-            {
-                new UserEntity { Id=1, FirstName="Administrator", Email="test@test.com", Login="admin", Password="1234", IsActive=true}
-            });
+            //modelBuilder.Entity<UserEntity>().HasData(
+            //new UserEntity[]
+            //{
+            //    new UserEntity { Id=1, FirstName="Administrator", Email="test@test.com", Login="admin", Password="1234", IsActive=true}
+            //});
         }
     }
 }

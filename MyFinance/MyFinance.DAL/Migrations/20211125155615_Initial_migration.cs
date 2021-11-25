@@ -2,7 +2,7 @@
 
 namespace MyFinance.DAL.Migrations
 {
-    public partial class Initialmigration : Migration
+    public partial class Initial_migration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -24,11 +24,6 @@ namespace MyFinance.DAL.Migrations
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
                 });
-
-            migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Id", "Email", "FirstName", "IsActive", "LastName", "Login", "Password", "Phone" },
-                values: new object[] { 1L, "test@test.com", "Administrator", true, null, "admin", "1234", null });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

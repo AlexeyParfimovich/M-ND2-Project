@@ -9,8 +9,8 @@ using MyFinance.DAL;
 namespace MyFinance.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20211123123702_Initial-migration")]
-    partial class Initialmigration
+    [Migration("20211125155615_Initial_migration")]
+    partial class Initial_migration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -63,17 +63,6 @@ namespace MyFinance.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            Email = "test@test.com",
-                            FirstName = "Administrator",
-                            IsActive = true,
-                            Login = "admin",
-                            Password = "1234"
-                        });
                 });
 #pragma warning restore 612, 618
         }
