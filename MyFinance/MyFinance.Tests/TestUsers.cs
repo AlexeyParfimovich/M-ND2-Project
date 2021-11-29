@@ -3,6 +3,7 @@ using NUnit.Framework;
 using MyFinance.DAL;
 using MyFinance.DAL.Entities;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace MyFinance.Tests
 {
@@ -13,7 +14,7 @@ namespace MyFinance.Tests
         private readonly string _dbConnectionString = "server=localhost,49994;database=testdb;user id=sa;password=1234;";
 
         [OneTimeSetUp]
-        public void SetUp()
+        public void FixtureSetUp()
         {
             var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
             optionsBuilder.UseSqlServer(_dbConnectionString);
@@ -25,50 +26,101 @@ namespace MyFinance.Tests
             _db = new(context);
         }
 
-        private void Seed(AppDbContext context)
+        [SetUp]
+        public void TestSetUp()
         {
-            context.Database.EnsureDeleted();
-            context.Database.Migrate();
-
-            var users = new UserEntity[]
-            {
-                new UserEntity { FirstName="Test user1", Email="test1@test.com", Login="user1", Password="1234", IsActive=true},
-                new UserEntity { FirstName="Test user2", Email="test2@test.com", Login="user2", Password="1234", IsActive=true},
-                new UserEntity { FirstName="Test user3", Email="test3@test.com", Login="user3", Password="1234", IsActive=true},
-            };
-
-            context.AddRange(users);
-            context.SaveChanges();
-        }
-
-        [OneTimeTearDown]
-        public void TearDown()
-        {
-            _db.Dispose();
+            
         }
 
         [Test, Order(1)]
-        public void Add_UserEntity_return_id()
+        public void Add_user_return_entity()
         {
-            var result = _db.Users.Create(new UserEntity 
-            {
-                FirstName = "Test", 
-                LastName = "Testovich",
-                Email = "test@test.com",
-                Phone = "+375-xx-xxx-xx-xx",
-                Login = "test_user",
-                Password = "qwerty"
-            }).Result;
+            var user = NewUserEntity(
+                1, 
+                firstName: "First", 
+                lastName: "Last",
+                email: null,
+                phone: null,
+                login: null,
+                password: null,
+                isActive: null
+               );
+
+            var result = _db.Users.Create(user).Result;
 
             Assert.IsFalse(result.Id == 0, "User Id should be created");
         }
 
         [Test, Order(2)]
-        public void Get_UserEntity_return_id()
+        public void Get_all_users_return_entities()
         {
+            var users = new List<UserEntity>();
+
+
+            //for (var i=1; i<3; i++)
+            //{
+            //    users.Add( NewUserEntity(
+            //            i,
+            //            firstName: "First",
+            //            lastName: "Last",
+            //            email: null,
+            //            phone: null,
+            //            login: null,
+            //            password: null,
+            //            isActive: null
+            //   ))
+                    
+            //        )
+            //};
+
             var result = _db.Users.GetAll().Result;
 
             Assert.IsTrue(Enumerable.Count(result) == 4, "4 Users should be getted");
+        }
+
+
+        [TearDown]
+        public void TestTearDown()
+        {
+            _db.Users.Clear();
+        }
+
+        [OneTimeTearDown]
+        public void FixtureTearDown()
+        {
+            _db.Dispose();
+        }
+
+        private void Seed(AppDbContext context)
+        {
+            context.Database.EnsureDeleted();
+            context.Database.Migrate();
+
+            //context.AddRange(user1, user2);
+            //context.SaveChanges();
+        }
+
+        private UserEntity NewUserEntity(
+                int number, 
+                string firstName = null, 
+                string lastName = null,
+                string email = null,
+                string phone = null,
+                string login = null,
+                string password = null,
+                bool? isActive = null
+            )
+        {
+            return new UserEntity
+            {
+                FirstName = firstName is null ? null : $"{firstName}{number}",
+                LastName = lastName,
+                Email = email is null ? null : $"{number}{email}",
+                Phone = phone,
+                Login = login is null ? null : $"{login}{number}",
+                Password = password is null ? null : $"{password}{number}",
+                IsActive = isActive?? false 
+            };
         }
     }
 }
