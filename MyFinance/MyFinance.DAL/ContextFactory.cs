@@ -5,11 +5,11 @@ using System.IO;
 
 namespace MyFinance.DAL
 {
-    internal class ContextFactory : IDesignTimeDbContextFactory<AppDbContext>
+    internal class ContextFactory : IDesignTimeDbContextFactory<FinanceDbContext>
     {
-        public AppDbContext CreateDbContext(string[] args)
+        public FinanceDbContext CreateDbContext(string[] args)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
+            var optionsBuilder = new DbContextOptionsBuilder<FinanceDbContext>();
 
             // получить конфигурацию из файла MyFinance\DAL\appsettings.json
             var config = new ConfigurationBuilder()
@@ -21,7 +21,7 @@ namespace MyFinance.DAL
             var connectionString = config.GetConnectionString("DefaultConnection");
             optionsBuilder.UseSqlServer(connectionString);
 
-            return new AppDbContext(optionsBuilder.Options);
+            return new FinanceDbContext(optionsBuilder.Options);
         }
     }
 }

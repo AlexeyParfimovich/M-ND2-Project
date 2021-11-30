@@ -11,14 +11,14 @@ namespace MyFinance.Console
         {
             System.Console.WriteLine("Test User table access");
 
-            var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
+            //var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
 
-            UnitOfWork db = new(new AppDbContext(optionsBuilder.Options));
+            //UnitOfWork db = new(new AppDbContext(optionsBuilder.Options));
 
-            var users = db.Users.GetAll().Result;
+            //var users = db.Users.GetAll().Result;
 
-            System.Console.WriteLine("Request all registered Users:");
-            System.Console.WriteLine($"\n{System.Text.Json.JsonSerializer.Serialize(users, new JsonSerializerOptions { WriteIndented = true })}");
+            //System.Console.WriteLine("Request all registered Users:");
+            //System.Console.WriteLine($"\n{System.Text.Json.JsonSerializer.Serialize(users, new JsonSerializerOptions { WriteIndented = true })}");
         }
     }
 }
