@@ -16,12 +16,12 @@ namespace MyFinance.Tests
         [OneTimeSetUp]
         public void FixtureSetUp()
         {
-            var optionsBuilder = new DbContextOptionsBuilder<FinanceDbContext>();
-            optionsBuilder.UseSqlServer(_dbConnectionString);
+            //var optionsBuilder = new DbContextOptionsBuilder<FinanceDbContext>();
+            //optionsBuilder.UseSqlServer(_dbConnectionString);
 
-            var context = new FinanceDbContext(optionsBuilder.Options);
+            //var context = new FinanceDbContext(optionsBuilder.Options);
 
-            Seed(context);
+            //Seed(context);
 
             //_db = new(context);
         }
@@ -35,16 +35,16 @@ namespace MyFinance.Tests
         [Test, Order(1)]
         public void Add_user_return_entity()
         {
-            var user = NewUserEntity(
-                1, 
-                firstName: "First", 
-                lastName: "Last",
-                email: null,
-                phone: null,
-                login: null,
-                password: null,
-                isActive: null
-               );
+            //var user = NewUserEntity(
+            //    1, 
+            //    firstName: "First", 
+            //    lastName: "Last",
+            //    email: null,
+            //    phone: null,
+            //    login: null,
+            //    password: null,
+            //    isActive: null
+            //   );
 
             //var result = _db.Users.Create(user).Result;
 
@@ -54,7 +54,7 @@ namespace MyFinance.Tests
         [Test, Order(2)]
         public void Get_all_users_return_entities()
         {
-            var users = new List<BudgetEntity>();
+            //var users = new List<BudgetEntity>();
 
 
             //for (var i=1; i<3; i++)
@@ -91,24 +91,24 @@ namespace MyFinance.Tests
             //_db.Dispose();
         }
 
-        private void Seed(FinanceDbContext context)
-        {
-            context.Database.EnsureDeleted();
-            context.Database.Migrate();
+        //private void Seed(FinanceDbContext context)
+        //{
+        //    context.Database.EnsureDeleted();
+        //    context.Database.Migrate();
 
-            //context.AddRange(user1, user2);
-            //context.SaveChanges();
-        }
+        //    //context.AddRange(user1, user2);
+        //    //context.SaveChanges();
+        //}
 
         private BudgetEntity NewUserEntity(
-                int number, 
-                string firstName = null, 
-                string lastName = null,
-                string email = null,
-                string phone = null,
-                string login = null,
-                string password = null,
-                bool? isActive = null
+                //int number, 
+                //string firstName = null, 
+                //string lastName = null,
+                //string email = null,
+                //string phone = null,
+                //string login = null,
+                //string password = null,
+                //bool? isActive = null
             )
         {
             return new BudgetEntity

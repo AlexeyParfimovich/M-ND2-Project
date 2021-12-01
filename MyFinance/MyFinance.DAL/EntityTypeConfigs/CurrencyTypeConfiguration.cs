@@ -15,10 +15,11 @@ namespace MyFinance.DAL.EntityTypeConfigs
                 .HasKey(t => t.Type);
 
             builder
-                .Property(t => t.Name)
+                .Property(t => t.Type)
                 .HasMaxLength(4)
                 .ValueGeneratedNever()
                 .IsRequired();
+
             builder
                 .Property(t => t.Name)
                 .HasMaxLength(32)
@@ -28,8 +29,10 @@ namespace MyFinance.DAL.EntityTypeConfigs
                 .Property(t => t.IsBase)
                 .HasDefaultValue(false)
                 .IsRequired();
+
             builder
                 .Property(t => t.ExchangeRate)
+                .HasColumnType("decimal(5,4)")
                 .HasDefaultValue(1)
                 .IsRequired();
 
