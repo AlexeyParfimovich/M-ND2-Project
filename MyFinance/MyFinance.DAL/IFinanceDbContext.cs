@@ -1,6 +1,6 @@
 ﻿namespace MyFinance.DAL
 {
-    internal interface IFinanceDbContext 
+    public interface IFinanceDbContext 
     {
         FinanceDbContext Context { get; }
     }

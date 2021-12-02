@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MyFinance.DAL
 {
-    internal class FinanceDbContext: DbContext, IFinanceDbContext
+    public class FinanceDbContext: DbContext, IFinanceDbContext
     {
         /// <summary>
         /// The default database schema.
@@ -17,7 +17,10 @@ namespace MyFinance.DAL
 
         public FinanceDbContext Context { get => this; }
 
-        public DbSet<BudgetEntity> Users { get; set; }
+        public DbSet<CurrencyEntity> Currencies { get; set; }
+        public DbSet<AccountEntity> Accounts { get; set; }
+        public DbSet<BudgetEntity> Budgets { get; set; }
+        public DbSet<CardEntity> Cards { get; set; }
 
         public FinanceDbContext(DbContextOptions<FinanceDbContext> options)
             : base(options)
