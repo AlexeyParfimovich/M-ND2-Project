@@ -20,7 +20,20 @@ namespace MyFinance.BLL.Budgets.Services
             _db = database;
         }
 
-        public async Task<BudgetDto> GetByKey(long key)
+        public async Task<IEnumerable<BudgetDto>> FetchAll()
+        {
+            var entities = await _db.Context.Budgets.ToListAsync();
+
+            List<BudgetDto> dtos = new();
+            foreach (var entity in entities)
+            {
+                dtos.Add(BudgetMapper.MapToDto(entity));
+            }
+
+            return dtos;
+        }
+
+        public async Task<BudgetDto> FetchByKey(long key)
         {
             var entity = await _db.Context.Budgets.FirstOrDefaultAsync(x => x.Id == key);
 
