@@ -11,7 +11,7 @@ namespace MyFinance.Tests
     class TestBLL
     {
         //private UnitOfWork _db;
-        private readonly string _dbConnectionString = "server=localhost,49994;database=testdb;user id=sa;password=1234;";
+        //private readonly string _dbConnectionString = "server=localhost,49994;database=testdb;user id=sa;password=1234;";
 
         [OneTimeSetUp]
         public void FixtureSetUp()
