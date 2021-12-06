@@ -2,8 +2,8 @@
 
 namespace MyFinance.BLL.Interfaces
 {
-    public interface IValidator<T>
+    public interface IValidator<TDto>
     {
-        Task Validate(T dto);
+        Task<Task> Validate(TDto dto);
     }
 }

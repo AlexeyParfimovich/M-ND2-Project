@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MyFinance.API.Models;
 using MyFinance.BLL.Budgets;
 using MyFinance.BLL.Budgets.Dto;
 using System;
@@ -21,13 +22,19 @@ namespace MyFinance.API.Controllers
 
         // GET api/budgets
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<BudgetDto>>> Get()
+        public async Task<ActionResult<IEnumerable<BudgetModel>>> Get()
         {
             var result =  await _service.Fetcher.FetchAll();
 
             if (result == null) return NotFound();
 
-            return new ObjectResult(result);
+            List<BudgetModel> models = new();
+            foreach (var dto in result)
+            {
+                models.Add(BudgetModelMapper.MapToModel(dto));
+            }
+
+            return new ObjectResult(models);
         }
 
         // GET api/budgets/id
@@ -38,29 +45,33 @@ namespace MyFinance.API.Controllers
 
             if (result == null) return NotFound();
 
-            return new ObjectResult(result);
+            return new ObjectResult(BudgetModelMapper.MapToModel(result));
         }
 
         // POST api/budgets
         [HttpPost]
-        public async Task<ActionResult<BudgetDto>> Post(CreateBudgetDto dto)
+        public async Task<ActionResult<BudgetModel>> Post(CreateBudgetModel model)
         {
-            if (dto == null) return BadRequest();
+            if (model == null) return BadRequest();
+
+            var dto = BudgetModelMapper.MapToDtoCreate(model);
 
             var result = await _service.Creator.Create(dto);
 
-            return Ok(result);
+            return Ok(BudgetModelMapper.MapToModel(result));
         }
 
         // PUT api/budgets
         [HttpPut]
-        public async Task<ActionResult<BudgetDto>> Put(UpdateBudgetDto dto)
+        public async Task<ActionResult<BudgetModel>> Put(UpdateBudgetModel model)
         {
-            if (dto == null || dto.Id <= 0) return BadRequest();
+            if (model == null || model.Id <= 0) return BadRequest();
+
+            var dto = BudgetModelMapper.MapToDtoUpdate(model);
 
             var result = await _service.Updater.Update(dto);
 
-            return Ok(result);
+            return Ok(BudgetModelMapper.MapToModel(result));
         }
 
         // DELETE api/budgets/id

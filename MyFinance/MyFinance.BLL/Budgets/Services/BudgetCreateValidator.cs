@@ -1,16 +1,21 @@
-﻿using MyFinance.BLL.Budgets.Dto;
+﻿using Microsoft.EntityFrameworkCore;
+using MyFinance.BLL.Abstracts;
+using MyFinance.BLL.Budgets.Dto;
 using MyFinance.BLL.Interfaces;
+using MyFinance.DAL;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MyFinance.BLL.Budgets.Services
 {
-    public class BudgetCreateValidator : IValidator<CreateBudgetDto>
+    public class BudgetCreateValidator : BaseService, IValidator<CreateBudgetDto>
     {
-        public Task Validate(CreateBudgetDto dto)
+        public BudgetCreateValidator(IFinanceDbContext database): base(database)
+        {
+        }
+
+        public async Task<Task> Validate(CreateBudgetDto dto)
         {
             if (dto is null)
             {
@@ -23,8 +28,14 @@ namespace MyFinance.BLL.Budgets.Services
             }
 
             /*
-             * TODO: Implement CurrencyType validation
+             * Implement CurrencyType validation
              */
+            var entity = await _db.Context.Currencies.AsNoTracking().FirstOrDefaultAsync(x => x.Type == dto.CurrencyType);
+            if (entity is null)
+            {
+                throw new KeyNotFoundException();
+            }
+
 
             return Task.CompletedTask;
         }

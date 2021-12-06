@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyFinance.BLL.Abstracts;
 using MyFinance.BLL.Interfaces;
 using MyFinance.DAL;
 using System;
@@ -9,14 +10,10 @@ using System.Threading.Tasks;
 
 namespace MyFinance.BLL.Budgets.Services
 {
-    public class BudgetRemover : IRemover<long>
+    public class BudgetRemover : BaseService, IRemover<long>
     {
-        private readonly IFinanceDbContext _db;
-
-        public BudgetRemover(
-            IFinanceDbContext database)
+        public BudgetRemover(IFinanceDbContext database): base(database)
         {
-            _db = database;
         }
 
         public async Task Remove(long key)

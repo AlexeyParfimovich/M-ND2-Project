@@ -3,7 +3,7 @@ using MyFinance.DAL.Entities;
 
 namespace MyFinance.BLL.Budgets.Services
 {
-    public static class BudgetMapper
+    public static class BudgetDtoMapper
     {
         public static BudgetEntity MapToEntityCreate(CreateBudgetDto dto)
         {

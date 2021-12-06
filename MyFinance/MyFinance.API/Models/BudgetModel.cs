@@ -1,8 +1,6 @@
-﻿using MyFinance.BLL.Abstracts;
-
-namespace MyFinance.BLL.Budgets.Dto
+﻿namespace MyFinance.API.Models
 {
-    public class BudgetDto: BaseDto
+    public class BudgetModel
     {
         public long Id { get; set; }
         public string Name { get; set; }

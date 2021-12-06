@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyFinance.BLL.Abstracts;
 using MyFinance.BLL.Budgets.Dto;
 using MyFinance.BLL.Interfaces;
 using MyFinance.DAL;
@@ -10,14 +11,10 @@ using System.Threading.Tasks;
 
 namespace MyFinance.BLL.Budgets.Services
 {
-    public class BudgetFetcher : IFetcher<long, BudgetDto>
+    public class BudgetFetcher : BaseService ,IFetcher<long, BudgetDto>
     {
-        private readonly IFinanceDbContext _db;
-
-        public BudgetFetcher(
-            IFinanceDbContext database)
+        public BudgetFetcher(IFinanceDbContext database) : base(database)
         {
-            _db = database;
         }
 
         public async Task<IEnumerable<BudgetDto>> FetchAll()
@@ -27,7 +24,7 @@ namespace MyFinance.BLL.Budgets.Services
             List<BudgetDto> dtos = new();
             foreach (var entity in entities)
             {
-                dtos.Add(BudgetMapper.MapToDto(entity));
+                dtos.Add(BudgetDtoMapper.MapToDto(entity));
             }
 
             return dtos;
@@ -37,7 +34,7 @@ namespace MyFinance.BLL.Budgets.Services
         {
             var entity = await _db.Context.Budgets.FirstOrDefaultAsync(x => x.Id == key);
 
-            return BudgetMapper.MapToDto(entity);
+            return BudgetDtoMapper.MapToDto(entity);
         }
     }
 }

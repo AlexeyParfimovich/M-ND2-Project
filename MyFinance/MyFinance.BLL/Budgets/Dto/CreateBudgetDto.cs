@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MyFinance.BLL.Abstracts;
 
 namespace MyFinance.BLL.Budgets.Dto
 {
-    public class CreateBudgetDto
+    public class CreateBudgetDto: BaseDto
     {
         public string Name { get; set; }
         public string CurrencyType { get; set; }
