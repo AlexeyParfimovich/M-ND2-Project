@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyFinance.API.Models;
-using MyFinance.BLL.Budgets;
+using MyFinance.BLL;
 using MyFinance.BLL.Budgets.Dto;
 using System;
 using System.Collections.Generic;
@@ -13,9 +13,9 @@ namespace MyFinance.API.Controllers
     [Route("api/[controller]")]
     public class BudgetsController : ControllerBase
     {
-        readonly IBudgetAgregator _service;
+        readonly IAgregator<long, BudgetDto, CreateBudgetDto, UpdateBudgetDto> _service;
 
-        public BudgetsController(IBudgetAgregator service)
+        public BudgetsController(IAgregator<long, BudgetDto, CreateBudgetDto, UpdateBudgetDto> service)
         {
             _service = service;
         }

@@ -1,33 +1,19 @@
-﻿using MyFinance.BLL.Budgets.Dto;
+﻿using MyFinance.BLL.Abstracts;
 using MyFinance.BLL.Interfaces;
+using MyFinance.BLL.Budgets.Dto;
 
 namespace MyFinance.BLL.Budgets
 {
-    public class BudgetAgregator : IBudgetAgregator
+    public class BudgetAgregator : 
+        BaseAgregator<long, BudgetDto, CreateBudgetDto, UpdateBudgetDto>,
+        IAgregator<long, BudgetDto, CreateBudgetDto, UpdateBudgetDto>
     {
-        private readonly ICreator<CreateBudgetDto, BudgetDto> _creator;
-        private readonly IUpdater<UpdateBudgetDto, BudgetDto> _updater;
-        private readonly IFetcher<long, BudgetDto> _fetcher;
-        private readonly IRemover<long> _remover;
-
         public BudgetAgregator(
             ICreator<CreateBudgetDto, BudgetDto> creator,
             IUpdater<UpdateBudgetDto, BudgetDto> updater,
             IFetcher<long, BudgetDto> fetcher,
-            IRemover<long> remover)
+            IRemover<long> remover) : base(creator, updater, fetcher, remover)
         {
-            _creator = creator;
-            _updater = updater;
-            _fetcher = fetcher;
-            _remover = remover;
         }
-
-        public ICreator<CreateBudgetDto, BudgetDto> Creator => _creator;
-
-        public IUpdater<UpdateBudgetDto, BudgetDto> Updater => _updater;
-
-        public IFetcher<long, BudgetDto> Fetcher => _fetcher;
-
-        public IRemover<long> Remover => _remover;
     }
 }

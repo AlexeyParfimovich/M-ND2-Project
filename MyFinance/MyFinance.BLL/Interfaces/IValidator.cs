@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using MyFinance.BLL.Abstracts;
 
 namespace MyFinance.BLL.Interfaces
 {
