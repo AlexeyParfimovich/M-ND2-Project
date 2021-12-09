@@ -1,0 +1,45 @@
+﻿using Microsoft.EntityFrameworkCore;
+using MyFinance.DAL;
+using MyFinance.DAL.Entities;
+using MyFinance.BLL.Interfaces;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace MyFinance.BLL.Abstracts
+{
+    public abstract class BaseFetchService<TEntity, TKey, TDto> : IFetcher<TEntity, TKey, TDto>
+        where TEntity : BaseTypedEntity<TKey>
+    {
+        protected readonly IFinanceDbContext _db;
+        protected readonly IDtoMapper<TEntity, TDto> _mapper;
+
+        public BaseFetchService(
+            IFinanceDbContext database,
+            IDtoMapper<TEntity, TDto> mapper)
+        {
+            _db = database;
+            _mapper = mapper;
+        }
+
+        public async Task<IEnumerable<TDto>> FetchAll()
+        {
+            var entities = await _db.Context.Set<TEntity>().ToListAsync();
+
+            List<TDto> dtos = new();
+            foreach (var entity in entities)
+            {
+                dtos.Add(_mapper.EntityToDto(entity));
+            }
+
+            return dtos;
+        }
+
+        public async Task<TDto> FetchByKey(TKey key)
+        {
+            var entity = await _db.Context.Set<TEntity>().FirstOrDefaultAsync(x => x.Id.Equals(key));
+
+            return _mapper.EntityToDto(entity);
+        }
+
+    }
+}

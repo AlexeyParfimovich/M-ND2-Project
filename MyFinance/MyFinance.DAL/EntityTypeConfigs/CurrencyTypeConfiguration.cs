@@ -12,10 +12,10 @@ namespace MyFinance.DAL.EntityTypeConfigs
         {
             builder
                 .ToTable(_tableName)
-                .HasKey(t => t.Type);
+                .HasKey(t => t.Id);
 
             builder
-                .Property(t => t.Type)
+                .Property(t => t.Id)
                 .HasMaxLength(4)
                 .ValueGeneratedNever()
                 .IsRequired();
@@ -39,7 +39,7 @@ namespace MyFinance.DAL.EntityTypeConfigs
             builder.HasData( 
                 new CurrencyEntity[]
                 {
-                    new CurrencyEntity { Type="BYN", Name="Белорусский рубль", IsBase=true}
+                    new CurrencyEntity { Id="BYN", Name="Белорусский рубль", IsBase=true}
                 });
         }
     }

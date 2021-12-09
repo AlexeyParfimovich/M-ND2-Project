@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MyFinance.BLL.Abstracts;
 using MyFinance.BLL.Budgets.Dto;
 using MyFinance.BLL.Interfaces;
 using MyFinance.DAL;
@@ -9,10 +8,12 @@ using System.Threading.Tasks;
 
 namespace MyFinance.BLL.Budgets.Services
 {
-    public class BudgetCreateValidator : BaseService, IValidator<CreateBudgetDto>
+    public class BudgetCreateValidator : IValidator<CreateBudgetDto>
     {
-        public BudgetCreateValidator(IFinanceDbContext database): base(database)
+        readonly IFinanceDbContext _db;
+        public BudgetCreateValidator(IFinanceDbContext database)
         {
+            _db = database;
         }
 
         public async Task<Task> Validate(CreateBudgetDto dto)
@@ -30,12 +31,11 @@ namespace MyFinance.BLL.Budgets.Services
             /*
              * Implement CurrencyType validation
              */
-            var entity = await _db.Context.Currencies.AsNoTracking().FirstOrDefaultAsync(x => x.Type == dto.CurrencyType);
+            var entity = await _db.Context.Currencies.AsNoTracking().FirstOrDefaultAsync(x => x.Id == dto.CurrencyId);
             if (entity is null)
             {
                 throw new KeyNotFoundException();
             }
-
 
             return Task.CompletedTask;
         }

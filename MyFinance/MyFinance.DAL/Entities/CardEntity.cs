@@ -2,9 +2,8 @@
 
 namespace MyFinance.DAL.Entities
 {
-    public class CardEntity: BaseEntity
+    public class CardEntity: BaseTypedEntity<string>
     {
-        public string Name { get; set; }
         public DateTime? ValidThru { get; set; }
 
         public long AccountId { get; set; }

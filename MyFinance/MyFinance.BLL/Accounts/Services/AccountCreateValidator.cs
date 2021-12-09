@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MyFinance.BLL.Abstracts;
 using MyFinance.BLL.Accounts.Dto;
 using MyFinance.BLL.Interfaces;
 using MyFinance.DAL;
@@ -9,10 +8,12 @@ using System.Threading.Tasks;
 
 namespace MyFinance.BLL.Accounts.Services
 {
-    public class AccountCreateValidator : BaseService, IValidator<CreateAccountDto>
+    public class AccountCreateValidator : IValidator<CreateAccountDto>
     {
-        public AccountCreateValidator(IFinanceDbContext database) : base(database)
+        readonly IFinanceDbContext _db;
+        public AccountCreateValidator(IFinanceDbContext database)
         {
+            _db = database;
         }
 
         public async Task<Task> Validate(CreateAccountDto dto)
@@ -28,19 +29,10 @@ namespace MyFinance.BLL.Accounts.Services
             }
 
             /*
-             * Implement BudgetId validation
-             */
-            var budget = await _db.Context.Budgets.AsNoTracking().FirstOrDefaultAsync(x => x.Id == dto.BudgetId);
-            if (budget is null)
-            {
-                throw new KeyNotFoundException();
-            }
-
-            /*
              * Implement CurrencyType validation
              */
-            var currency = await _db.Context.Currencies.AsNoTracking().FirstOrDefaultAsync(x => x.Type == dto.CurrencyType);
-            if (currency is null)
+            var entity = await _db.Context.Currencies.AsNoTracking().FirstOrDefaultAsync(x => x.Id == dto.CurrencyId);
+            if (entity is null)
             {
                 throw new KeyNotFoundException();
             }

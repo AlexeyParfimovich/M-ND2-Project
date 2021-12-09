@@ -2,8 +2,8 @@
 
 namespace MyFinance.BLL.Interfaces
 {
-    public interface IUpdater<TUpdateDto, TEntityDto>
+    public interface IUpdater<TEntity, TDto, TPartialDto>
     {
-        Task<TEntityDto> Update(TUpdateDto dto);
+        Task<TDto> Update(TPartialDto dto);
     }
 }

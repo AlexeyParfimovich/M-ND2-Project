@@ -10,7 +10,7 @@ namespace MyFinance.API.Controllers
             return new CreateBudgetDto
             {
                 Name = model.Name,
-                CurrencyType = model.CurrencyType,
+                CurrencyId = model.CurrencyId,
             };
         }
 
@@ -20,7 +20,7 @@ namespace MyFinance.API.Controllers
             {
                 Id = model.Id,
                 Name = model.Name,
-                CurrencyType = model.CurrencyType,
+                CurrencyId = model.CurrencyId,
             };
         }
 
@@ -31,7 +31,7 @@ namespace MyFinance.API.Controllers
                 Id = dto.Id,
                 Name = dto.Name,
                 Balance = dto.Balance,
-                CurrencyType = dto.CurrencyType,
+                CurrencyId = dto.CurrencyId,
             };
         }
     }

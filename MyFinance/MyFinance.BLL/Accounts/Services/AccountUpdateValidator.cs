@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MyFinance.BLL.Abstracts;
 using MyFinance.BLL.Accounts.Dto;
 using MyFinance.BLL.Interfaces;
 using MyFinance.DAL;
@@ -9,10 +8,13 @@ using System.Threading.Tasks;
 
 namespace MyFinance.BLL.Accounts.Services
 {
-    public class AccountUpdateValidator : BaseService, IValidator<UpdateAccountDto>
+    public class AccountUpdateValidator : IValidator<UpdateAccountDto>
     {
-        public AccountUpdateValidator(IFinanceDbContext database) : base(database)
+        readonly IFinanceDbContext _db;
+
+        public AccountUpdateValidator(IFinanceDbContext database)
         {
+            _db = database;
         }
 
         public async Task<Task> Validate(UpdateAccountDto dto)
@@ -25,17 +27,8 @@ namespace MyFinance.BLL.Accounts.Services
             /*
             * Implement Id validation
             */
-            var account = await _db.Context.Accounts.AsNoTracking().FirstOrDefaultAsync(x => x.Id == dto.Id);
-            if (account is null)
-            {
-                throw new KeyNotFoundException();
-            }
-
-            /*
-             * Implement BudgetId validation
-             */
-            var budget = await _db.Context.Budgets.AsNoTracking().FirstOrDefaultAsync(x => x.Id == dto.BudgetId);
-            if (budget is null)
+            var Account = await _db.Context.Accounts.AsNoTracking().FirstOrDefaultAsync(x => x.Id == dto.Id);
+            if (Account is null)
             {
                 throw new KeyNotFoundException();
             }
@@ -43,7 +36,7 @@ namespace MyFinance.BLL.Accounts.Services
             /*
              * TODO: Implement CurrencyType validation
              */
-            var currancy = await _db.Context.Currencies.AsNoTracking().FirstOrDefaultAsync(x => x.Type == dto.CurrencyType);
+            var currancy = await _db.Context.Currencies.AsNoTracking().FirstOrDefaultAsync(x => x.Id == dto.CurrencyId);
             if (currancy is null)
             {
                 throw new KeyNotFoundException();

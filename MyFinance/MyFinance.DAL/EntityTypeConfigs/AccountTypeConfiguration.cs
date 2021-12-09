@@ -18,15 +18,13 @@ namespace MyFinance.DAL.EntityTypeConfigs
 
             builder.HasOne(t => t.Currency)
                 .WithMany(t => t.Accounts)
-                .HasForeignKey(t => t.CurrencyType)
+                .HasForeignKey(t => t.CurrencyId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(t => t.Budget)
                 .WithMany(t => t.Accounts)
                 .HasForeignKey(t => t.BudgetId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            //builder.HasIndex(t => t.Name).IsUnique();
         }
     }
 }

@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace MyFinance.DAL.Entities
 {
-    public class AccountEntity: BaseEntity
+    public class AccountEntity: BaseTypedEntity<long>
     {
-        public long Id { get; set; }
         public string Name { get; set; }
         public decimal Balance { get; set; }
 
         public long BudgetId { get; set; }
         public BudgetEntity Budget { get; set; }
 
-        public string CurrencyType { get; set; }
+        public string CurrencyId { get; set; }
         public CurrencyEntity Currency { get; set; }
 
         public ICollection<CardEntity> Cards { get; set; }

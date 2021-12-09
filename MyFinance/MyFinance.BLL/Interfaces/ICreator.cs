@@ -2,8 +2,8 @@
 
 namespace MyFinance.BLL.Interfaces
 {
-    public interface ICreator<TCreateDto, TEntityDto>
+    public interface ICreator<TEntity, TDto, TPartialDto>
     {
-        Task<TEntityDto> Create(TCreateDto dto);
+        Task<TDto> Create(TPartialDto dto);
     }
 }

@@ -10,8 +10,8 @@ using MyFinance.DAL;
 namespace MyFinance.DAL.Migrations
 {
     [DbContext(typeof(FinanceDbContext))]
-    [Migration("20211203154532_Update_migration")]
-    partial class Update_migration
+    [Migration("20211209154443_Initial_migration")]
+    partial class Initial_migration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -44,7 +44,7 @@ namespace MyFinance.DAL.Migrations
                         .HasMaxLength(32)
                         .HasColumnType("nvarchar(32)");
 
-                    b.Property<string>("CurrencyType")
+                    b.Property<string>("CurrencyId")
                         .HasColumnType("nvarchar(4)");
 
                     b.Property<decimal?>("LastTransaction")
@@ -66,7 +66,7 @@ namespace MyFinance.DAL.Migrations
 
                     b.HasIndex("BudgetId");
 
-                    b.HasIndex("CurrencyType");
+                    b.HasIndex("CurrencyId");
 
                     b.ToTable("Accounts");
                 });
@@ -90,7 +90,7 @@ namespace MyFinance.DAL.Migrations
                         .HasMaxLength(32)
                         .HasColumnType("nvarchar(32)");
 
-                    b.Property<string>("CurrencyType")
+                    b.Property<string>("CurrencyId")
                         .HasColumnType("nvarchar(4)");
 
                     b.Property<string>("Name")
@@ -107,14 +107,14 @@ namespace MyFinance.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CurrencyType");
+                    b.HasIndex("CurrencyId");
 
                     b.ToTable("Budgets");
                 });
 
             modelBuilder.Entity("MyFinance.DAL.Entities.CardEntity", b =>
                 {
-                    b.Property<string>("Name")
+                    b.Property<string>("Id")
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
 
@@ -141,7 +141,7 @@ namespace MyFinance.DAL.Migrations
                     b.Property<DateTime?>("ValidThru")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Name", "AccountId");
+                    b.HasKey("Id", "AccountId");
 
                     b.HasIndex("AccountId");
 
@@ -150,7 +150,7 @@ namespace MyFinance.DAL.Migrations
 
             modelBuilder.Entity("MyFinance.DAL.Entities.CurrencyEntity", b =>
                 {
-                    b.Property<string>("Type")
+                    b.Property<string>("Id")
                         .HasMaxLength(4)
                         .HasColumnType("nvarchar(4)");
 
@@ -183,14 +183,14 @@ namespace MyFinance.DAL.Migrations
                         .HasMaxLength(32)
                         .HasColumnType("nvarchar(32)");
 
-                    b.HasKey("Type");
+                    b.HasKey("Id");
 
                     b.ToTable("Currencies");
 
                     b.HasData(
                         new
                         {
-                            Type = "BYN",
+                            Id = "BYN",
                             ExchangeRate = 0m,
                             IsBase = true,
                             Name = "Белорусский рубль"
@@ -207,7 +207,7 @@ namespace MyFinance.DAL.Migrations
 
                     b.HasOne("MyFinance.DAL.Entities.CurrencyEntity", "Currency")
                         .WithMany("Accounts")
-                        .HasForeignKey("CurrencyType")
+                        .HasForeignKey("CurrencyId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Budget");
@@ -219,7 +219,7 @@ namespace MyFinance.DAL.Migrations
                 {
                     b.HasOne("MyFinance.DAL.Entities.CurrencyEntity", "Currency")
                         .WithMany("Budgets")
-                        .HasForeignKey("CurrencyType")
+                        .HasForeignKey("CurrencyId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Currency");

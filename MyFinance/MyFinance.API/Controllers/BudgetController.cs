@@ -2,6 +2,7 @@
 using MyFinance.API.Models;
 using MyFinance.BLL;
 using MyFinance.BLL.Budgets.Dto;
+using MyFinance.DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +14,9 @@ namespace MyFinance.API.Controllers
     [Route("api/[controller]")]
     public class BudgetsController : ControllerBase
     {
-        readonly IAgregator<long, BudgetDto, CreateBudgetDto, UpdateBudgetDto> _service;
+        readonly IAgregator<BudgetEntity, long, BudgetDto, CreateBudgetDto, UpdateBudgetDto> _service;
 
-        public BudgetsController(IAgregator<long, BudgetDto, CreateBudgetDto, UpdateBudgetDto> service)
+        public BudgetsController(IAgregator<BudgetEntity, long, BudgetDto, CreateBudgetDto, UpdateBudgetDto> service)
         {
             _service = service;
         }

@@ -17,10 +17,8 @@ namespace MyFinance.DAL.EntityTypeConfigs
 
             builder.HasOne(t => t.Currency)
                 .WithMany(t => t.Budgets)
-                .HasForeignKey(t => t.CurrencyType)
+                .HasForeignKey(t => t.CurrencyId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            //builder.HasIndex(t => t.Name).IsUnique();
         }
     }
 }

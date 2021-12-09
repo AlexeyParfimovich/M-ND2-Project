@@ -12,6 +12,6 @@ namespace MyFinance.API.Models
         [Required(ErrorMessage = "Currency type is missed")]
         [DataType(DataType.Text, ErrorMessage = "Currency type must be a text value")]
         [StringLength(3, ErrorMessage = "Currency type length must be {3}")]
-        public string CurrencyType { get; set; }
+        public string CurrencyId { get; set; }
     }
 }

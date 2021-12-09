@@ -2,13 +2,12 @@
 
 namespace MyFinance.DAL.Entities
 {
-    public class BudgetEntity: BaseEntity
+    public class BudgetEntity: BaseTypedEntity<long>
     {
-        public long Id { get; set; }
         public string Name { get; set; }
         public decimal Balance { get; set; }
 
-        public string CurrencyType { get; set; }
+        public string CurrencyId { get; set; }
         public CurrencyEntity Currency { get; set; }
 
         public ICollection<AccountEntity> Accounts { get; set; }

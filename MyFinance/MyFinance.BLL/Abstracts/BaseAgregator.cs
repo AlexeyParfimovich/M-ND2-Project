@@ -2,18 +2,18 @@
 
 namespace MyFinance.BLL.Abstracts
 {
-    public abstract class BaseAgregator<TKey, TDto, TCreateDto, TUpdateDto> : IAgregator<TKey, TDto, TCreateDto, TUpdateDto>
+    public abstract class BaseAgregator<TEntity, TKey, TDto, TCreateDto, TUpdateDto> : IAgregator<TEntity, TKey, TDto, TCreateDto, TUpdateDto>
     {
-        private readonly ICreator<TCreateDto, TDto> _creator;
-        private readonly IUpdater<TUpdateDto, TDto> _updater;
-        private readonly IFetcher<TKey, TDto> _fetcher;
-        private readonly IRemover<TKey> _remover;
+        private readonly ICreator<TEntity, TDto, TCreateDto> _creator;
+        private readonly IUpdater<TEntity, TDto, TUpdateDto> _updater;
+        private readonly IFetcher<TEntity, TKey, TDto> _fetcher;
+        private readonly IRemover<TEntity, TKey> _remover;
 
         public BaseAgregator(
-            ICreator<TCreateDto, TDto> creator,
-            IUpdater<TUpdateDto, TDto> updater,
-            IFetcher<TKey, TDto> fetcher,
-            IRemover<TKey> remover)
+            ICreator<TEntity, TDto, TCreateDto> creator,
+            IUpdater<TEntity, TDto, TUpdateDto> updater,
+            IFetcher<TEntity, TKey, TDto> fetcher,
+            IRemover<TEntity, TKey> remover)
         {
             _creator = creator;
             _updater = updater;
@@ -21,12 +21,12 @@ namespace MyFinance.BLL.Abstracts
             _remover = remover;
         }
 
-        public Interfaces.ICreator<TCreateDto, TDto> Creator => _creator;
+        public Interfaces.ICreator<TEntity, TDto, TCreateDto> Creator => _creator;
 
-        public Interfaces.IUpdater<TUpdateDto, TDto> Updater => _updater;
+        public Interfaces.IUpdater<TEntity, TDto, TUpdateDto> Updater => _updater;
 
-        public Interfaces.IFetcher<TKey, TDto> Fetcher => _fetcher;
+        public Interfaces.IFetcher<TEntity, TKey, TDto> Fetcher => _fetcher;
 
-        public Interfaces.IRemover<TKey> Remover => _remover;
+        public Interfaces.IRemover<TEntity, TKey> Remover => _remover;
     }
 }

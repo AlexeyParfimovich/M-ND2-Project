@@ -6,6 +6,6 @@ namespace MyFinance.BLL.Accounts.Dto
     {
         public string Name { get; set; }
         public long BudgetId { get; set; }
-        public string CurrencyType { get; set; }
+        public string CurrencyId { get; set; }
     }
 }

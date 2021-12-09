@@ -2,14 +2,14 @@
 
 namespace MyFinance.BLL
 {
-    public interface IAgregator<TKey, TDto, TCreateDto, TUpdateDto>
+    public interface IAgregator<TEntity, TKey, TDto, TCreateDto, TUpdateDto>
     {
-        ICreator<TCreateDto, TDto> Creator { get; }
+        ICreator<TEntity, TDto, TCreateDto> Creator { get; }
 
-        IUpdater<TUpdateDto, TDto> Updater { get; }
+        IUpdater<TEntity, TDto, TUpdateDto> Updater { get; }
 
-        IFetcher<TKey, TDto> Fetcher { get; }
+        IFetcher<TEntity, TKey, TDto> Fetcher { get; }
 
-        IRemover<TKey> Remover { get; }
+        IRemover<TEntity, TKey> Remover { get; }
     }
 }

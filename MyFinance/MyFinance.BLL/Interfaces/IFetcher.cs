@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 
 namespace MyFinance.BLL.Interfaces
 {
-    public interface IFetcher<TKey, TEntityDto>
+    public interface IFetcher<TEntity, TKey, TDto>
     {
-        Task<IEnumerable<TEntityDto>> FetchAll();
-        Task<TEntityDto> FetchByKey(TKey key);
+        Task<IEnumerable<TDto>> FetchAll();
+        Task<TDto> FetchByKey(TKey key);
     }
 }

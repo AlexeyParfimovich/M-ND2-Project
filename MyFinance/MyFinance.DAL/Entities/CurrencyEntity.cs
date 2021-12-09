@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace MyFinance.DAL.Entities
 {
-    public class CurrencyEntity: BaseEntity
+    public class CurrencyEntity: BaseTypedEntity<string>
     {
-        public string Type { get; set; }
         public string Name { get; set; }
 
         public bool IsBase { get; set; }

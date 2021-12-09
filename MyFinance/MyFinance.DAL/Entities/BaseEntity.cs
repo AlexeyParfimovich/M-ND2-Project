@@ -15,6 +15,5 @@ namespace MyFinance.DAL.Entities
 
         [MaxLength(32)]
         public string? UpdatedBy { get; set; }
-
     }
 }

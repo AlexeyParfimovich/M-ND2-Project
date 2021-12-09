@@ -2,7 +2,7 @@
 
 namespace MyFinance.BLL.Interfaces
 {
-    public interface IRemover<TKey>
+    public interface IRemover<TEntity, TKey>
     {
         Task Remove(TKey key);
     }

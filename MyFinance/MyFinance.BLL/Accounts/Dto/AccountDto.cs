@@ -8,7 +8,7 @@ namespace MyFinance.BLL.Accounts.Dto
         public string Name { get; set; }
         public decimal Balance { get; set; }
         public long BudgetId { get; set; }
-        public string CurrencyType { get; set; }
+        public string CurrencyId { get; set; }
         public ulong? LastTransaction { get; set; }
     }
 }
