@@ -19,7 +19,7 @@ namespace MyFinance.BLL.Currencies.Services
         {
             if (dto is null)
             {
-                throw new DtoNullReferenceException();
+                throw new DataNullReferenceException();
             }
 
             if (string.IsNullOrWhiteSpace(dto.Id))

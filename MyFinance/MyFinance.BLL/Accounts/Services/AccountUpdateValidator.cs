@@ -20,7 +20,7 @@ namespace MyFinance.BLL.Accounts.Services
         {
             if (dto is null)
             {
-                throw new DtoNullReferenceException();
+                throw new DataNullReferenceException();
             }
 
             var Account = await _db.Context.Accounts.AsNoTracking().FirstOrDefaultAsync(x => x.Id == dto.Id);

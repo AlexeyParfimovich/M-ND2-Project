@@ -20,13 +20,13 @@ namespace MyFinance.BLL.Budgets.Services
         {
             if (dto is null)
             {
-                throw new DtoNullReferenceException();
+                throw new DataNullReferenceException();
             }
 
             var budget = await _db.Context.Budgets.AsNoTracking().FirstOrDefaultAsync(x => x.Id == dto.Id);
             if (budget is null)
             {
-                throw new ValueNotFoundException($"Specified budget Id value {dto.Id} was not found") ;
+                throw new ValueNotFoundException($"Specified budget Id value {dto.Id} was not found");
             }
 
             var currancy = await _db.Context.Currencies.AsNoTracking().FirstOrDefaultAsync(x => x.Id == dto.CurrencyId);

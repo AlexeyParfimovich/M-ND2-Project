@@ -23,7 +23,7 @@ namespace MyFinance.API
             DAL.ServiceCollectionExtensions.RegisterDatabaseContext(services);
             BLL.ServiceCollectionExtensions.RegisterBusinessServices(services);
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
 
             services.AddSwaggerGen(c =>
             {

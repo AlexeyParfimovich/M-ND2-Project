@@ -9,15 +9,14 @@ namespace MyFinance.DAL.EntityTypeConfigs
         private readonly string _tableName = "Cards";
         public void Configure(EntityTypeBuilder<CardEntity> builder)
         {
-            builder.ToTable(_tableName).HasKey(t => new { t.Id, t.AccountId });
+            builder.ToTable(_tableName).HasKey(t => new { t.Id });
 
             builder.Property(t => t.Id)
-                .HasMaxLength(64)
+                .HasMaxLength(256)
                 .ValueGeneratedNever()
                 .IsRequired();
 
             builder.Property(t => t.AccountId)
-                .ValueGeneratedNever()
                 .IsRequired();
 
             builder.HasOne(t => t.Account)

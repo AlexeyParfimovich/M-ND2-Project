@@ -20,7 +20,7 @@ namespace MyFinance.BLL.Cards.Services
         {
             if (dto is null)
             {
-                throw new DtoNullReferenceException();
+                throw new DataNullReferenceException();
             }
 
             var card = await _db.Context.Cards.AsNoTracking().FirstOrDefaultAsync(x => x.Id == dto.Id);

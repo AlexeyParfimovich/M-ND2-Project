@@ -5,7 +5,6 @@ using System;
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 
 namespace MyFinance.API.Infrastructure
 {
@@ -37,6 +36,7 @@ namespace MyFinance.API.Infrastructure
                     {
                         ValueNotFoundException or ValueNotSpecifiedException or ValueOutOfRangeException => (int)HttpStatusCode.NotFound,
                         ValueConflictException => (int)HttpStatusCode.Conflict,
+                        NoContentException => (int)HttpStatusCode.NoContent,
                         _ => (int)HttpStatusCode.BadRequest,
                     };
                 }

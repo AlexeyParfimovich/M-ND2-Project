@@ -19,7 +19,7 @@ namespace MyFinance.BLL.Budgets.Services
         {
             if (dto is null)
             {
-                throw new DtoNullReferenceException();
+                throw new DataNullReferenceException();
             }
 
             if (string.IsNullOrWhiteSpace(dto.Name))

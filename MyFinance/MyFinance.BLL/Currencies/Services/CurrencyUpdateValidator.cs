@@ -20,7 +20,7 @@ namespace MyFinance.BLL.Currencies.Services
         {
             if (dto is null)
             {
-                throw new DtoNullReferenceException();
+                throw new DataNullReferenceException();
             }
 
             var currency = await _db.Context.Currencies.AsNoTracking().FirstOrDefaultAsync(x => x.Id == dto.Id);

@@ -15,9 +15,8 @@ namespace MyFinance.DAL.Migrations
                 schema: "finance",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(4)", maxLength: 4, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
-                    IsBase = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    Id = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     ExchangeRate = table.Column<decimal>(type: "decimal(5,4)", nullable: false, defaultValue: 1m),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: true),
@@ -38,7 +37,7 @@ namespace MyFinance.DAL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     Balance = table.Column<decimal>(type: "decimal(18,2)", nullable: false, defaultValue: 0m),
-                    CurrencyId = table.Column<string>(type: "nvarchar(4)", nullable: true),
+                    CurrencyId = table.Column<string>(type: "nvarchar(3)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: true),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -66,7 +65,7 @@ namespace MyFinance.DAL.Migrations
                     Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     Balance = table.Column<decimal>(type: "decimal(18,2)", nullable: false, defaultValue: 0m),
                     BudgetId = table.Column<long>(type: "bigint", nullable: false),
-                    CurrencyId = table.Column<string>(type: "nvarchar(4)", nullable: true),
+                    CurrencyId = table.Column<string>(type: "nvarchar(3)", nullable: true),
                     LastTransaction = table.Column<decimal>(type: "decimal(20,0)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: true),
@@ -97,9 +96,9 @@ namespace MyFinance.DAL.Migrations
                 schema: "finance",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    AccountId = table.Column<long>(type: "bigint", nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     ValidThru = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    AccountId = table.Column<long>(type: "bigint", nullable: false),
                     LastTransaction = table.Column<decimal>(type: "decimal(20,0)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: true),
@@ -108,7 +107,7 @@ namespace MyFinance.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Cards", x => new { x.Id, x.AccountId });
+                    table.PrimaryKey("PK_Cards", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Cards_Accounts_AccountId",
                         column: x => x.AccountId,
@@ -121,8 +120,14 @@ namespace MyFinance.DAL.Migrations
             migrationBuilder.InsertData(
                 schema: "finance",
                 table: "Currencies",
-                columns: new[] { "Id", "CreatedAt", "CreatedBy", "IsBase", "Name", "UpdatedAt", "UpdatedBy" },
-                values: new object[] { "BYN", null, null, true, "Белорусский рубль", null, null });
+                columns: new[] { "Id", "CreatedAt", "CreatedBy", "Name", "UpdatedAt", "UpdatedBy" },
+                values: new object[,]
+                {
+                    { "BYN", null, null, "Белорусский рубль", null, null },
+                    { "RUB", null, null, "Российский рубль", null, null },
+                    { "USD", null, null, "Доллар США", null, null },
+                    { "EUR", null, null, "Евро", null, null }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Accounts_BudgetId",
