@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace MyFinance.BLL.Interfaces
+namespace MyFinance.BLL.Common.Interfaces
 {
     public interface IFetcher<TEntity, TKey, TDto>
     {

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace MyFinance.BLL.Interfaces
+namespace MyFinance.BLL.Common.Interfaces
 {
     public interface IRemover<TEntity, TKey>
     {

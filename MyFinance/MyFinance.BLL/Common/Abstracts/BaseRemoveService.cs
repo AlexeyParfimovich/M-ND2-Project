@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyFinance.DAL;
 using MyFinance.DAL.Entities;
-using MyFinance.BLL.Interfaces;
+using MyFinance.BLL.Common.Interfaces;
 using System.Threading.Tasks;
 
-namespace MyFinance.BLL.Abstracts
+namespace MyFinance.BLL.Common.Abstracts
 {
     public abstract class BaseRemoveService<TEntity, TKey> : IRemover<TEntity, TKey>
         where TEntity : BaseTypedEntity<TKey>

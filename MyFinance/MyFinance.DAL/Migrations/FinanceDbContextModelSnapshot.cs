@@ -164,11 +164,6 @@ namespace MyFinance.DAL.Migrations
                         .HasColumnType("decimal(5,4)")
                         .HasDefaultValue(1m);
 
-                    b.Property<bool>("IsBase")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(32)
@@ -190,7 +185,6 @@ namespace MyFinance.DAL.Migrations
                         {
                             Id = "BYN",
                             ExchangeRate = 0m,
-                            IsBase = true,
                             Name = "Белорусский рубль"
                         });
                 });

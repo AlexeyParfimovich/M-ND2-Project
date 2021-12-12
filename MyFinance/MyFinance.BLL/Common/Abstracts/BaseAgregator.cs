@@ -1,6 +1,6 @@
-﻿using MyFinance.BLL.Interfaces;
+﻿using MyFinance.BLL.Common.Interfaces;
 
-namespace MyFinance.BLL.Abstracts
+namespace MyFinance.BLL.Common.Abstracts
 {
     public abstract class BaseAgregator<TEntity, TKey, TDto, TCreateDto, TUpdateDto> : IAgregator<TEntity, TKey, TDto, TCreateDto, TUpdateDto>
     {

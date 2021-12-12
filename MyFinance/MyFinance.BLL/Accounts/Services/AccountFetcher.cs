@@ -1,8 +1,8 @@
 ﻿using MyFinance.DAL;
 using MyFinance.DAL.Entities;
-using MyFinance.BLL.Abstracts;
 using MyFinance.BLL.Accounts.Dto;
-using MyFinance.BLL.Interfaces;
+using MyFinance.BLL.Common.Abstracts;
+using MyFinance.BLL.Common.Interfaces;
 
 namespace MyFinance.BLL.Accounts.Services
 {

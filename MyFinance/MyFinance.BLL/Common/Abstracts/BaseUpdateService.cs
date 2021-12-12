@@ -1,18 +1,18 @@
 ﻿using MyFinance.DAL;
 using MyFinance.DAL.Entities;
-using MyFinance.BLL.Interfaces;
+using MyFinance.BLL.Common.Interfaces;
 using System.Threading.Tasks;
 
-namespace MyFinance.BLL.Abstracts
+namespace MyFinance.BLL.Common.Abstracts
 {
-    public abstract class BaseCreateService<TEntity, TDto, TPartialDto>: ICreator<TEntity, TDto, TPartialDto>
+    public abstract class BaseUpdateService<TEntity, TDto, TPartialDto> : IUpdater<TEntity, TDto, TPartialDto>
         where TEntity : BaseEntity
     {
         protected readonly IFinanceDbContext _db;
         protected readonly IValidator<TPartialDto> _validator;
         protected readonly IDtoPartialMapper<TEntity, TDto, TPartialDto> _mapper;
 
-        public BaseCreateService(
+        public BaseUpdateService(
             IFinanceDbContext database,
             IValidator<TPartialDto> validator,
             IDtoPartialMapper<TEntity, TDto, TPartialDto> mapper)
@@ -22,13 +22,13 @@ namespace MyFinance.BLL.Abstracts
             _mapper = mapper;
         }
 
-        public async Task<TDto> Create(TPartialDto dto)
+        public async Task<TDto> Update(TPartialDto dto)
         {
             await _validator.Validate(dto);
 
             var entity = _mapper.DtoToEntity(dto);
 
-            var entry = await _db.Context.Set<TEntity>().AddAsync(entity);
+            var entry = _db.Context.Set<TEntity>().Update(entity);
 
             await _db.Context.SaveChangesAsync();
 

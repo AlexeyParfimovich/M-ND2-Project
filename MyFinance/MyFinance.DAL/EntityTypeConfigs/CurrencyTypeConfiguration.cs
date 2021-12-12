@@ -26,11 +26,6 @@ namespace MyFinance.DAL.EntityTypeConfigs
                 .IsRequired();
 
             builder
-                .Property(t => t.IsBase)
-                .HasDefaultValue(false)
-                .IsRequired();
-
-            builder
                 .Property(t => t.ExchangeRate)
                 .HasColumnType("decimal(5,4)")
                 .HasDefaultValue(1)
@@ -39,7 +34,7 @@ namespace MyFinance.DAL.EntityTypeConfigs
             builder.HasData( 
                 new CurrencyEntity[]
                 {
-                    new CurrencyEntity { Id="BYN", Name="Белорусский рубль", IsBase=true}
+                    new CurrencyEntity { Id="BYN", Name="Белорусский рубль"}
                 });
         }
     }

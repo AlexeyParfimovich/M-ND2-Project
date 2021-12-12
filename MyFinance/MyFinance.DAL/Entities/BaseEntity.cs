@@ -1,6 +1,6 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.ComponentModel.DataAnnotations;
-#nullable enable
 
 namespace MyFinance.DAL.Entities
 {

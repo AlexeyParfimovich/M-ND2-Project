@@ -1,7 +1,7 @@
-﻿using MyFinance.BLL.Abstracts;
-using MyFinance.BLL.Interfaces;
+﻿using MyFinance.DAL.Entities;
 using MyFinance.BLL.Budgets.Dto;
-using MyFinance.DAL.Entities;
+using MyFinance.BLL.Common.Abstracts;
+using MyFinance.BLL.Common.Interfaces;
 
 namespace MyFinance.BLL.Budgets
 {

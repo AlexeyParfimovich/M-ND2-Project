@@ -1,6 +1,4 @@
-﻿using MyFinance.BLL.Interfaces;
-
-namespace MyFinance.BLL
+﻿namespace MyFinance.BLL.Common.Interfaces
 {
     public interface IAgregator<TEntity, TKey, TDto, TCreateDto, TUpdateDto>
     {

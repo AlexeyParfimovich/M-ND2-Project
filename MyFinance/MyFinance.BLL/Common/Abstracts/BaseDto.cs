@@ -1,4 +1,4 @@
-﻿namespace MyFinance.BLL.Abstracts
+﻿namespace MyFinance.BLL.Common.Abstracts
 {
     public abstract class BaseDto
     {

@@ -1,5 +1,5 @@
-﻿using MyFinance.BLL.Abstracts;
-using MyFinance.BLL.Interfaces;
+﻿using MyFinance.BLL.Common.Abstracts;
+using MyFinance.BLL.Common.Interfaces;
 using MyFinance.BLL.Accounts.Dto;
 using MyFinance.DAL.Entities;
 

@@ -1,6 +1,6 @@
-﻿using MyFinance.BLL.Accounts.Dto;
-using MyFinance.BLL.Interfaces;
-using MyFinance.DAL.Entities;
+﻿using MyFinance.DAL.Entities;
+using MyFinance.BLL.Accounts.Dto;
+using MyFinance.BLL.Common.Interfaces;
 
 namespace MyFinance.BLL.Accounts.Services
 {

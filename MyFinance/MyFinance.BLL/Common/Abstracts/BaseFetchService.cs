@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyFinance.DAL;
 using MyFinance.DAL.Entities;
-using MyFinance.BLL.Interfaces;
+using MyFinance.BLL.Common.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace MyFinance.BLL.Abstracts
+namespace MyFinance.BLL.Common.Abstracts
 {
     public abstract class BaseFetchService<TEntity, TKey, TDto> : IFetcher<TEntity, TKey, TDto>
         where TEntity : BaseTypedEntity<TKey>

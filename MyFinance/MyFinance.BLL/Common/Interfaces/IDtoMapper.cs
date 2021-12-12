@@ -1,6 +1,6 @@
 ﻿using MyFinance.DAL.Entities;
 
-namespace MyFinance.BLL.Interfaces
+namespace MyFinance.BLL.Common.Interfaces
 {
     public interface IDtoMapper<TEntity, TDto> where TEntity: BaseEntity
     {

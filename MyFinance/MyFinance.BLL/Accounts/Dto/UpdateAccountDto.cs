@@ -1,4 +1,4 @@
-﻿using MyFinance.BLL.Abstracts;
+﻿using MyFinance.BLL.Common.Abstracts;
 
 namespace MyFinance.BLL.Accounts.Dto
 {

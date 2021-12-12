@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
-using MyFinance.BLL.Abstracts;
 
-namespace MyFinance.BLL.Interfaces
+namespace MyFinance.BLL.Common.Interfaces
 {
     public interface IValidator<TDto>
     {
