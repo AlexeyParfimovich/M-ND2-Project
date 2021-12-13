@@ -12,8 +12,13 @@ namespace MyFinance.DAL.EntityTypeConfigs
         {
             builder.ToTable(_tableName).HasKey(t => t.Id);
 
-            builder.Property(t => t.Name).HasMaxLength(256).IsRequired();
-            builder.Property(t => t.Balance).HasColumnType("decimal(18,2)").HasDefaultValue(0).IsRequired();
+            builder.Property(t => t.Name)
+                .HasMaxLength(256)
+                .IsRequired();
+
+            builder.Property(t => t.Balance)
+                .HasColumnType("decimal(18,2)")
+                .HasDefaultValue(0);
 
             builder.HasOne(t => t.Currency)
                 .WithMany(t => t.Budgets)

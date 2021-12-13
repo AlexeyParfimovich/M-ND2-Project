@@ -26,15 +26,19 @@ namespace MyFinance.DAL.EntityTypeConfigs
                 .IsRequired();
 
             builder
+                .Property(t => t.IsMainCurrency)
+                .HasColumnType("bit")
+                .HasDefaultValue(0);
+
+            builder
                 .Property(t => t.ExchangeRate)
                 .HasColumnType("decimal(5,4)")
-                .HasDefaultValue(1)
-                .IsRequired();
+                .HasDefaultValue(1);
 
             builder.HasData( 
                 new CurrencyEntity[]
                 {
-                    new CurrencyEntity { Id="BYN", Name="Белорусский рубль"},
+                    new CurrencyEntity { Id="BYN", Name="Белорусский рубль", IsMainCurrency = true},
                     new CurrencyEntity { Id="RUB", Name="Российский рубль"},
                     new CurrencyEntity { Id="USD", Name="Доллар США"},
                     new CurrencyEntity { Id="EUR", Name="Евро"},
