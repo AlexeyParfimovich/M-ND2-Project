@@ -8,6 +8,8 @@ namespace MyFinance.BLL.Currencies.Dto
 
         public string Name { get; set; }
 
+        public bool IsMainCurrency { get; set; }
+
         public decimal ExchangeRate { get; set; }
     }
 }

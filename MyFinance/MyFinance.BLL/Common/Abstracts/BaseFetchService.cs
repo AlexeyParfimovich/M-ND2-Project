@@ -4,6 +4,7 @@ using MyFinance.DAL.Entities;
 using MyFinance.BLL.Common.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace MyFinance.BLL.Common.Abstracts
 {

@@ -1,6 +1,7 @@
 ﻿using MyFinance.DAL.Entities;
 using MyFinance.BLL.Budgets.Dto;
 using MyFinance.BLL.Common.Interfaces;
+using Newtonsoft.Json;
 
 namespace MyFinance.BLL.Budgets.Services
 {
@@ -8,6 +9,9 @@ namespace MyFinance.BLL.Budgets.Services
     {
         public BudgetDto EntityToDto(BudgetEntity entity)
         {
+            return JsonConvert.DeserializeObject<BudgetDto>(
+                JsonConvert.SerializeObject(entity));
+            /*
             return new BudgetDto
             {
                 Id = entity.Id,
@@ -15,6 +19,7 @@ namespace MyFinance.BLL.Budgets.Services
                 Balance = entity.Balance,
                 CurrencyId = entity.CurrencyId,
             };
+            */
         }
     }
 }

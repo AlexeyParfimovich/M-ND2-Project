@@ -1,10 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
 
 namespace MyFinance.DAL.Entities
 {
     public abstract class BaseTypedEntity<T>: BaseEntity
     {
-        [Required]
+        [JsonProperty("id", Order = 0, Required = Required.Always)]
         public T Id { get; set; }
     }
 }

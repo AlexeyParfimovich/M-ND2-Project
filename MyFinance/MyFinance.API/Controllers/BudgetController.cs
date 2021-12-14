@@ -2,10 +2,11 @@
 using MyFinance.API.Models;
 using MyFinance.DAL.Entities;
 using MyFinance.BLL.Budgets.Dto;
+using MyFinance.BLL.Common.Exceptions;
 using MyFinance.BLL.Common.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MyFinance.BLL.Common.Exceptions;
+using Newtonsoft.Json;
 
 namespace MyFinance.API.Controllers
 {
@@ -40,14 +41,14 @@ namespace MyFinance.API.Controllers
 
         // GET api/budgets/id
         [HttpGet("{id:long}")]
-        public async Task<ActionResult<BudgetDto>> Get(long id)
+        public async Task<ActionResult<BudgetModel>> Get(long id)
         {
-            var result = await _service.Fetcher.FetchByKey(id);
+            var dto = await _service.Fetcher.FetchByKey(id);
 
-            if (result == null)
+            if (dto == null)
                 throw new NoContentException($"Data not found");
 
-            return new ObjectResult(BudgetModelMapper.MapToModel(result));
+            return new ObjectResult(BudgetModelMapper.MapToModel(dto));
         }
 
         // POST api/budgets

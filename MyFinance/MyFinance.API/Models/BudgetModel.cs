@@ -1,20 +1,19 @@
-﻿using System.Runtime.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace MyFinance.API.Models
 {
-    [DataContract()]
     public class BudgetModel
     {
-        [DataMember(Name = "id", Order = 0, IsRequired = true)]
+        [JsonProperty("id", Order = 0, Required = Required.Always)]
         public long Id { get; set; }
 
-        [DataMember(Name = "name", Order = 1, IsRequired = true)]
+        [JsonProperty("name", Order = 1, Required = Required.Always)]
         public string Name { get; set; }
 
-        [DataMember(Name = "balance", Order = 2, EmitDefaultValue = false)]
+        [JsonProperty("balance", Order = 2, Required = Required.Default)]
         public decimal Balance { get; set; }
 
-        [DataMember(Name = "currencyId", Order = 3, IsRequired = true)]
+        [JsonProperty("currency_id", Order = 3, Required = Required.Always)]
         public string CurrencyId { get; set; }
     }
 }

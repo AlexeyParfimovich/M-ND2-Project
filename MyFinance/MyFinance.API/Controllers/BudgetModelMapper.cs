@@ -1,5 +1,6 @@
 ﻿using MyFinance.API.Models;
 using MyFinance.BLL.Budgets.Dto;
+using Newtonsoft.Json;
 
 namespace MyFinance.API.Controllers
 {
@@ -26,6 +27,9 @@ namespace MyFinance.API.Controllers
 
         public static BudgetModel MapToModel(BudgetDto dto)
         {
+            return JsonConvert.DeserializeObject<BudgetModel>(
+                JsonConvert.SerializeObject(dto));
+            /*
             return new BudgetModel
             {
                 Id = dto.Id,
@@ -33,6 +37,7 @@ namespace MyFinance.API.Controllers
                 Balance = dto.Balance,
                 CurrencyId = dto.CurrencyId,
             };
+            */
         }
     }
 }

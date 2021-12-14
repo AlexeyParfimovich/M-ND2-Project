@@ -19,12 +19,27 @@ namespace MyFinance.BLL.Budgets.Services
 
         public BudgetEntity DtoToEntity(UpdateBudgetDto dto)
         {
-            return new BudgetEntity
+            var entity = new BudgetEntity();
+
+            foreach(var prop in dto.GetType().GetProperties())
             {
-                Id = dto.Id,
-                Name = dto.Name,
-                CurrencyId = dto.CurrencyId,
-            };
+                switch (prop.Name)
+                {
+                    case "Id": 
+                        entity.Id = (long)prop.GetValue(dto);
+                        break;
+                    case "Name":
+                        entity.Name = (string)prop.GetValue(dto);
+                        break;
+                    case "Balance":
+                        entity.Balance = (decimal)prop.GetValue(dto);
+                        break;
+                    case "CurrencyId":
+                        entity.CurrencyId = (string)prop.GetValue(dto);
+                        break;
+                }
+            }
+            return entity;
         }
     }
 }
