@@ -14,10 +14,14 @@ namespace MyFinance.API.Controllers
     [Route("api/v1/budgets")]
     public class BudgetsController : ControllerBase
     {
+        readonly IContractMapper _mapper;
         readonly IAgregator<BudgetEntity, long, BudgetDto, CreateBudgetDto, UpdateBudgetDto> _service;
 
-        public BudgetsController(IAgregator<BudgetEntity, long, BudgetDto, CreateBudgetDto, UpdateBudgetDto> service)
+        public BudgetsController(
+            IContractMapper mapper,
+            IAgregator<BudgetEntity, long, BudgetDto, CreateBudgetDto, UpdateBudgetDto> service)
         {
+            _mapper = mapper;
             _service = service;
         }
 
@@ -58,11 +62,12 @@ namespace MyFinance.API.Controllers
             if (model == null)
                 throw new DataNullReferenceException();
 
-            var dto = BudgetModelMapper.MapToDtoCreate(model);
+            var dto = _mapper.Map<CreateBudgetModel, CreateBudgetDto>(model);
+                //BudgetModelMapper.MapToDtoCreate(model);
 
             var result = await _service.Creator.Create(dto);
 
-            return Ok(BudgetModelMapper.MapToModel(result));
+            return Ok(_mapper.Map<BudgetDto, BudgetModel>(result));
         }
 
         // PUT api/budgets

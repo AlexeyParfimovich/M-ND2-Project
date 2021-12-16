@@ -11,7 +11,7 @@ namespace MyFinance.BLL.Accounts.Services
         public AccountCreator(
             IFinanceDbContext database,
             IValidator<CreateAccountDto> validator,
-            IDtoPartialMapper<AccountEntity, AccountDto, CreateAccountDto> mapper) : base(database, validator, mapper)
+            IContractMapper mapper) : base(database, validator, mapper)
         {
         }
     }

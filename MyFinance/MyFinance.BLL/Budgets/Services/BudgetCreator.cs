@@ -11,7 +11,7 @@ namespace MyFinance.BLL.Budgets.Services
         public BudgetCreator(
             IFinanceDbContext database,
             IValidator<CreateBudgetDto> validator,
-            IDtoPartialMapper<BudgetEntity, BudgetDto, CreateBudgetDto> mapper) : base(database, validator, mapper)
+            IContractMapper mapper) : base(database, validator, mapper)
         {
         }
     }

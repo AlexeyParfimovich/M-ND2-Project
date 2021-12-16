@@ -11,7 +11,7 @@ namespace MyFinance.BLL.Currencies.Services
         public CurrencyCreator(
             IFinanceDbContext database,
             IValidator<CreateCurrencyDto> validator,
-            IDtoPartialMapper<CurrencyEntity, CurrencyDto, CreateCurrencyDto> mapper) : base(database, validator, mapper)
+            IContractMapper mapper) : base(database, validator, mapper)
         {
         }
     }

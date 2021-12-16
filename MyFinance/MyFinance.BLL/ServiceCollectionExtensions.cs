@@ -13,6 +13,7 @@ using MyFinance.BLL.Currencies.Dto;
 using MyFinance.BLL.Currencies.Services;
 using MyFinance.BLL.Common.Interfaces;
 using MyFinance.DAL.Entities;
+using MyFinance.BLL.Common.Services;
 
 namespace MyFinance.BLL
 {
@@ -23,6 +24,7 @@ namespace MyFinance.BLL
             // Add Budget services
             services.AddScoped<IValidator<CreateBudgetDto>, BudgetCreateValidator>();
             services.AddScoped<IValidator<UpdateBudgetDto>, BudgetUpdateValidator>();
+            services.AddScoped<IContractMapper, ContractMapper>();
             services.AddScoped<IDtoMapper<BudgetEntity, BudgetDto>, BudgetFetchMapper>();
             services.AddScoped<IDtoPartialMapper<BudgetEntity, BudgetDto, CreateBudgetDto>, BudgetCreateMapper>();
             services.AddScoped<IDtoPartialMapper<BudgetEntity, BudgetDto, UpdateBudgetDto>, BudgetUpdateMapper>();

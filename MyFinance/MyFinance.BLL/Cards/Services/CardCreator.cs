@@ -11,7 +11,7 @@ namespace MyFinance.BLL.Cards.Services
         public CardCreator(
             IFinanceDbContext database,
             IValidator<CreateCardDto> validator,
-            IDtoPartialMapper<CardEntity, CardDto, CreateCardDto> mapper) : base(database, validator, mapper)
+            IContractMapper mapper) : base(database, validator, mapper)
         {
         }
     }

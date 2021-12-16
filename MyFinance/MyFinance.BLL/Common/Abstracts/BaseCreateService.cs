@@ -2,6 +2,8 @@
 using MyFinance.DAL.Entities;
 using MyFinance.BLL.Common.Interfaces;
 using System.Threading.Tasks;
+using System;
+using MyFinance.BLL.Common.Exceptions;
 
 namespace MyFinance.BLL.Common.Abstracts
 {
@@ -10,12 +12,12 @@ namespace MyFinance.BLL.Common.Abstracts
     {
         protected readonly IFinanceDbContext _db;
         protected readonly IValidator<TPartialDto> _validator;
-        protected readonly IDtoPartialMapper<TEntity, TDto, TPartialDto> _mapper;
+        protected readonly IContractMapper _mapper;
 
         public BaseCreateService(
             IFinanceDbContext database,
             IValidator<TPartialDto> validator,
-            IDtoPartialMapper<TEntity, TDto, TPartialDto> mapper)
+            IContractMapper mapper)
         {
             _db = database;
             _validator = validator;
@@ -26,13 +28,28 @@ namespace MyFinance.BLL.Common.Abstracts
         {
             await _validator.Validate(dto);
 
-            var entity = _mapper.DtoToEntity(dto);
+            var entity = _mapper.Map<TPartialDto, TEntity>(dto);
 
-            var entry = await _db.Context.Set<TEntity>().AddAsync(entity);
+            using var transaction = await _db.Context.Database.BeginTransactionAsync();
 
-            await _db.Context.SaveChangesAsync();
+            try
+            {
+                var entry = await _db.Context.Set<TEntity>().AddAsync(entity);
 
-            return _mapper.EntityToDto(entry.Entity);
+                await _db.Context.SaveChangesAsync();
+
+                var result  = _mapper.Map<TEntity, TDto>(entry.Entity);
+
+                await transaction.CommitAsync();
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+
+                throw new DataSaveChangesException($"Error saving new {entity.GetType().Name}", ex);
+            }
         }
     }
 }

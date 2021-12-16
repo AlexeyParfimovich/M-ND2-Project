@@ -10,9 +10,7 @@ namespace MyFinance.DAL.EntityTypeConfigs
 
         public void Configure(EntityTypeBuilder<CurrencyEntity> builder)
         {
-            builder
-                .ToTable(_tableName)
-                .HasKey(t => t.Id);
+            builder.ToTable(_tableName).HasKey(t => t.Id);
 
             builder
                 .Property(t => t.Id)

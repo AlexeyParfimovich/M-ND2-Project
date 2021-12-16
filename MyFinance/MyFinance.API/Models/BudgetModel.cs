@@ -13,7 +13,7 @@ namespace MyFinance.API.Models
         [JsonProperty("balance", Order = 2, Required = Required.Default)]
         public decimal Balance { get; set; }
 
-        [JsonProperty("currency_id", Order = 3, Required = Required.Always)]
+        [JsonProperty("currencyId", Order = 3, Required = Required.Always)]
         public string CurrencyId { get; set; }
     }
 }
