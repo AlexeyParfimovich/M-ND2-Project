@@ -43,8 +43,9 @@ namespace MyFinance.API.Controllers
         }
 
         // GET api/budgets/id
-        [HttpGet("{id:long}")]
-        public async Task<ActionResult<BudgetModel>> Get(long id)
+        [HttpGet]
+        [Route("{id:long}")]
+        public async Task<ActionResult<BudgetModel>> Get([FromRoute] long id)
         {
             var dto = await _service.Fetcher.FetchByKey(id);
 
@@ -62,15 +63,15 @@ namespace MyFinance.API.Controllers
                 throw new DataNullReferenceException();
 
             var dto = _mapper.Map<CreateBudgetModel, CreateBudgetDto>(model);
-                //BudgetModelMapper.MapToDtoCreate(model);
 
             var result = await _service.Creator.Create(dto);
 
             return Ok(_mapper.Map<BudgetDto, BudgetModel>(result));
         }
 
-        // PUT api/budgets
+        // PUT api/budgets/id
         [HttpPut]
+        [Route("{id:long}")]
         public async Task<ActionResult<BudgetModel>> Put(UpdateBudgetModel model)
         {
             if (model == null)
@@ -87,8 +88,9 @@ namespace MyFinance.API.Controllers
         }
 
         // DELETE api/budgets/id
-        [HttpDelete("{id:long}")]
-        public async Task<ActionResult> Delete(long id)
+        [HttpDelete]
+        [Route("{id:long}")]
+        public async Task<ActionResult> Delete([FromRoute] long id)
         {
             if (id <= 0)
                 throw new ValueOutOfRangeException();

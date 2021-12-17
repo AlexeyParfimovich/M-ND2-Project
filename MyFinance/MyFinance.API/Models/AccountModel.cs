@@ -1,26 +1,25 @@
-﻿using System.Runtime.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace MyFinance.API.Models
 {
-    [DataContract()]
     public class AccountModel
     {
-        [DataMember(Name = "id", Order = 0, IsRequired = true)]
+        [JsonProperty("id", Order = 0, Required = Required.Always)]
         public long Id { get; set; }
 
-        [DataMember(Name = "name", Order = 1, IsRequired = true)]
+        [JsonProperty("name", Order = 1, Required = Required.Always)]
         public string Name { get; set; }
 
-        [DataMember(Name = "balance", Order = 2, EmitDefaultValue = false)]
+        [JsonProperty("balance", Order = 2, Required = Required.Default)]
         public decimal Balance { get; set; }
 
-        [DataMember(Name = "budgetId", Order = 3, IsRequired = true)]
+        [JsonProperty("budgetId", Order = 3, Required = Required.Always)]
         public long BudgetId { get; set; }
 
-        [DataMember(Name = "currencyId", Order = 4, IsRequired = true)]
+        [JsonProperty("currencyId", Order = 4, Required = Required.Always)]
         public string CurrencyId { get; set; }
 
-        [DataMember(Name = "lastTransaction", Order = 5, EmitDefaultValue = false)]
+        [JsonProperty("lastTransaction", Order = 5, Required = Required.Default)]
         public ulong? LastTransaction { get; set; }
     }
 }
