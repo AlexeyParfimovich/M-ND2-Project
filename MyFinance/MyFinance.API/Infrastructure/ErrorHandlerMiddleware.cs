@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Hosting;
 using MyFinance.BLL.Common.Exceptions;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -51,28 +52,23 @@ namespace MyFinance.API.Infrastructure
 
         private string GetErrorMessageJson(Exception error)
         {
-            return JsonSerializer.Serialize( new
+            return JsonSerializer.Serialize(new
             {
                 message = error?.Message,
-                details = _environment.IsDevelopment() ? error?.StackTrace : null,
+                details = _environment.IsDevelopment() ? GetInnerExceptions(error) : null,
             });
         }
-
-        /* 
-        private static IEnumerable<string> GetAllMessages(Exception exception)
+        
+        private static IEnumerable<string> GetInnerExceptions(Exception ex)
         {
-            var current = exception;
             var messages = new List<string>();
 
-            do
+            while (ex?.InnerException != null)
             {
-                messages.Add(exception.Message);
-                current = current.InnerException;
+                messages.Add(ex.InnerException.Message);
+                ex = ex.InnerException;
             } 
-            while (current?.InnerException != null);
-
             return messages;
         }
-        */
     }
 }
