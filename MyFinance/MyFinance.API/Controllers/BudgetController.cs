@@ -6,7 +6,6 @@ using MyFinance.BLL.Common.Exceptions;
 using MyFinance.BLL.Common.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace MyFinance.API.Controllers
 {
@@ -37,7 +36,7 @@ namespace MyFinance.API.Controllers
             List<BudgetModel> models = new();
             foreach (var dto in result)
             {
-                models.Add(BudgetModelMapper.MapToModel(dto));
+                models.Add(_mapper.Map<BudgetDto, BudgetModel>(dto));
             }
 
             return new ObjectResult(models);
@@ -52,7 +51,7 @@ namespace MyFinance.API.Controllers
             if (dto == null)
                 throw new NoContentException($"Data not found");
 
-            return new ObjectResult(BudgetModelMapper.MapToModel(dto));
+            return new ObjectResult(_mapper.Map<BudgetDto, BudgetModel>(dto));
         }
 
         // POST api/budgets
@@ -80,11 +79,11 @@ namespace MyFinance.API.Controllers
             if (model.Id <= 0)
                 throw new ValueOutOfRangeException();
 
-            var dto = BudgetModelMapper.MapToDtoUpdate(model);
+            var dto = _mapper.Map<UpdateBudgetModel, UpdateBudgetDto>(model);
 
             var result = await _service.Updater.Update(dto);
 
-            return Ok(BudgetModelMapper.MapToModel(result));
+            return Ok(_mapper.Map<BudgetDto, BudgetModel>(result));
         }
 
         // DELETE api/budgets/id

@@ -14,10 +14,14 @@ namespace MyFinance.API.Controllers
     [Route("api/v1/accounts")]
     public class AccountsController : ControllerBase
     {
+        readonly IContractMapper _mapper;
         readonly IAgregator<AccountEntity, long, AccountDto, CreateAccountDto, UpdateAccountDto> _service;
 
-        public AccountsController(IAgregator<AccountEntity, long, AccountDto, CreateAccountDto, UpdateAccountDto> service)
+        public AccountsController(
+            IContractMapper mapper,
+            IAgregator<AccountEntity, long, AccountDto, CreateAccountDto, UpdateAccountDto> service)
         {
+            _mapper = mapper;
             _service = service;
         }
 
@@ -33,7 +37,7 @@ namespace MyFinance.API.Controllers
             List<AccountModel> models = new();
             foreach (var dto in result)
             {
-                models.Add(AccountModelMapper.MapToModel(dto));
+                models.Add(_mapper.Map<AccountDto, AccountModel>(dto));
             }
 
             return new ObjectResult(models);
@@ -43,12 +47,12 @@ namespace MyFinance.API.Controllers
         [HttpGet("{id:long}")]
         public async Task<ActionResult<AccountDto>> Get(long id)
         {
-            var result = await _service.Fetcher.FetchByKey(id);
+            var dto = await _service.Fetcher.FetchByKey(id);
 
-            if (result == null)
+            if (dto == null)
                 throw new NoContentException($"Data not found");
 
-            return new ObjectResult(AccountModelMapper.MapToModel(result));
+            return new ObjectResult(_mapper.Map<AccountDto, AccountModel>(dto));
         }
 
         // POST api/Accounts
@@ -58,11 +62,11 @@ namespace MyFinance.API.Controllers
             if (model == null)
                 throw new DataNullReferenceException();
 
-            var dto = AccountModelMapper.MapToDtoCreate(model);
+            var dto = _mapper.Map<CreateAccountModel, CreateAccountDto>(model);
 
             var result = await _service.Creator.Create(dto);
 
-            return Ok(AccountModelMapper.MapToModel(result));
+            return Ok(_mapper.Map<AccountDto, AccountModel>(result));
         }
 
         // PUT api/Accounts
@@ -75,11 +79,11 @@ namespace MyFinance.API.Controllers
             if (model.Id <= 0)
                 throw new ValueOutOfRangeException();
 
-            var dto = AccountModelMapper.MapToDtoUpdate(model);
+            var dto = _mapper.Map<UpdateAccountModel, UpdateAccountDto>(model);
 
             var result = await _service.Updater.Update(dto);
 
-            return Ok(AccountModelMapper.MapToModel(result));
+            return Ok(_mapper.Map<AccountDto, AccountModel>(result));
         }
 
         // DELETE api/Accounts/id

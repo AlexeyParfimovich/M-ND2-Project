@@ -11,7 +11,7 @@ namespace MyFinance.BLL.Cards.Services
         public CardUpdater(
              IFinanceDbContext database,
              IValidator<UpdateCardDto> validator,
-             IDtoPartialMapper<CardEntity, CardDto, UpdateCardDto> mapper) : base(database, validator, mapper)
+             IContractMapper mapper) : base(database, validator, mapper)
         {
         }
     }

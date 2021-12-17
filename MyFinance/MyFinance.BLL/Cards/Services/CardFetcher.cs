@@ -10,7 +10,7 @@ namespace MyFinance.BLL.Cards.Services
     {
         public CardFetcher(
             IFinanceDbContext database,
-            IDtoMapper<CardEntity, CardDto> mapper) : base (database, mapper)
+            IContractMapper mapper) : base (database, mapper)
         {
         }
     }

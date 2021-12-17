@@ -10,12 +10,12 @@ namespace MyFinance.BLL.Common.Abstracts
     {
         protected readonly IFinanceDbContext _db;
         protected readonly IValidator<TPartialDto> _validator;
-        protected readonly IDtoPartialMapper<TEntity, TDto, TPartialDto> _mapper;
+        protected readonly IContractMapper _mapper;
 
         public BaseUpdateService(
             IFinanceDbContext database,
             IValidator<TPartialDto> validator,
-            IDtoPartialMapper<TEntity, TDto, TPartialDto> mapper)
+            IContractMapper mapper)
         {
             _db = database;
             _validator = validator;
@@ -26,13 +26,13 @@ namespace MyFinance.BLL.Common.Abstracts
         {
             await _validator.Validate(dto);
 
-            var entity = _mapper.DtoToEntity(dto);
+            var entity = _mapper.Map<TPartialDto, TEntity>(dto);
 
             var entry = _db.Context.Set<TEntity>().Update(entity);
 
             await _db.Context.SaveChangesAsync();
 
-            return _mapper.EntityToDto(entry.Entity);
+            return _mapper.Map<TEntity, TDto>(entry.Entity);
         }
     }
 }

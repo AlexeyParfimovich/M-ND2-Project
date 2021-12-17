@@ -14,10 +14,14 @@ namespace MyFinance.API.Controllers
     [Route("api/v1/Currencies")]
     public class CurrencysController : ControllerBase
     {
+        readonly IContractMapper _mapper;
         readonly IAgregator<CurrencyEntity, string, CurrencyDto, CreateCurrencyDto, UpdateCurrencyDto> _service;
 
-        public CurrencysController(IAgregator<CurrencyEntity, string, CurrencyDto, CreateCurrencyDto, UpdateCurrencyDto> service)
+        public CurrencysController(
+            IContractMapper mapper,
+            IAgregator<CurrencyEntity, string, CurrencyDto, CreateCurrencyDto, UpdateCurrencyDto> service)
         {
+            _mapper = mapper;
             _service = service;
         }
 
@@ -33,7 +37,7 @@ namespace MyFinance.API.Controllers
             List<CurrencyModel> models = new();
             foreach (var dto in result)
             {
-                models.Add(CurrencyModelMapper.MapToModel(dto));
+                models.Add(_mapper.Map<CurrencyDto, CurrencyModel>(dto));
             }
 
             return new ObjectResult(models);
@@ -48,7 +52,7 @@ namespace MyFinance.API.Controllers
             if (result == null)
                 throw new NoContentException($"Data not found");
 
-            return new ObjectResult(CurrencyModelMapper.MapToModel(result));
+            return new ObjectResult(_mapper.Map<CurrencyDto, CurrencyModel>(result));
         }
 
         // POST api/Currencys
@@ -58,11 +62,11 @@ namespace MyFinance.API.Controllers
             if (model == null)
                 throw new DataNullReferenceException();
 
-            var dto = CurrencyModelMapper.MapToDtoCreate(model);
+            var dto = _mapper.Map<CreateCurrencyModel, CreateCurrencyDto>(model);
 
             var result = await _service.Creator.Create(dto);
 
-            return Ok(CurrencyModelMapper.MapToModel(result));
+            return Ok(_mapper.Map<CurrencyDto, CurrencyModel>(result));
         }
 
         // PUT api/Currencys
@@ -75,11 +79,11 @@ namespace MyFinance.API.Controllers
             if (string.IsNullOrWhiteSpace(model.Id))
                 throw new ValueNotSpecifiedException();
 
-            var dto = CurrencyModelMapper.MapToDtoUpdate(model);
+            var dto = _mapper.Map<UpdateCurrencyModel, UpdateCurrencyDto>(model);
 
             var result = await _service.Updater.Update(dto);
 
-            return Ok(CurrencyModelMapper.MapToModel(result));
+            return Ok(_mapper.Map<CurrencyDto, CurrencyModel>(result));
         }
 
         // DELETE api/Currencys/id

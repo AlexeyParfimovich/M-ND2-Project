@@ -10,7 +10,7 @@ namespace MyFinance.BLL.Budgets.Services
     {
         public BudgetFetcher(
             IFinanceDbContext database,
-            IDtoMapper<BudgetEntity, BudgetDto> mapper) : base (database, mapper)
+            IContractMapper mapper) : base (database, mapper)
         {
         }
     }

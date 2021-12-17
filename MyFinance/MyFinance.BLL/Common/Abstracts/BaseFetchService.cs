@@ -12,11 +12,11 @@ namespace MyFinance.BLL.Common.Abstracts
         where TEntity : BaseTypedEntity<TKey>
     {
         protected readonly IFinanceDbContext _db;
-        protected readonly IDtoMapper<TEntity, TDto> _mapper;
+        protected readonly IContractMapper _mapper;
 
         public BaseFetchService(
             IFinanceDbContext database,
-            IDtoMapper<TEntity, TDto> mapper)
+            IContractMapper mapper)
         {
             _db = database;
             _mapper = mapper;
@@ -29,7 +29,7 @@ namespace MyFinance.BLL.Common.Abstracts
             List<TDto> dtos = new();
             foreach (var entity in entities)
             {
-                dtos.Add(_mapper.EntityToDto(entity));
+                dtos.Add(_mapper.Map<TEntity, TDto>(entity));
             }
 
             return dtos;
@@ -39,7 +39,7 @@ namespace MyFinance.BLL.Common.Abstracts
         {
             var entity = await _db.Context.Set<TEntity>().FirstOrDefaultAsync(x => x.Id.Equals(key));
 
-            return _mapper.EntityToDto(entity);
+            return _mapper.Map<TEntity, TDto>(entity);
         }
 
     }

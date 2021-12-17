@@ -11,7 +11,7 @@ namespace MyFinance.BLL.Accounts.Services
         public AccountUpdater(
              IFinanceDbContext database,
              IValidator<UpdateAccountDto> validator,
-             IDtoPartialMapper<AccountEntity, AccountDto, UpdateAccountDto> mapper) : base(database, validator, mapper)
+             IContractMapper mapper) : base(database, validator, mapper)
         {
         }
     }

@@ -10,7 +10,7 @@ namespace MyFinance.BLL.Accounts.Services
     {
         public AccountFetcher(
             IFinanceDbContext database,
-            IDtoMapper<AccountEntity, AccountDto> mapper) : base (database, mapper)
+            IContractMapper mapper) : base (database, mapper)
         {
         }
     }

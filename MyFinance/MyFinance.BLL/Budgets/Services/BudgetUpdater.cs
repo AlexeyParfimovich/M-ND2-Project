@@ -11,7 +11,7 @@ namespace MyFinance.BLL.Budgets.Services
         public BudgetUpdater(
              IFinanceDbContext database,
              IValidator<UpdateBudgetDto> validator,
-             IDtoPartialMapper<BudgetEntity, BudgetDto, UpdateBudgetDto> mapper) : base(database, validator, mapper)
+             IContractMapper mapper) : base(database, validator, mapper)
         {
         }
     }

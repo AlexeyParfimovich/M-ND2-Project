@@ -10,7 +10,7 @@ namespace MyFinance.BLL.Currencies.Services
     {
         public CurrencyFetcher(
             IFinanceDbContext database,
-            IDtoMapper<CurrencyEntity, CurrencyDto> mapper) : base (database, mapper)
+            IContractMapper mapper) : base (database, mapper)
         {
         }
     }
