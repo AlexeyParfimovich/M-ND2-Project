@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using MyFinance.BLL.Common.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -13,10 +14,15 @@ namespace MyFinance.API.Infrastructure
     {
         private readonly RequestDelegate _next;
         private readonly IHostEnvironment _environment;
+        private readonly ILogger<ErrorHandlerMiddleware> _logger;
 
-        public ErrorHandlerMiddleware(RequestDelegate next, IHostEnvironment environment)
+        public ErrorHandlerMiddleware(
+            RequestDelegate next, 
+            IHostEnvironment environment,
+            ILogger<ErrorHandlerMiddleware> logger)
         {
             _next = next;
+            _logger = logger;
             _environment = environment;
         }
 
@@ -46,6 +52,7 @@ namespace MyFinance.API.Infrastructure
                     response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 }
 
+                _logger.LogError(error, error.Message);
                 await response.WriteAsync(GetErrorMessageJson(error));
             }
         }

@@ -6,6 +6,7 @@ using MyFinance.BLL.Common.Exceptions;
 using MyFinance.BLL.Common.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace MyFinance.API.Controllers
 {
@@ -13,14 +14,17 @@ namespace MyFinance.API.Controllers
     [Route("api/v1/budgets")]
     public class BudgetsController : ControllerBase
     {
-        readonly IContractMapper _mapper;
-        readonly IAgregator<BudgetEntity, long, BudgetDto, CreateBudgetDto, UpdateBudgetDto> _service;
+        private readonly IContractMapper _mapper;
+        private readonly ILogger<BudgetsController> _logger;
+        private readonly IAgregator<BudgetEntity, long, BudgetDto, CreateBudgetDto, UpdateBudgetDto> _service;
 
         public BudgetsController(
             IContractMapper mapper,
+            ILogger<BudgetsController> logger,
             IAgregator<BudgetEntity, long, BudgetDto, CreateBudgetDto, UpdateBudgetDto> service)
         {
             _mapper = mapper;
+            _logger = logger;
             _service = service;
         }
 

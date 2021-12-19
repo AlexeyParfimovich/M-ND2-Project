@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using MyFinance.DAL.Entities;
 using MyFinance.DAL.EntityTypeConfigs;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,8 +24,8 @@ namespace MyFinance.DAL
         public DbSet<BudgetEntity> Budgets { get; set; }
         public DbSet<CardEntity> Cards { get; set; }
 
-        public FinanceDbContext(DbContextOptions<FinanceDbContext> options)
-            : base(options)
+        public FinanceDbContext(
+            DbContextOptions<FinanceDbContext> options) : base(options)
         {
         }
 
@@ -36,7 +38,7 @@ namespace MyFinance.DAL
                 optionsBuilder.UseSqlServer(dbConnectionString);
             }
 #if DEBUG
-            optionsBuilder.LogTo(System.Console.WriteLine);
+            optionsBuilder.LogTo(message => Debug.WriteLine(message));
 #endif
         }
 
