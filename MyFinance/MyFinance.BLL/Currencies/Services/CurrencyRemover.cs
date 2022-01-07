@@ -5,7 +5,7 @@ using MyFinance.BLL.Common.Interfaces;
 
 namespace MyFinance.BLL.Currencies.Services
 {
-    public class CurrencyRemover : BaseRemoveService<CurrencyEntity, string>, IRemover<CurrencyEntity, string>
+    public class CurrencyRemover : BaseRemoveService<CurrencyEntity>, IRemover<CurrencyEntity>
     {
         public CurrencyRemover(IFinanceDbContext database): base(database)
         {

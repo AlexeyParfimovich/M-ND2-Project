@@ -3,8 +3,11 @@ using System;
 
 namespace MyFinance.DAL.Entities
 {
-    public class CardEntity: BaseTypedEntity<string>
+    public class CardEntity: BaseEntity
     {
+        [JsonProperty("id", Order = 0, Required = Required.Default)]
+        public string Id { get; set; }
+
         [JsonProperty("validThru", Order = 1, Required = Required.Default)]
         public DateTime? ValidThru { get; set; }
 

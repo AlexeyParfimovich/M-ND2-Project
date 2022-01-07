@@ -38,9 +38,13 @@ namespace MyFinance.API
 
             if (env.IsDevelopment())
             {
-                //app.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyFinance.API v1"));
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyFinance.API v1");
+                    //c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+                });
             }
 
             app.UseHttpsRedirection();

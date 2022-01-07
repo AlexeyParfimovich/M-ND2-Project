@@ -13,7 +13,6 @@ using MyFinance.BLL.Currencies.Dto;
 using MyFinance.BLL.Currencies.Services;
 using MyFinance.BLL.Common.Interfaces;
 using MyFinance.DAL.Entities;
-using MyFinance.BLL.Common.Services;
 
 namespace MyFinance.BLL
 {
@@ -21,19 +20,18 @@ namespace MyFinance.BLL
     {
         public static IServiceCollection RegisterBusinessServices(this IServiceCollection services)
         {
-            services.AddScoped<IContractMapper, ContractMapper>();
-
             // Add Budget services
             services.AddScoped<IValidator<CreateBudgetDto>, BudgetCreateValidator>();
             services.AddScoped<IValidator<UpdateBudgetDto>, BudgetUpdateValidator>();
 
             services.AddScoped<ICreator<BudgetEntity, BudgetDto, CreateBudgetDto>, BudgetCreator>();
             services.AddScoped<IUpdater<BudgetEntity, BudgetDto, UpdateBudgetDto>, BudgetUpdater>();
-            services.AddScoped<IFetcher<BudgetEntity, long, BudgetDto>, BudgetFetcher>();
-            services.AddScoped<IRemover<BudgetEntity, long>, BudgetRemover>();
+            services.AddScoped<IFetcher<BudgetEntity, BudgetDto>, BudgetFetcher>();
+            services.AddScoped<IRemover<BudgetEntity>, BudgetRemover>();
 
-            services.AddScoped<IAgregator<BudgetEntity, long, BudgetDto, CreateBudgetDto, UpdateBudgetDto>, BudgetAgregator>();
+            services.AddScoped<IAgregator<BudgetEntity, BudgetDto, CreateBudgetDto, UpdateBudgetDto>, BudgetAgregator>();
 
+            /*
             // add Account services
             services.AddScoped<IValidator<CreateAccountDto>, AccountCreateValidator>();
             services.AddScoped<IValidator<UpdateAccountDto>, AccountUpdateValidator>();
@@ -66,6 +64,7 @@ namespace MyFinance.BLL
             services.AddScoped<IRemover<CurrencyEntity, string>, CurrencyRemover>();
 
             services.AddScoped<IAgregator<CurrencyEntity, string, CurrencyDto, CreateCurrencyDto, UpdateCurrencyDto>, CurrencyAgregator>();
+            */
 
             return services;
         }

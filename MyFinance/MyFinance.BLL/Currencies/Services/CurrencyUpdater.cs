@@ -10,8 +10,7 @@ namespace MyFinance.BLL.Currencies.Services
     {
         public CurrencyUpdater(
              IFinanceDbContext database,
-             IValidator<UpdateCurrencyDto> validator,
-             IContractMapper mapper) : base(database, validator, mapper)
+             IValidator<UpdateCurrencyDto> validator) : base(database, validator)
         {
         }
     }

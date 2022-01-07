@@ -6,6 +6,7 @@ using MyFinance.BLL.Cards.Dto;
 
 namespace MyFinance.BLL.Cards.Services
 {
+    /*
     public class CardFetcher : BaseFetchService<CardEntity, string, CardDto>, IFetcher<CardEntity, string, CardDto>
     {
         public CardFetcher(
@@ -14,4 +15,5 @@ namespace MyFinance.BLL.Cards.Services
         {
         }
     }
+    */
 }

@@ -5,7 +5,7 @@ using MyFinance.BLL.Common.Interfaces;
 
 namespace MyFinance.BLL.Accounts.Services
 {
-    public class AccountRemover : BaseRemoveService<AccountEntity, long>, IRemover<AccountEntity, long>
+    public class AccountRemover : BaseRemoveService<AccountEntity>, IRemover<AccountEntity>
     {
         public AccountRemover(IFinanceDbContext database): base(database)
         {

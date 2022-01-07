@@ -10,21 +10,19 @@ using System.Threading.Tasks;
 namespace MyFinance.API.Controllers
 {
     [ApiController]
-    //[Route("api/v1/budgets/{budgetid:int}/accounts")]
     [Route("api/v1/accounts")]
+ //   [Route("api/v1/budgets/{budgetid:long}/accounts")]
     public class AccountsController : ControllerBase
     {
-        readonly IContractMapper _mapper;
-        readonly IAgregator<AccountEntity, long, AccountDto, CreateAccountDto, UpdateAccountDto> _service;
+        readonly IAgregator<AccountEntity, AccountDto, CreateAccountDto, UpdateAccountDto> _service;
 
         public AccountsController(
-            IContractMapper mapper,
-            IAgregator<AccountEntity, long, AccountDto, CreateAccountDto, UpdateAccountDto> service)
+            IAgregator<AccountEntity, AccountDto, CreateAccountDto, UpdateAccountDto> service)
         {
-            _mapper = mapper;
             _service = service;
         }
 
+        /*
         // GET api/Accounts
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AccountModel>>> Get()
@@ -97,5 +95,6 @@ namespace MyFinance.API.Controllers
 
             return Ok();
         }
+        */
     }
 }

@@ -1,9 +1,10 @@
 ﻿using MyFinance.DAL;
 using MyFinance.DAL.Entities;
+using MyFinance.BLL.Common.Exceptions;
 using MyFinance.BLL.Common.Interfaces;
+using MyFinance.BLL.Common.Infrastructure;
 using System.Threading.Tasks;
 using System;
-using MyFinance.BLL.Common.Exceptions;
 
 namespace MyFinance.BLL.Common.Abstracts
 {
@@ -12,23 +13,20 @@ namespace MyFinance.BLL.Common.Abstracts
     {
         protected readonly IFinanceDbContext _db;
         protected readonly IValidator<TPartialDto> _validator;
-        protected readonly IContractMapper _mapper;
 
         public BaseCreateService(
             IFinanceDbContext database,
-            IValidator<TPartialDto> validator,
-            IContractMapper mapper)
+            IValidator<TPartialDto> validator)
         {
             _db = database;
             _validator = validator;
-            _mapper = mapper;
         }
 
         public async Task<TDto> Create(TPartialDto dto)
         {
             await _validator.Validate(dto);
 
-            var entity = _mapper.Map<TPartialDto, TEntity>(dto);
+            var entity = ContractsMapper.Map<TPartialDto, TEntity>(dto);
 
             using var transaction = await _db.Context.Database.BeginTransactionAsync();
 
@@ -38,7 +36,7 @@ namespace MyFinance.BLL.Common.Abstracts
 
                 await _db.Context.SaveChangesAsync();
 
-                var result  = _mapper.Map<TEntity, TDto>(entry.Entity);
+                var result  = ContractsMapper.Map<TEntity, TDto>(entry.Entity);
 
                 await transaction.CommitAsync();
 

@@ -1,13 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MyFinance.DAL;
+﻿using MyFinance.DAL;
 using MyFinance.DAL.Entities;
 using MyFinance.BLL.Common.Interfaces;
+using MyFinance.BLL.Common.Infrastructure;
+using System;
 using System.Threading.Tasks;
+using System.Linq.Expressions;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace MyFinance.BLL.Common.Abstracts
 {
-    public abstract class BaseRemoveService<TEntity, TKey> : IRemover<TEntity, TKey>
-        where TEntity : BaseTypedEntity<TKey>
+    public abstract class BaseRemoveService<TEntity> : IRemover<TEntity>
+        where TEntity : BaseEntity
     {
         protected readonly IFinanceDbContext _db;
 
@@ -16,9 +20,19 @@ namespace MyFinance.BLL.Common.Abstracts
             _db = database;
         }
 
-        public async Task Remove(TKey key)
+        public async Task Remove(QueryFilter filter)
         {
-            var entity = await _db.Context.Set<TEntity>().FirstOrDefaultAsync(x => x.Id.Equals(key));
+            if (filter is null || filter.Conditions is null)
+            {
+                // throw exception
+            }
+
+            var parameter = Expression.Parameter(typeof(TEntity), "p");
+            var lambdaExpr = Expression.Lambda(
+                        FilterExpressionCreator.GetConditionsExpression(filter.Conditions.ToArray(), parameter),
+                        new List<ParameterExpression>() { parameter });
+
+            var entity = await _db.Context.Set<TEntity>().FirstOrDefaultAsync((Expression<Func<TEntity, bool>>)lambdaExpr);
 
             if (entity is not null)
             {

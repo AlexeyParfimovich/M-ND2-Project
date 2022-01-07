@@ -3,8 +3,11 @@ using System.Collections.Generic;
 
 namespace MyFinance.DAL.Entities
 {
-    public class CurrencyEntity: BaseTypedEntity<string>
+    public class CurrencyEntity: BaseEntity
     {
+        [JsonProperty("id", Order = 0, Required = Required.Default)]
+        public string Id { get; set; }
+
         [JsonProperty("name", Order = 1, Required = Required.Always)]
         public string Name { get; set; }
 

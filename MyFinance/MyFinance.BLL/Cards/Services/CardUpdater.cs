@@ -10,8 +10,7 @@ namespace MyFinance.BLL.Cards.Services
     {
         public CardUpdater(
              IFinanceDbContext database,
-             IValidator<UpdateCardDto> validator,
-             IContractMapper mapper) : base(database, validator, mapper)
+             IValidator<UpdateCardDto> validator) : base(database, validator)
         {
         }
     }

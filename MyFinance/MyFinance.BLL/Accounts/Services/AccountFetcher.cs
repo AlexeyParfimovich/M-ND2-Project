@@ -6,6 +6,7 @@ using MyFinance.BLL.Common.Interfaces;
 
 namespace MyFinance.BLL.Accounts.Services
 {
+    /*
     public class AccountFetcher : BaseFetchService<AccountEntity, long, AccountDto>, IFetcher<AccountEntity, long, AccountDto>
     {
         public AccountFetcher(
@@ -14,4 +15,5 @@ namespace MyFinance.BLL.Accounts.Services
         {
         }
     }
+    */
 }

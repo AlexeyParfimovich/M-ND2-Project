@@ -10,8 +10,7 @@ namespace MyFinance.BLL.Cards.Services
     {
         public CardCreator(
             IFinanceDbContext database,
-            IValidator<CreateCardDto> validator,
-            IContractMapper mapper) : base(database, validator, mapper)
+            IValidator<CreateCardDto> validator) : base(database, validator)
         {
         }
     }

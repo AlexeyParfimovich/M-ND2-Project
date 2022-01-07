@@ -10,8 +10,7 @@ namespace MyFinance.BLL.Budgets.Services
     {
         public BudgetCreator(
             IFinanceDbContext database,
-            IValidator<CreateBudgetDto> validator,
-            IContractMapper mapper) : base(database, validator, mapper)
+            IValidator<CreateBudgetDto> validator) : base(database, validator)
         {
         }
     }

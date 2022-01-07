@@ -10,8 +10,7 @@ namespace MyFinance.BLL.Accounts.Services
     {
         public AccountUpdater(
              IFinanceDbContext database,
-             IValidator<UpdateAccountDto> validator,
-             IContractMapper mapper) : base(database, validator, mapper)
+             IValidator<UpdateAccountDto> validator) : base(database, validator)
         {
         }
     }

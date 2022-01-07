@@ -5,6 +5,7 @@ using MyFinance.DAL.Entities;
 
 namespace MyFinance.BLL.Accounts
 {
+    /*
     public class AccountAgregator :
         BaseAgregator<AccountEntity, long, AccountDto, CreateAccountDto, UpdateAccountDto>,
         IAgregator<AccountEntity, long, AccountDto, CreateAccountDto, UpdateAccountDto>
@@ -17,4 +18,5 @@ namespace MyFinance.BLL.Accounts
         {
         }
     }
+    */
 }

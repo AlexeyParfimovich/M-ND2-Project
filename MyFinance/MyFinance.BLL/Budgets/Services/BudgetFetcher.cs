@@ -6,11 +6,10 @@ using MyFinance.BLL.Common.Interfaces;
 
 namespace MyFinance.BLL.Budgets.Services
 {
-    public class BudgetFetcher : BaseFetchService<BudgetEntity, long, BudgetDto>, IFetcher<BudgetEntity, long, BudgetDto>
+    public class BudgetFetcher : BaseFetchService<BudgetEntity, BudgetDto>, IFetcher<BudgetEntity, BudgetDto>
     {
         public BudgetFetcher(
-            IFinanceDbContext database,
-            IContractMapper mapper) : base (database, mapper)
+            IFinanceDbContext database) : base (database)
         {
         }
     }

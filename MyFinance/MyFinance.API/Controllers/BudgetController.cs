@@ -4,9 +4,8 @@ using MyFinance.DAL.Entities;
 using MyFinance.BLL.Budgets.Dto;
 using MyFinance.BLL.Common.Exceptions;
 using MyFinance.BLL.Common.Interfaces;
-using System.Collections.Generic;
+using MyFinance.BLL.Common.Infrastructure;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 
 namespace MyFinance.API.Controllers
 {
@@ -14,66 +13,64 @@ namespace MyFinance.API.Controllers
     [Route("api/v1/budgets")]
     public class BudgetsController : ControllerBase
     {
-        private readonly IContractMapper _mapper;
-        private readonly ILogger<BudgetsController> _logger;
-        private readonly IAgregator<BudgetEntity, long, BudgetDto, CreateBudgetDto, UpdateBudgetDto> _service;
+        //private readonly ILogger<BudgetsController> _logger;
+        private readonly IAgregator<BudgetEntity, BudgetDto, CreateBudgetDto, UpdateBudgetDto> _service;
 
         public BudgetsController(
-            IContractMapper mapper,
-            ILogger<BudgetsController> logger,
-            IAgregator<BudgetEntity, long, BudgetDto, CreateBudgetDto, UpdateBudgetDto> service)
+            //ILogger<BudgetsController> logger,
+            IAgregator<BudgetEntity, BudgetDto, CreateBudgetDto, UpdateBudgetDto> service)
         {
-            _mapper = mapper;
-            _logger = logger;
+            //_logger = logger;
             _service = service;
         }
 
-        // GET api/budgets
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<BudgetModel>>> Get()
-        {
-            var result = await _service.Fetcher.FetchAll();
-
-            if (result == null)
-                throw new NoContentException($"Data not found");
-
-            List<BudgetModel> models = new();
-            foreach (var dto in result)
-            {
-                models.Add(_mapper.Map<BudgetDto, BudgetModel>(dto));
-            }
-
-            return new ObjectResult(models);
-        }
-
-        // GET api/budgets/id
         [HttpGet]
         [Route("{id:long}")]
         public async Task<ActionResult<BudgetModel>> Get([FromRoute] long id)
         {
-            var dto = await _service.Fetcher.FetchByKey(id);
+            var filter = new BudgetFilterModel()
+            {
+                Id = new string[] { id.ToString() }            
+            };
 
-            if (dto == null)
+            var qFilter = ContractsMapper.MapQueryFilter<BudgetDto>(filter);
+
+            var result = await _service.Fetcher.FetchByFilter(qFilter);
+
+            if (result == null)
                 throw new NoContentException($"Data not found");
 
-            return new ObjectResult(_mapper.Map<BudgetDto, BudgetModel>(dto));
+            return new ObjectResult(ContractsMapper.MapEnumarable<BudgetDto, BudgetModel>(result));
         }
 
-        // POST api/budgets
+        
+        [HttpGet]
+        [Route("filter")]
+        public async Task<ActionResult<BudgetModel>> Filter([FromQuery] BudgetFilterModel filter)
+        {
+            var qFilter = ContractsMapper.MapQueryFilter<BudgetDto>(filter);
+
+            var result = await _service.Fetcher.FetchByFilter(qFilter);
+
+            if (result == null)
+                throw new NoContentException($"Data not found");
+
+            return new ObjectResult(ContractsMapper.MapEnumarable<BudgetDto, BudgetModel>(result));
+        }
+
         [HttpPost]
         public async Task<ActionResult<BudgetModel>> Post(CreateBudgetModel model)
         {
             if (model == null)
                 throw new DataNullReferenceException();
 
-            var dto = _mapper.Map<CreateBudgetModel, CreateBudgetDto>(model);
+            var dto = ContractsMapper.Map<CreateBudgetModel, CreateBudgetDto>(model);
 
             var result = await _service.Creator.Create(dto);
 
-            return Ok(_mapper.Map<BudgetDto, BudgetModel>(result));
+            return Ok(ContractsMapper.Map<BudgetDto, BudgetModel>(result));
         }
 
-        // PUT api/budgets/id
         [HttpPut]
         [Route("{id:long}")]
         public async Task<ActionResult<BudgetModel>> Put(UpdateBudgetModel model)
@@ -84,14 +81,13 @@ namespace MyFinance.API.Controllers
             if (model.Id <= 0)
                 throw new ValueOutOfRangeException();
 
-            var dto = _mapper.Map<UpdateBudgetModel, UpdateBudgetDto>(model);
+            var dto = ContractsMapper.Map<UpdateBudgetModel, UpdateBudgetDto>(model);
 
             var result = await _service.Updater.Update(dto);
 
-            return Ok(_mapper.Map<BudgetDto, BudgetModel>(result));
+            return Ok(ContractsMapper.Map<BudgetDto, BudgetModel>(result));
         }
 
-        // DELETE api/budgets/id
         [HttpDelete]
         [Route("{id:long}")]
         public async Task<ActionResult> Delete([FromRoute] long id)
@@ -99,10 +95,15 @@ namespace MyFinance.API.Controllers
             if (id <= 0)
                 throw new ValueOutOfRangeException();
 
-            await _service.Remover.Remove(id);
+            var filter = new BudgetFilterModel()
+            {
+                Id = new string[] { id.ToString() }
+            };
 
+            var qFilter = ContractsMapper.MapQueryFilter<BudgetDto>(filter);
+
+            await _service.Remover.Remove(qFilter);
             return Ok();
         }
-
     }
 }

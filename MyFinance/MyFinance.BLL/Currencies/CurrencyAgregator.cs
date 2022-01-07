@@ -5,6 +5,7 @@ using MyFinance.BLL.Common.Interfaces;
 
 namespace MyFinance.BLL.Currencies
 {
+    /*
     public class CurrencyAgregator :
         BaseAgregator<CurrencyEntity, string, CurrencyDto, CreateCurrencyDto, UpdateCurrencyDto>,
         IAgregator<CurrencyEntity, string, CurrencyDto, CreateCurrencyDto, UpdateCurrencyDto>
@@ -17,4 +18,5 @@ namespace MyFinance.BLL.Currencies
         {
         }
     }
+    */
 }

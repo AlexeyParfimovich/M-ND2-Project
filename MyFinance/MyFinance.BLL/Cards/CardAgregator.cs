@@ -5,6 +5,7 @@ using MyFinance.DAL.Entities;
 
 namespace MyFinance.BLL.Cards
 {
+    /*
     public class CardAgregator : 
         BaseAgregator<CardEntity, string, CardDto, CreateCardDto, UpdateCardDto>,
         IAgregator<CardEntity, string, CardDto, CreateCardDto, UpdateCardDto>
@@ -17,4 +18,5 @@ namespace MyFinance.BLL.Cards
         {
         }
     }
+    */
 }
