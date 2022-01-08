@@ -6,6 +6,7 @@ using MyFinance.BLL.Common.Exceptions;
 using MyFinance.BLL.Common.Interfaces;
 using MyFinance.BLL.Common.Infrastructure;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace MyFinance.API.Controllers
 {
@@ -13,14 +14,14 @@ namespace MyFinance.API.Controllers
     [Route("api/v1/budgets")]
     public class BudgetsController : ControllerBase
     {
-        //private readonly ILogger<BudgetsController> _logger;
+        private readonly ILogger<BudgetsController> _logger;
         private readonly IAgregator<BudgetEntity, BudgetDto, CreateBudgetDto, UpdateBudgetDto> _service;
 
         public BudgetsController(
-            //ILogger<BudgetsController> logger,
+            ILogger<BudgetsController> logger,
             IAgregator<BudgetEntity, BudgetDto, CreateBudgetDto, UpdateBudgetDto> service)
         {
-            //_logger = logger;
+            _logger = logger;
             _service = service;
         }
 
@@ -78,9 +79,6 @@ namespace MyFinance.API.Controllers
             if (model == null)
                 throw new DataNullReferenceException();
 
-            if (model.Id <= 0)
-                throw new ValueOutOfRangeException();
-
             var dto = ContractsMapper.Map<UpdateBudgetModel, UpdateBudgetDto>(model);
 
             var result = await _service.Updater.Update(dto);
@@ -92,9 +90,6 @@ namespace MyFinance.API.Controllers
         [Route("{id:long}")]
         public async Task<ActionResult> Delete([FromRoute] long id)
         {
-            if (id <= 0)
-                throw new ValueOutOfRangeException();
-
             var filter = new BudgetFilterModel()
             {
                 Id = new string[] { id.ToString() }

@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using MyFinance.DAL.Entities;
 using MyFinance.DAL.EntityTypeConfigs;
 using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -37,9 +35,6 @@ namespace MyFinance.DAL
                 string dbConnectionString = "server=localhost,49994;database=devdb;user id=sa;password=1234;";
                 optionsBuilder.UseSqlServer(dbConnectionString);
             }
-#if DEBUG
-            optionsBuilder.LogTo(message => Debug.WriteLine(message));
-#endif
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -49,7 +44,6 @@ namespace MyFinance.DAL
             modelBuilder.ApplyConfiguration(new BudgetTypeConfiguration());
             modelBuilder.ApplyConfiguration(new AccountTypeConfiguration());
             modelBuilder.ApplyConfiguration(new CardTypeConfiguration());
-
         }
 
         public override int SaveChanges()

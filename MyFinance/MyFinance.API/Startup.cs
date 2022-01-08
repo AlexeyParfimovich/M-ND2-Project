@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using MyFinance.API.Infrastructure;
+using Serilog;
 
 namespace MyFinance.API
 {
@@ -48,6 +49,8 @@ namespace MyFinance.API
             }
 
             app.UseHttpsRedirection();
+
+            app.UseSerilogRequestLogging();
 
             app.UseRouting();
 
