@@ -1,10 +1,11 @@
-using MyFinance.IdentityServer.Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MyFinance.IdentityServer.Database;
+using MyFinance.IdentityServer.Infrastructure;
 
 namespace MyFinance.IdentityServer
 {
@@ -36,7 +37,7 @@ namespace MyFinance.IdentityServer
                 .AddInMemoryApiScopes(ISConfig.GetApiScopes())
                 .AddInMemoryApiResources(ISConfig.GetApiResources())
                 .AddInMemoryIdentityResources(ISConfig.GetIdentityResources())
-                //.AddProfileService<ProfileService>()
+                .AddProfileService<ProfileService>()
                 .AddDeveloperSigningCredential();
 
             services.AddControllersWithViews();

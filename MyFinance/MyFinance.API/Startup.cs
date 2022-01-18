@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MyFinance.API.Infrastructure;
 using Serilog;
@@ -24,6 +25,12 @@ namespace MyFinance.API
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, config =>
                 {
+                    // Setup new token validation interval (defaults to - 300 seconds)
+                    config.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ClockSkew = System.TimeSpan.FromSeconds(10)
+                    };
+
                     // The Authority to use making OpenIdConnect calls
                     config.Authority = "https://localhost:6001";
                     config.Audience = "MyFinanceAPI";

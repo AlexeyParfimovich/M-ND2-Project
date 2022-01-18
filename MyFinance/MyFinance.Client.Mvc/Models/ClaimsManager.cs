@@ -14,17 +14,18 @@ namespace MyFinance.Client.Mvc.Models
     {
         public ClaimManager(HttpContext context, ClaimsPrincipal user)
         {
-            if (context == null) throw new ArgumentNullException(nameof(context));
+            if (context == null) 
+                throw new ArgumentNullException(nameof(context));
             Items = new List<ClaimViewer>();
 
-            var accessToken = context.GetTokenAsync("access_token").GetAwaiter().GetResult();
-            var idToken = context.GetTokenAsync("id_token").GetAwaiter().GetResult();
             var claims = user.Claims.ToList();
-            //var refreshToken = context.GetTokenAsync("refresh_token").GetAwaiter().GetResult();
+            var idToken = context.GetTokenAsync("id_token").GetAwaiter().GetResult();
+            var accessToken = context.GetTokenAsync("access_token").GetAwaiter().GetResult();
+            var refreshToken = context.GetTokenAsync("refresh_token").GetAwaiter().GetResult();
 
-            //AddTokenInfo("Refresh Token", refreshToken, true);
-            AddTokenInfo("Access Token", accessToken);
+            AddTokenInfo("Refresh Token", refreshToken, true);
             AddTokenInfo("Identity Token", idToken);
+            AddTokenInfo("Access Token", accessToken);
             AddTokenInfo("User Claims", claims);
         }
 

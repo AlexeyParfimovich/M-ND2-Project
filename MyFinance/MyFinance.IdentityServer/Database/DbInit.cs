@@ -12,12 +12,12 @@ namespace MyFinance.IdentityServer.Database
     {
         public static void Init(IServiceProvider serviceProvider)
         {
-            //var context = serviceProvider.GetService<AuthDbContext>();
             var userManager = serviceProvider.GetService<UserManager<IdentityUser>>();
 
             var user = new IdentityUser
             {
                 UserName = "TestUser",
+                Email = "test@test.by"
             };
 
             var result = userManager.CreateAsync(user, "p@ssw0rd").GetAwaiter().GetResult();

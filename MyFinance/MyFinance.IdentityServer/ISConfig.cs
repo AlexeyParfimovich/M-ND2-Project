@@ -10,16 +10,16 @@ namespace MyFinance.IdentityServer
         public static IEnumerable<Client> GetClients() =>
             new Client[]
             {
-                new Client()
-                {
-                    ClientId = "client_id",
-                    ClientSecrets = { new Secret("client_secret".ToSha256()) },
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    AllowedScopes =
-                    {
-                        "MyFinanceAPI"
-                    }
-                },
+                //new Client()
+                //{
+                //    ClientId = "client_id",
+                //    ClientSecrets = { new Secret("client_secret".ToSha256()) },
+                //    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                //    AllowedScopes =
+                //    {
+                //        "MyFinanceAPI"
+                //    }
+                //},
 
                 new Client()
                 {
@@ -43,6 +43,12 @@ namespace MyFinance.IdentityServer
 
                     // Set user claims always be added to the id token
                     //AlwaysIncludeUserClaimsInIdToken = true,
+
+                    // Lifetime of access token in seconds (defaults to 3600 seconds)
+                    AccessTokenLifetime = 10,
+
+                    // Enable Refresh Token be issued
+                    AllowOfflineAccess = true,
                 }
 
             };

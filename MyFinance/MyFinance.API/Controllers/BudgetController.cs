@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace MyFinance.API.Controllers
 {
@@ -108,6 +110,11 @@ namespace MyFinance.API.Controllers
         [Route("[action]")]
         public string Secret()
         {
+            //var accessToken = HttpContext.GetTokenAsync("access_token").GetAwaiter().GetResult();
+            //var tokenClaims = ((JwtSecurityToken)new JwtSecurityTokenHandler().ReadToken(accessToken)).Claims; //?.ToList();
+            //var idToken = HttpContext.GetTokenAsync("id_token").GetAwaiter().GetResult();
+            var userClaims = User.Claims;
+
             return "Secret string from MyFinance.API";
         }
     }
