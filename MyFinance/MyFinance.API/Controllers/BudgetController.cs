@@ -1,12 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MyFinance.API.Models;
+﻿using MyFinance.API.Models;
 using MyFinance.DAL.Entities;
 using MyFinance.BLL.Budgets.Dto;
 using MyFinance.BLL.Common.Exceptions;
 using MyFinance.BLL.Common.Interfaces;
 using MyFinance.BLL.Common.Infrastructure;
+using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MyFinance.API.Controllers
 {
@@ -26,8 +28,8 @@ namespace MyFinance.API.Controllers
         }
 
         [HttpGet]
-        [Route("{id:long}")]
-        public async Task<ActionResult<BudgetModel>> Get([FromRoute] long id)
+        [Route("{id:guid}")]
+        public async Task<ActionResult<BudgetModel>> Get([FromRoute] Guid id)
         {
             var filter = new BudgetFilterModel()
             {
@@ -73,7 +75,7 @@ namespace MyFinance.API.Controllers
         }
 
         [HttpPut]
-        [Route("{id:long}")]
+        [Route("{id:guid}")]
         public async Task<ActionResult<BudgetModel>> Put(UpdateBudgetModel model)
         {
             if (model == null)
@@ -87,8 +89,8 @@ namespace MyFinance.API.Controllers
         }
 
         [HttpDelete]
-        [Route("{id:long}")]
-        public async Task<ActionResult> Delete([FromRoute] long id)
+        [Route("{id:guid}")]
+        public async Task<ActionResult> Delete([FromRoute] Guid id)
         {
             var filter = new BudgetFilterModel()
             {
@@ -99,6 +101,14 @@ namespace MyFinance.API.Controllers
 
             await _service.Remover.Remove(qFilter);
             return Ok();
+        }
+
+        [HttpGet]
+        [Authorize]
+        [Route("[action]")]
+        public string Secret()
+        {
+            return "Secret string from MyFinance.API";
         }
     }
 }

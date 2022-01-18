@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -20,6 +21,13 @@ namespace MyFinance.API
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, config =>
+                {
+                    // The Authority to use making OpenIdConnect calls
+                    config.Authority = "https://localhost:6001";
+                    config.Audience = "MyFinanceAPI";
+                });
 
             DAL.ServiceCollectionExtensions.RegisterDatabaseContext(services);
             BLL.ServiceCollectionExtensions.RegisterBusinessServices(services);
@@ -44,7 +52,6 @@ namespace MyFinance.API
                 app.UseSwaggerUI(c =>
                 {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyFinance.API v1");
-                    //c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
                 });
             }
 
@@ -53,6 +60,8 @@ namespace MyFinance.API
             app.UseSerilogRequestLogging();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

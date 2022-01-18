@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MyFinance.DAL\MyFinance.DAL.csproj" />
+    <ProjectReference Include="..\MyFinance.DAL\MyFinance.API.DAL.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,7 @@
 ﻿#nullable enable
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System;
 
 namespace MyFinance.API.Models
 {
@@ -8,7 +9,7 @@ namespace MyFinance.API.Models
     {
         [FromRoute]
         [JsonProperty("id", Order = 0, Required = Required.Always)]
-        public long Id { get; set; }
+        public Guid Id { get; set; }
 
         [FromBody]
         [JsonProperty("name", Order = 1, Required = Required.Always)]

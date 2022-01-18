@@ -21,6 +21,7 @@ namespace MyFinance.DAL
         public DbSet<AccountEntity> Accounts { get; set; }
         public DbSet<BudgetEntity> Budgets { get; set; }
         public DbSet<CardEntity> Cards { get; set; }
+        public DbSet<UserEntity> Users { get; set; }
 
         public FinanceDbContext(
             DbContextOptions<FinanceDbContext> options) : base(options)
@@ -44,6 +45,7 @@ namespace MyFinance.DAL
             modelBuilder.ApplyConfiguration(new BudgetTypeConfiguration());
             modelBuilder.ApplyConfiguration(new AccountTypeConfiguration());
             modelBuilder.ApplyConfiguration(new CardTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new UserTypeConfiguration());
         }
 
         public override int SaveChanges()

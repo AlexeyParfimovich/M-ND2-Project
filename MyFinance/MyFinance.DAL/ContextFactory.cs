@@ -10,6 +10,10 @@ namespace MyFinance.DAL
     {
         private readonly ILogger<FinanceDbContext> _logger;
 
+        public ContextFactory()
+        {
+        }
+
         public ContextFactory(ILogger<FinanceDbContext> logger)
         {
             _logger = logger;

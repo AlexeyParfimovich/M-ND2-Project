@@ -20,6 +20,11 @@ namespace MyFinance.DAL.EntityTypeConfigs
                 .HasColumnType("decimal(18,2)")
                 .HasDefaultValue(0);
 
+            builder.HasOne(t => t.User)
+                .WithMany(t => t.Budgets)
+                .HasForeignKey(t => t.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             builder.HasOne(t => t.Currency)
                 .WithMany(t => t.Budgets)
                 .HasForeignKey(t => t.CurrencyId)

@@ -1,5 +1,6 @@
 ﻿using MyFinance.BLL.Common.Abstracts;
 using Newtonsoft.Json;
+using System;
 
 namespace MyFinance.BLL.Accounts.Dto
 {
@@ -12,7 +13,7 @@ namespace MyFinance.BLL.Accounts.Dto
         public string Name { get; set; }
 
         [JsonProperty("budgetId", Order = 3, Required = Required.Always)]
-        public long BudgetId { get; set; }
+        public Guid BudgetId { get; set; }
 
         [JsonProperty("currencyId", Order = 4, Required = Required.Always)]
         public string CurrencyId { get; set; }

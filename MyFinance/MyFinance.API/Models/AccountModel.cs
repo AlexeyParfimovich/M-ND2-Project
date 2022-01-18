@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 
 namespace MyFinance.API.Models
 {
@@ -14,7 +15,7 @@ namespace MyFinance.API.Models
         public decimal Balance { get; set; }
 
         [JsonProperty("budgetId", Order = 3, Required = Required.Always)]
-        public long BudgetId { get; set; }
+        public Guid BudgetId { get; set; }
 
         [JsonProperty("currencyId", Order = 4, Required = Required.Always)]
         public string CurrencyId { get; set; }

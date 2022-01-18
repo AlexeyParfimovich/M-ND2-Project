@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace MyFinance.DAL.Entities
@@ -15,7 +16,7 @@ namespace MyFinance.DAL.Entities
         public decimal Balance { get; set; }
 
         [JsonProperty("budgetId", Order = 3, Required = Required.Always)]
-        public long BudgetId { get; set; }
+        public Guid BudgetId { get; set; }
 
         [JsonIgnore]
         public BudgetEntity Budget { get; set; }

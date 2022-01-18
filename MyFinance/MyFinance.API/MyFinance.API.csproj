@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.13" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.12" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.12">
       <PrivateAssets>all</PrivateAssets>
@@ -15,8 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MyFinance.BLL\MyFinance.BLL.csproj" />
-    <ProjectReference Include="..\MyFinance.DAL\MyFinance.DAL.csproj" />
+    <ProjectReference Include="..\MyFinance.BLL\MyFinance.API.BLL.csproj" />
+    <ProjectReference Include="..\MyFinance.DAL\MyFinance.API.DAL.csproj" />
   </ItemGroup>
 
 </Project>

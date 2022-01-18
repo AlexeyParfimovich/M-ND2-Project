@@ -10,8 +10,8 @@ using MyFinance.DAL;
 namespace MyFinance.DAL.Migrations
 {
     [DbContext(typeof(FinanceDbContext))]
-    [Migration("20211213155651_Add_IsMainCurrency_field_migration")]
-    partial class Add_IsMainCurrency_field_migration
+    [Migration("20220117144849_Initial_migration")]
+    partial class Initial_migration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,15 +34,14 @@ namespace MyFinance.DAL.Migrations
                         .HasColumnType("decimal(18,2)")
                         .HasDefaultValue(0m);
 
-                    b.Property<long>("BudgetId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("BudgetId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(32)
-                        .HasColumnType("nvarchar(32)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CurrencyId")
                         .HasColumnType("nvarchar(3)");
@@ -59,8 +58,7 @@ namespace MyFinance.DAL.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UpdatedBy")
-                        .HasMaxLength(32)
-                        .HasColumnType("nvarchar(32)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -73,10 +71,9 @@ namespace MyFinance.DAL.Migrations
 
             modelBuilder.Entity("MyFinance.DAL.Entities.BudgetEntity", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Balance")
                         .ValueGeneratedOnAdd()
@@ -87,8 +84,7 @@ namespace MyFinance.DAL.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(32)
-                        .HasColumnType("nvarchar(32)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CurrencyId")
                         .HasColumnType("nvarchar(3)");
@@ -102,12 +98,16 @@ namespace MyFinance.DAL.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UpdatedBy")
-                        .HasMaxLength(32)
-                        .HasColumnType("nvarchar(32)");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CurrencyId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Budgets");
                 });
@@ -125,8 +125,7 @@ namespace MyFinance.DAL.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(32)
-                        .HasColumnType("nvarchar(32)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("LastTransaction")
                         .HasColumnType("decimal(20,0)");
@@ -135,8 +134,7 @@ namespace MyFinance.DAL.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UpdatedBy")
-                        .HasMaxLength(32)
-                        .HasColumnType("nvarchar(32)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("ValidThru")
                         .HasColumnType("datetime2");
@@ -158,8 +156,7 @@ namespace MyFinance.DAL.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(32)
-                        .HasColumnType("nvarchar(32)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("ExchangeRate")
                         .ValueGeneratedOnAdd()
@@ -180,8 +177,7 @@ namespace MyFinance.DAL.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UpdatedBy")
-                        .HasMaxLength(32)
-                        .HasColumnType("nvarchar(32)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -218,6 +214,57 @@ namespace MyFinance.DAL.Migrations
                         });
                 });
 
+            modelBuilder.Entity("MyFinance.DAL.Entities.UserEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("FirstName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("LastName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("7cc9ded4-cb29-468d-a143-5048772a8b27"),
+                            Email = "test@test.by",
+                            FirstName = "Test",
+                            LastName = "Testov",
+                            UserName = "TestUser"
+                        });
+                });
+
             modelBuilder.Entity("MyFinance.DAL.Entities.AccountEntity", b =>
                 {
                     b.HasOne("MyFinance.DAL.Entities.BudgetEntity", "Budget")
@@ -243,7 +290,15 @@ namespace MyFinance.DAL.Migrations
                         .HasForeignKey("CurrencyId")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("MyFinance.DAL.Entities.UserEntity", "User")
+                        .WithMany("Budgets")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("Currency");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MyFinance.DAL.Entities.CardEntity", b =>
@@ -271,6 +326,11 @@ namespace MyFinance.DAL.Migrations
                 {
                     b.Navigation("Accounts");
 
+                    b.Navigation("Budgets");
+                });
+
+            modelBuilder.Entity("MyFinance.DAL.Entities.UserEntity", b =>
+                {
                     b.Navigation("Budgets");
                 });
 #pragma warning restore 612, 618

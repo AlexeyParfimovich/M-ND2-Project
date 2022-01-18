@@ -19,8 +19,12 @@ namespace MyFinance.API.Models
         [JsonProperty("balance", Order = 2, Required = Required.Default)]
         public string[]? Balance { get; set; }
 
+
+        [JsonProperty("UserId", Order = 3, Required = Required.Always)]
+        public string[]? UserId { get; set; }
+
         [FromQuery]
-        [JsonProperty("currencyId", Order = 3, Required = Required.Default)]
+        [JsonProperty("currencyId", Order = 4, Required = Required.Default)]
         public string[]? CurrencyId { get; set; }
     }
 }
