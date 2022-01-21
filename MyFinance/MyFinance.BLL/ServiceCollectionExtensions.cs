@@ -24,12 +24,12 @@ namespace MyFinance.BLL
             services.AddScoped<IValidator<CreateBudgetDto>, BudgetCreateValidator>();
             services.AddScoped<IValidator<UpdateBudgetDto>, BudgetUpdateValidator>();
 
-            services.AddScoped<ICreator<BudgetEntity, BudgetDto, CreateBudgetDto>, BudgetCreator>();
-            services.AddScoped<IUpdater<BudgetEntity, BudgetDto, UpdateBudgetDto>, BudgetUpdater>();
-            services.AddScoped<IFetcher<BudgetEntity, BudgetDto>, BudgetFetcher>();
+            services.AddScoped<ICreator<BudgetEntity, FetchBudgetDto, CreateBudgetDto>, BudgetCreator>();
+            services.AddScoped<IUpdater<BudgetEntity, FetchBudgetDto, UpdateBudgetDto>, BudgetUpdater>();
+            services.AddScoped<IFetcher<BudgetEntity, FetchBudgetDto>, BudgetFetcher>();
             services.AddScoped<IRemover<BudgetEntity>, BudgetRemover>();
 
-            services.AddScoped<IAgregator<BudgetEntity, BudgetDto, CreateBudgetDto, UpdateBudgetDto>, BudgetAgregator>();
+            services.AddScoped<IAgregator<BudgetEntity, FetchBudgetDto, CreateBudgetDto, UpdateBudgetDto>, BudgetAgregator>();
 
             /*
             // add Account services

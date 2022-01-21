@@ -9,21 +9,20 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authentication;
-using System.IdentityModel.Tokens.Jwt;
 
 namespace MyFinance.API.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/v1/budgets")]
     public class BudgetsController : ControllerBase
     {
         private readonly ILogger<BudgetsController> _logger;
-        private readonly IAgregator<BudgetEntity, BudgetDto, CreateBudgetDto, UpdateBudgetDto> _service;
+        private readonly IAgregator<BudgetEntity, FetchBudgetDto, CreateBudgetDto, UpdateBudgetDto> _service;
 
         public BudgetsController(
             ILogger<BudgetsController> logger,
-            IAgregator<BudgetEntity, BudgetDto, CreateBudgetDto, UpdateBudgetDto> service)
+            IAgregator<BudgetEntity, FetchBudgetDto, CreateBudgetDto, UpdateBudgetDto> service)
         {
             _logger = logger;
             _service = service;
@@ -33,34 +32,31 @@ namespace MyFinance.API.Controllers
         [Route("{id:guid}")]
         public async Task<ActionResult<BudgetModel>> Get([FromRoute] Guid id)
         {
-            var filter = new BudgetFilterModel()
-            {
-                Id = new string[] { id.ToString() }            
-            };
-
-            var qFilter = ContractsMapper.MapQueryFilter<BudgetDto>(filter);
+            var qFilter = new QueryFilter()
+                .AddCondition("UserId", new Guid("49478411-92f0-4c3a-9c7e-69e7b2bbe8e7"))
+                .AddCondition("Id", id);
 
             var result = await _service.Fetcher.FetchByFilter(qFilter);
 
             if (result == null)
                 throw new NoContentException($"Data not found");
 
-            return new ObjectResult(ContractsMapper.MapEnumarable<BudgetDto, BudgetModel>(result));
+            return new ObjectResult(ContractsMapper.MapEnumarable<FetchBudgetDto, BudgetModel>(result));
         }
 
-        
         [HttpGet]
         [Route("filter")]
         public async Task<ActionResult<BudgetModel>> Filter([FromQuery] BudgetFilterModel filter)
         {
-            var qFilter = ContractsMapper.MapQueryFilter<BudgetDto>(filter);
+            var qFilter = ContractsMapper.MapQueryFilter<FetchBudgetDto>(filter)
+                .AddCondition("UserId", new Guid("49478411-92f0-4c3a-9c7e-69e7b2bbe8e7"));
 
             var result = await _service.Fetcher.FetchByFilter(qFilter);
 
             if (result == null)
                 throw new NoContentException($"Data not found");
 
-            return new ObjectResult(ContractsMapper.MapEnumarable<BudgetDto, BudgetModel>(result));
+            return new ObjectResult(ContractsMapper.MapEnumarable<FetchBudgetDto, BudgetModel>(result));
         }
 
         [HttpPost]
@@ -73,7 +69,7 @@ namespace MyFinance.API.Controllers
 
             var result = await _service.Creator.Create(dto);
 
-            return Ok(ContractsMapper.Map<BudgetDto, BudgetModel>(result));
+            return Ok(ContractsMapper.Map<FetchBudgetDto, BudgetModel>(result));
         }
 
         [HttpPut]
@@ -87,7 +83,7 @@ namespace MyFinance.API.Controllers
 
             var result = await _service.Updater.Update(dto);
 
-            return Ok(ContractsMapper.Map<BudgetDto, BudgetModel>(result));
+            return Ok(ContractsMapper.Map<FetchBudgetDto, BudgetModel>(result));
         }
 
         [HttpDelete]
@@ -99,14 +95,13 @@ namespace MyFinance.API.Controllers
                 Id = new string[] { id.ToString() }
             };
 
-            var qFilter = ContractsMapper.MapQueryFilter<BudgetDto>(filter);
+            var qFilter = ContractsMapper.MapQueryFilter<FetchBudgetDto>(filter);
 
             await _service.Remover.Remove(qFilter);
             return Ok();
         }
 
         [HttpGet]
-        [Authorize]
         [Route("[action]")]
         public string Secret()
         {

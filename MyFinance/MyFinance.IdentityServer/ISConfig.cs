@@ -10,24 +10,31 @@ namespace MyFinance.IdentityServer
         public static IEnumerable<Client> GetClients() =>
             new Client[]
             {
-                //new Client()
-                //{
-                //    ClientId = "client_id",
-                //    ClientSecrets = { new Secret("client_secret".ToSha256()) },
-                //    AllowedGrantTypes = GrantTypes.ClientCredentials,
-                //    AllowedScopes =
-                //    {
-                //        "MyFinanceAPI"
-                //    }
-                //},
+                new Client()
+                {
+                    ClientId = "client_id_swagger",
+                    ClientSecrets = { new Secret("client_secret_swagger".ToSha256()) },
+                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword, //.ClientCredentials,
+                    AllowedCorsOrigins =
+                    {
+                        "https://localhost:5001"
+                    },
+                    AllowedScopes =
+                    {
+                        "MyFinanceSwagger",
+                        IdentityServerConstants.StandardScopes.OpenId, // "openid"
+                        IdentityServerConstants.StandardScopes.Profile // "profile"
+                    }
+                },
 
                 new Client()
                 {
-                    ClientId = "mvc_client_id",
-                    ClientSecrets = { new Secret("mvc_client_secret".ToSha256()) },
+                    ClientId = "client_id_mvc",
+                    ClientSecrets = { new Secret("client_secret_mvc".ToSha256()) },
                     AllowedGrantTypes = GrantTypes.Code,
                     AllowedScopes =
                     {
+                        "MyFinanceMVC",
                         "MyFinanceAPI",
                         IdentityServerConstants.StandardScopes.OpenId, // "openid"
                         IdentityServerConstants.StandardScopes.Profile // "profile"
@@ -36,6 +43,10 @@ namespace MyFinance.IdentityServer
                     RedirectUris =
                     {
                         "https://localhost:9001/signin-oidc"
+                    },
+                    PostLogoutRedirectUris =
+                    {
+                        "https://localhost:9001/signout-callback-oidc"
                     },
 
                     // Specifies whether a consent page is required
@@ -57,6 +68,9 @@ namespace MyFinance.IdentityServer
             new ApiScope[]
             {
                 new ApiScope("MyFinanceAPI"),
+                new ApiScope("MyFinanceMVC"),
+                new ApiScope("MyFinanceSwagger"),
+
             };
 
         public static IEnumerable<ApiResource> GetApiResources() =>
@@ -66,7 +80,9 @@ namespace MyFinance.IdentityServer
                 {
                     Scopes =
                     {
-                        "MyFinanceAPI"
+                        "MyFinanceAPI",
+                        "MyFinanceMVC",
+                        "MyFinanceSwagger"
                     }
                 },
             };

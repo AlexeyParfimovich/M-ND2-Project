@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 
 namespace MyFinance.Client.Mvc
@@ -18,10 +18,10 @@ namespace MyFinance.Client.Mvc
                 // Set authentication scheme to "Cookie"
                 config.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 // Set challenge scheme to OpenId connect - "oidc"
-                config.DefaultChallengeScheme = "oidc";
+                config.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
             })
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddOpenIdConnect("oidc", config =>
+                .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, config =>
                 {
                     // Setup new token validation interval (defaults to - 300 seconds)
                     //config.TokenValidationParameters = new TokenValidationParameters
@@ -33,8 +33,8 @@ namespace MyFinance.Client.Mvc
                     config.Authority = "https://localhost:6001";
 
                     // The credentials to make a call
-                    config.ClientId = "mvc_client_id";
-                    config.ClientSecret = "mvc_client_secret";
+                    config.ClientId = "client_id_mvc";
+                    config.ClientSecret = "client_secret_mvc";
 
                     // Save token to authentication cookie
                     config.SaveTokens = true;
@@ -43,6 +43,7 @@ namespace MyFinance.Client.Mvc
                     config.ResponseType = "code";
 
                     // Add OrderApi scope to enable access to Orders server
+                    config.Scope.Add("MyFinanceMVC");
                     config.Scope.Add("MyFinanceAPI");
                     // Enable Refresh Token be issued
                     config.Scope.Add("offline_access");
@@ -63,10 +64,11 @@ namespace MyFinance.Client.Mvc
                     builder.RequireClaim(ClaimTypes.Email);
                 });
             });
+
             services.AddHttpClient();
 
-            services.AddControllersWithViews()
-                .AddRazorRuntimeCompilation();
+            services.AddControllersWithViews();
+                //.AddRazorRuntimeCompilation();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -84,7 +86,11 @@ namespace MyFinance.Client.Mvc
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapDefaultControllerRoute();
+                endpoints
+                //.MapDefaultControllerRoute()
+                .MapControllerRoute(name: "default",
+                    pattern: "{controller=Client}/{action=Index}/{id?}",
+                    defaults: new { controller = "Client", action = "Index" });
             });
         }
 

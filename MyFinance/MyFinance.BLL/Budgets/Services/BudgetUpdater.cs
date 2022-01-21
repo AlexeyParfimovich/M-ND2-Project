@@ -6,7 +6,7 @@ using MyFinance.BLL.Common.Interfaces;
 
 namespace MyFinance.BLL.Budgets.Services
 {
-    public class BudgetUpdater : BaseUpdateService<BudgetEntity, BudgetDto, UpdateBudgetDto>, IUpdater<BudgetEntity, BudgetDto, UpdateBudgetDto>
+    public class BudgetUpdater : BaseUpdateService<BudgetEntity, FetchBudgetDto, UpdateBudgetDto>, IUpdater<BudgetEntity, FetchBudgetDto, UpdateBudgetDto>
     {
         public BudgetUpdater(
              IFinanceDbContext database,

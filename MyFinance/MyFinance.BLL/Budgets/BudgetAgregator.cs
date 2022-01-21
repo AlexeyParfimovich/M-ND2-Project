@@ -6,13 +6,13 @@ using MyFinance.BLL.Common.Interfaces;
 namespace MyFinance.BLL.Budgets
 {
     public class BudgetAgregator : 
-        BaseAgregator<BudgetEntity, BudgetDto, CreateBudgetDto, UpdateBudgetDto>,
-        IAgregator<BudgetEntity, BudgetDto, CreateBudgetDto, UpdateBudgetDto>
+        BaseAgregator<BudgetEntity, FetchBudgetDto, CreateBudgetDto, UpdateBudgetDto>,
+        IAgregator<BudgetEntity, FetchBudgetDto, CreateBudgetDto, UpdateBudgetDto>
     {
         public BudgetAgregator(
-            ICreator<BudgetEntity, BudgetDto, CreateBudgetDto> creator,
-            IUpdater<BudgetEntity, BudgetDto, UpdateBudgetDto> updater,
-            IFetcher<BudgetEntity, BudgetDto> fetcher,
+            ICreator<BudgetEntity, FetchBudgetDto, CreateBudgetDto> creator,
+            IUpdater<BudgetEntity, FetchBudgetDto, UpdateBudgetDto> updater,
+            IFetcher<BudgetEntity, FetchBudgetDto> fetcher,
             IRemover<BudgetEntity> remover) : base(creator, updater, fetcher, remover)
         {
         }

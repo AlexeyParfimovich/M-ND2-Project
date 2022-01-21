@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 
 namespace MyFinance.Client.Mvc.Controllers
 {
@@ -26,6 +26,25 @@ namespace MyFinance.Client.Mvc.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        [Route("[action]")]
+        public IActionResult GoodBye()
+        {
+            return View();
+        }
+
+        [Route("[action]")]
+        public IActionResult Logout()
+        {
+            var parameters = new AuthenticationProperties 
+            {
+                RedirectUri = "/Client/GoodBye"
+            };
+
+            return SignOut(parameters,
+                OpenIdConnectDefaults.AuthenticationScheme,
+                CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
         [Authorize(Policy = "HasEmail")]

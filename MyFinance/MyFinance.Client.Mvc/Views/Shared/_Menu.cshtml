@@ -1,2 +1,10 @@
 ﻿<a asp-controller="Client" asp-action="Index">Index</a>
 <a asp-controller="Client" asp-action="Secret">Secret</a>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <text>
+        <a asp-controller="Client" asp-action="Logout">Log out</a>
+    </text>
+}
+

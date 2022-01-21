@@ -16,12 +16,6 @@ namespace MyFinance.DAL.EntityTypeConfigs
                 .HasMaxLength(256)
                 .IsRequired();
 
-            builder.Property(t => t.FirstName)
-                .HasMaxLength(256);
-
-            builder.Property(t => t.LastName)
-                .HasMaxLength(256);
-
             builder.Property(t => t.Email)
                 .HasMaxLength(256)
                 .IsRequired();
@@ -29,7 +23,7 @@ namespace MyFinance.DAL.EntityTypeConfigs
             builder.HasData(
                 new UserEntity[]
                 {
-                    new UserEntity { Id=System.Guid.NewGuid(), UserName="TestUser", FirstName = "Test", LastName = "Testov", Email = "test@test.by"},
+                    new UserEntity { Id=System.Guid.NewGuid(), UserName="Admin", Email = "admin@test.by"},
                 });
         }
     }

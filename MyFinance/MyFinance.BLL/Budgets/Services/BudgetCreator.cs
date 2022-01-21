@@ -6,7 +6,7 @@ using MyFinance.BLL.Common.Interfaces;
 
 namespace MyFinance.BLL.Budgets.Services
 {
-    public class BudgetCreator : BaseCreateService<BudgetEntity, BudgetDto, CreateBudgetDto>, ICreator<BudgetEntity, BudgetDto, CreateBudgetDto>
+    public class BudgetCreator : BaseCreateService<BudgetEntity, FetchBudgetDto, CreateBudgetDto>, ICreator<BudgetEntity, FetchBudgetDto, CreateBudgetDto>
     {
         public BudgetCreator(
             IFinanceDbContext database,

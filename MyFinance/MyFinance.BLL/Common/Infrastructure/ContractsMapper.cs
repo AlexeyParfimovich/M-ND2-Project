@@ -37,7 +37,7 @@ namespace MyFinance.BLL.Common.Infrastructure
 
         public static QueryFilter MapQueryFilter<TDto>(BaseFilterDto filter)
         {
-            var qFilter = new QueryFilter() { Conditions = new List<QueryCondition>() };
+            var qFilter = new QueryFilter();
 
             foreach (var fProp in filter.GetType().GetProperties())
             {
@@ -56,23 +56,32 @@ namespace MyFinance.BLL.Common.Infrastructure
                     if (dtoProp is null)
                         continue;
 
-                    if (fProp.PropertyType != typeof(string[]))
-                        throw new Exception($"Условия '{fProp.Name}' фильтра заданы не корректно: {fValue}");
-
-                    foreach (var v in (string[])fValue)
+                    if (fProp.PropertyType == typeof(string[]))
                     {
-                        var p = v.Split(':');
+                        foreach (var v in (string[])fValue)
+                        {
+                            var p = v.Split(':');
 
-                        if (p is null || p.Length == 0 || p.Length > 2)
-                            throw new Exception($"Условия '{fProp.Name}' фильтра заданы не корректно: {fValue}");
+                            if (p is null || p.Length == 0 || p.Length > 2)
+                                throw new Exception($"Условия '{fProp.Name}' фильтра заданы не корректно: {fValue}");
 
+                            qFilter.Conditions.Add(new QueryCondition
+                            {
+                                Property = fProp.Name,
+                                Operator = p.Length == 1 ? "" : p[0],
+                                Data = p.Length == 1
+                                    ? Convert.ChangeType(p[0], dtoProp.PropertyType)
+                                    : Convert.ChangeType(p[1], dtoProp.PropertyType)
+                            });
+                        }
+                    }
+                    else
+                    {
                         qFilter.Conditions.Add(new QueryCondition
                         {
                             Property = fProp.Name,
-                            Operator = p.Length == 1 ? "" : p[0],
-                            Data = p.Length == 1
-                                ? Convert.ChangeType(p[0], dtoProp.PropertyType)
-                                : Convert.ChangeType(p[1], dtoProp.PropertyType)
+                            Operator = "",
+                            Data = Convert.ChangeType(fValue, dtoProp.PropertyType)
                         });
                     }
                 }

@@ -27,11 +27,20 @@ namespace MyFinance.IdentityServer
             })
             .AddEntityFrameworkStores<AuthDbContext>();
 
-            services.AddIdentityServer(options =>
+            services.ConfigureApplicationCookie(config => 
             {
-                // Setup custom IS login endpoint Url
-                options.UserInteraction.LoginUrl = "/Auth/Login";
-            })
+                config.LoginPath = "/Auth/Login";
+                config.LogoutPath = "/Auth/Logout";
+                config.Cookie.Name = "IdentifyServer.Cookies";
+            });
+
+            services.AddIdentityServer()
+                //.AddIdentityServer(options =>
+                //{
+                //    // Setup custom IS login endpoint Url
+                //    options.UserInteraction.LoginUrl = "/Auth/Login";
+                //    options.UserInteraction.LogoutUrl = "/Auth/Logout";
+                //})
                 .AddAspNetIdentity<IdentityUser>()
                 .AddInMemoryClients(ISConfig.GetClients())
                 .AddInMemoryApiScopes(ISConfig.GetApiScopes())
