@@ -10,6 +10,7 @@ namespace MyFinance.IdentityServer
         public static IEnumerable<Client> GetClients() =>
             new Client[]
             {
+                // Add MyFinance API Swagger Client
                 new Client()
                 {
                     ClientId = "client_id_swagger",
@@ -25,6 +26,7 @@ namespace MyFinance.IdentityServer
                     }
                 },
 
+                // Add MyFinance MVC Client
                 new Client()
                 {
                     ClientId = "client_id_mvc",
@@ -33,8 +35,8 @@ namespace MyFinance.IdentityServer
                     AllowedGrantTypes = GrantTypes.Code,
                     AllowedScopes =
                     {
-                        "MyFinanceMVC",
                         "MyFinanceAPI",
+                        "MyFinanceClientMVC",
                         IdentityServerConstants.StandardScopes.OpenId, // "openid"
                         IdentityServerConstants.StandardScopes.Profile // "profile"
                     },
@@ -48,6 +50,7 @@ namespace MyFinance.IdentityServer
                     AllowOfflineAccess = true, // Enable Refresh Token be issued
                 },
 
+                // Add MyFinance JS Http Client
                 new Client()
                 {
                     ClientId = "client_id_js",
@@ -57,6 +60,7 @@ namespace MyFinance.IdentityServer
                     AllowedScopes =
                     {
                         "MyFinanceAPI",
+                        "MyFinanceClientJS",
                         IdentityServerConstants.StandardScopes.OpenId, // "openid"
                         IdentityServerConstants.StandardScopes.Profile // "profile"
                     },
@@ -78,28 +82,28 @@ namespace MyFinance.IdentityServer
 
             };
 
-        internal static IEnumerable<ApiScope> GetApiScopes() =>
-            new ApiScope[]
-            {
-                new ApiScope("MyFinanceAPI"),
-                new ApiScope("MyFinanceSwagger"),
-                //new ApiScope("MyFinanceClientJS"),
-                new ApiScope("MyFinanceClientMVC"),
-            };
+        internal static IEnumerable<ApiScope> GetApiScopes()
+        {
+            yield return new ApiScope("MyFinanceAPI");
+            yield return new ApiScope("MyFinanceSwagger");
+            yield return new ApiScope("MyFinanceClientJS");
+            yield return new ApiScope("MyFinanceClientMVC");
+        }
 
-        public static IEnumerable<ApiResource> GetApiResources() =>
-            new ApiResource[]
+        public static IEnumerable<ApiResource> GetApiResources()
+        {
+            yield return new ApiResource("MyFinanceAPI")
             {
-                new ApiResource("MyFinanceAPI")
+                Scopes =
                 {
-                    Scopes =
-                    {
-                        "MyFinanceAPI",
-                        "MyFinanceSwagger",
-                        "MyFinanceClientMVC",
-                    }
-                },
+                    "MyFinanceAPI",
+                    "MyFinanceSwagger",
+                }
             };
+            yield return new ApiResource("MyFinanceSwagger");
+            yield return new ApiResource("MyFinanceClientJS");
+            yield return new ApiResource("MyFinanceClientMVC");
+        }
 
         public static IEnumerable<IdentityResource> GetIdentityResources() =>
             new IdentityResource[]

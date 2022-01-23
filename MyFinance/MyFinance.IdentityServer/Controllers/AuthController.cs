@@ -30,7 +30,7 @@ namespace MyFinance.IdentityServer.Controllers
 
             return View(new LoginViewModel
             {
-                UserName = "TestUser",
+                UserName = "Admin",
                 Password = "p@ssw0rd",
                 ReturnUrl = returnUrl
             });

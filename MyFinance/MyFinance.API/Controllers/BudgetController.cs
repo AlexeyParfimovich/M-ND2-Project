@@ -107,7 +107,7 @@ namespace MyFinance.API.Controllers
             //var accessToken = HttpContext.GetTokenAsync("access_token").GetAwaiter().GetResult();
             //var tokenClaims = ((JwtSecurityToken)new JwtSecurityTokenHandler().ReadToken(accessToken)).Claims; //?.ToList();
             //var idToken = HttpContext.GetTokenAsync("id_token").GetAwaiter().GetResult();
-            var userClaims = User.Claims;
+            //var userClaims = User.Claims;
 
             return "Secret string from MyFinance.API";
         }

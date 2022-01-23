@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MyFinance.IdentityServer.Database;
@@ -11,11 +12,20 @@ namespace MyFinance.IdentityServer
 {
     public class Startup
     {
+        private readonly IConfiguration _configuration;
+
+        public Startup(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AuthDbContext>(config =>
             {
-                config.UseInMemoryDatabase("AuthDb");
+                config
+                //.UseInMemoryDatabase("AuthDb");
+                .UseSqlServer(_configuration.GetConnectionString(nameof(AuthDbContext)));
             })
             .AddIdentity<IdentityUser, IdentityRole>(config =>
             {
@@ -35,12 +45,6 @@ namespace MyFinance.IdentityServer
             });
 
             services.AddIdentityServer()
-                //.AddIdentityServer(options =>
-                //{
-                //    // Setup custom IS login endpoint Url
-                //    options.UserInteraction.LoginUrl = "/Auth/Login";
-                //    options.UserInteraction.LogoutUrl = "/Auth/Logout";
-                //})
                 .AddAspNetIdentity<IdentityUser>()
                 .AddInMemoryClients(ISConfig.GetClients())
                 .AddInMemoryApiScopes(ISConfig.GetApiScopes())

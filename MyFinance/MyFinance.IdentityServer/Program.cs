@@ -13,7 +13,9 @@ namespace MyFinance.IdentityServer
 
             using (var scope = host.Services.CreateScope())
             {
+#if DEBUG
                 DbInit.Init(scope.ServiceProvider);
+#endif
             }
 
             host.Run();

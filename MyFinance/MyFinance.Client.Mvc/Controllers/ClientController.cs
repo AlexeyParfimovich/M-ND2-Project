@@ -77,8 +77,8 @@ namespace MyFinance.Client.Mvc.Controllers
             var resultRefreshTokenAsync = await refreshClient.RequestRefreshTokenAsync(new RefreshTokenRequest
             {
                 Address = "https://localhost:6001/connect/token",
-                ClientId = "mvc_client_id",
-                ClientSecret = "mvc_client_secret",
+                ClientId = "client_id_mvc",
+                ClientSecret = "client_secret_mvc",
                 RefreshToken = refreshToken,
                 Scope = "openid MyFinanceAPI offline_access"
             });

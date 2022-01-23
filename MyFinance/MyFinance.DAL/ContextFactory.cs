@@ -30,7 +30,7 @@ namespace MyFinance.DAL
                 .Build();
 
             // получить строку подключения из файла конфигурации
-            var connectionString = config.GetConnectionString("DefaultConnection");
+            var connectionString = config.GetConnectionString(nameof(FinanceDbContext));
             optionsBuilder.UseSqlServer(connectionString);
 #if DEBUG
             optionsBuilder.LogTo(message => _logger.LogDebug(message));

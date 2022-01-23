@@ -16,8 +16,8 @@ namespace MyFinance.IdentityServer.Database
 
             var user = new IdentityUser
             {
-                UserName = "TestUser",
-                Email = "test@test.by"
+                UserName = "Admin",
+                Email = "admin@test.by"
             };
 
             var result = userManager.CreateAsync(user, "p@ssw0rd").GetAwaiter().GetResult();
