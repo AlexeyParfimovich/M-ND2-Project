@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinance.API", "MyFinance.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinance.IdentityServer", "MyFinance.IdentityServer\MyFinance.IdentityServer.csproj", "{F9BDF856-1C30-4ABE-8F1D-5373C45535C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyFinance.Client.Mvc", "MyFinance.Client.Mvc\MyFinance.Client.Mvc.csproj", "{FE34427D-102B-4E77-9ECE-F4AB1E1D88E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinance.Client.Mvc", "MyFinance.Client.Mvc\MyFinance.Client.Mvc.csproj", "{FE34427D-102B-4E77-9ECE-F4AB1E1D88E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyFinance.Client.JS", "MyFinance.Client.JS\MyFinance.Client.JS.csproj", "{9C2AD8F1-8070-4FF3-BB3C-C41FEC2291AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{FE34427D-102B-4E77-9ECE-F4AB1E1D88E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE34427D-102B-4E77-9ECE-F4AB1E1D88E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE34427D-102B-4E77-9ECE-F4AB1E1D88E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C2AD8F1-8070-4FF3-BB3C-C41FEC2291AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C2AD8F1-8070-4FF3-BB3C-C41FEC2291AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C2AD8F1-8070-4FF3-BB3C-C41FEC2291AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C2AD8F1-8070-4FF3-BB3C-C41FEC2291AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

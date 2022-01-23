@@ -66,6 +66,7 @@ namespace MyFinance.API.Controllers
                 throw new DataNullReferenceException();
 
             var dto = ContractsMapper.Map<CreateBudgetModel, CreateBudgetDto>(model);
+            dto.UserId = new Guid("49478411-92f0-4c3a-9c7e-69e7b2bbe8e7");
 
             var result = await _service.Creator.Create(dto);
 
@@ -80,6 +81,7 @@ namespace MyFinance.API.Controllers
                 throw new DataNullReferenceException();
 
             var dto = ContractsMapper.Map<UpdateBudgetModel, UpdateBudgetDto>(model);
+            dto.UserId = new Guid("49478411-92f0-4c3a-9c7e-69e7b2bbe8e7");
 
             var result = await _service.Updater.Update(dto);
 
@@ -90,12 +92,9 @@ namespace MyFinance.API.Controllers
         [Route("{id:guid}")]
         public async Task<ActionResult> Delete([FromRoute] Guid id)
         {
-            var filter = new BudgetFilterModel()
-            {
-                Id = new string[] { id.ToString() }
-            };
-
-            var qFilter = ContractsMapper.MapQueryFilter<FetchBudgetDto>(filter);
+            var qFilter = new QueryFilter()
+                .AddCondition("UserId", new Guid("49478411-92f0-4c3a-9c7e-69e7b2bbe8e7"))
+                .AddCondition("Id", id);
 
             await _service.Remover.Remove(qFilter);
             return Ok();

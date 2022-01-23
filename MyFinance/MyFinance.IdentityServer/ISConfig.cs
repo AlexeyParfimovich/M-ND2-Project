@@ -14,11 +14,9 @@ namespace MyFinance.IdentityServer
                 {
                     ClientId = "client_id_swagger",
                     ClientSecrets = { new Secret("client_secret_swagger".ToSha256()) },
-                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword, //.ClientCredentials,
-                    AllowedCorsOrigins =
-                    {
-                        "https://localhost:5001"
-                    },
+
+                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+                    AllowedCorsOrigins = { "https://localhost:5001" },
                     AllowedScopes =
                     {
                         "MyFinanceSwagger",
@@ -31,6 +29,7 @@ namespace MyFinance.IdentityServer
                 {
                     ClientId = "client_id_mvc",
                     ClientSecrets = { new Secret("client_secret_mvc".ToSha256()) },
+
                     AllowedGrantTypes = GrantTypes.Code,
                     AllowedScopes =
                     {
@@ -40,27 +39,42 @@ namespace MyFinance.IdentityServer
                         IdentityServerConstants.StandardScopes.Profile // "profile"
                     },
 
-                    RedirectUris =
+                    RedirectUris = { "https://localhost:9001/signin-oidc" },
+                    PostLogoutRedirectUris = { "https://localhost:9001/signout-callback-oidc" },
+
+                    RequireConsent = false, //Specifies whether a consent page is required
+                    //AlwaysIncludeUserClaimsInIdToken = true, //Set user claims always be added to the id token
+                    //AccessTokenLifetime = 10, // Lifetime of access token in seconds (defaults to 3600 seconds)
+                    AllowOfflineAccess = true, // Enable Refresh Token be issued
+                },
+
+                new Client()
+                {
+                    ClientId = "client_id_js",
+
+                    AllowedGrantTypes = GrantTypes.Code,
+                    AllowedCorsOrigins = { "https://localhost:10001" },
+                    AllowedScopes =
                     {
-                        "https://localhost:9001/signin-oidc"
-                    },
-                    PostLogoutRedirectUris =
-                    {
-                        "https://localhost:9001/signout-callback-oidc"
+                        "MyFinanceAPI",
+                        IdentityServerConstants.StandardScopes.OpenId, // "openid"
+                        IdentityServerConstants.StandardScopes.Profile // "profile"
                     },
 
-                    // Specifies whether a consent page is required
+                    RedirectUris = 
+                    { 
+                        "https://localhost:10001/callback.html",
+                        "https://localhost:10001/refresh.html",
+                    },
+                    PostLogoutRedirectUris = { "https://localhost:10001/index.html" },
+
+                    RequireClientSecret = false,
                     RequireConsent = false,
+                    RequirePkce = true,
 
-                    // Set user claims always be added to the id token
-                    //AlwaysIncludeUserClaimsInIdToken = true,
-
-                    // Lifetime of access token in seconds (defaults to 3600 seconds)
-                    AccessTokenLifetime = 10,
-
-                    // Enable Refresh Token be issued
+                    //AccessTokenLifetime = 10, // Lifetime of access token in seconds (defaults to 3600 seconds)
                     AllowOfflineAccess = true,
-                }
+                },
 
             };
 
@@ -68,9 +82,9 @@ namespace MyFinance.IdentityServer
             new ApiScope[]
             {
                 new ApiScope("MyFinanceAPI"),
-                new ApiScope("MyFinanceMVC"),
                 new ApiScope("MyFinanceSwagger"),
-
+                //new ApiScope("MyFinanceClientJS"),
+                new ApiScope("MyFinanceClientMVC"),
             };
 
         public static IEnumerable<ApiResource> GetApiResources() =>
@@ -81,8 +95,8 @@ namespace MyFinance.IdentityServer
                     Scopes =
                     {
                         "MyFinanceAPI",
-                        "MyFinanceMVC",
-                        "MyFinanceSwagger"
+                        "MyFinanceSwagger",
+                        "MyFinanceClientMVC",
                     }
                 },
             };

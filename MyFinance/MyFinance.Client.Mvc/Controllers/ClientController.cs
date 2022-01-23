@@ -14,7 +14,6 @@ namespace MyFinance.Client.Mvc.Controllers
     [Route("[controller]")]
     public class ClientController : Controller
     {
-
         private readonly IHttpClientFactory _httpClientFactory;
 
         public ClientController(IHttpClientFactory httpClientFactory)

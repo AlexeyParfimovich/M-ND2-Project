@@ -43,7 +43,7 @@ namespace MyFinance.Client.Mvc
                     config.ResponseType = "code";
 
                     // Add OrderApi scope to enable access to Orders server
-                    config.Scope.Add("MyFinanceMVC");
+                    config.Scope.Add("MyFinanceClientMVC");
                     config.Scope.Add("MyFinanceAPI");
                     // Enable Refresh Token be issued
                     config.Scope.Add("offline_access");

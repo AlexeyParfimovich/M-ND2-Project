@@ -26,21 +26,6 @@ namespace MyFinance.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            //services
-            //    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            //    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, config =>
-            //    {
-            //        // Setup new token validation interval (defaults to - 300 seconds)
-            //        config.TokenValidationParameters = new TokenValidationParameters
-            //        {
-            //            ClockSkew = System.TimeSpan.FromSeconds(10)
-            //        };
-
-            //        // The Authority to use making OpenIdConnect calls
-            //        config.Authority = "https://localhost:6001";
-            //        config.Audience = "MyFinanceAPI";
-            //    });
-
             DAL.ServiceCollectionExtensions.RegisterDatabaseContext(services);
             BLL.ServiceCollectionExtensions.RegisterBusinessServices(services);
 
@@ -65,7 +50,7 @@ namespace MyFinance.API
                                 TokenUrl = new Uri("https://localhost:6001/connect/token"),
                                 Scopes = new Dictionary<string, string>()
                                 {
-                                    // If scopes are not specified, then they are not requested during authentication in swager
+                                    // If scopes are not specified, they are not requested during authentication
                                     //{"MyFinanceAPI","MyFinance application REST API"}
                                 }
                             }
@@ -102,11 +87,17 @@ namespace MyFinance.API
                 .AddIdentityServerAuthentication(options => 
                 {
                     options.ApiName = "MyFinanceAPI";
-                    options.Authority = "https://localhost:6001";
+                    options.Authority = "https://localhost:6001"; // IdentityServer host
                     options.RequireHttpsMetadata = false;
                 });
 
             services.AddAuthorization();
+
+            services.AddCors(options =>
+                {   // allow everything
+                    options.AddPolicy("DefaultPolicy", builder =>
+                        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+                });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -134,6 +125,8 @@ namespace MyFinance.API
             app.UseSerilogRequestLogging();
 
             app.UseRouting();
+
+            app.UseCors("DefaultPolicy"); // Enable cross-domain requests based on the policy configured above.
 
             app.UseAuthentication();
             app.UseAuthorization();
