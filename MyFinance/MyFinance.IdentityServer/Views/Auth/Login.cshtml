@@ -1,6 +1,8 @@
 ﻿@model LoginViewModel
 <h1>Login</h1>
 
+<a asp-controller="Auth" asp-action="Register">[Register new user]</a>
+
 <form asp-controller="Auth" , asp-action="Login" method="post">
     <div asp-validation-summary="All"></div>
 

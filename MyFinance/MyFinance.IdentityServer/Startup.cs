@@ -7,16 +7,20 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MyFinance.IdentityServer.Database;
 using MyFinance.IdentityServer.Infrastructure;
+using System.IO;
+using System.Security.Cryptography.X509Certificates;
 
 namespace MyFinance.IdentityServer
 {
     public class Startup
     {
         private readonly IConfiguration _configuration;
+        private readonly IHostEnvironment _environment;
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostEnvironment environment)
         {
             _configuration = configuration;
+            _environment = environment;
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -44,6 +48,10 @@ namespace MyFinance.IdentityServer
                 config.Cookie.Name = "IdentifyServer.Cookies";
             });
 
+            //Create signing credential certificate file
+            //var _filePath = Path.Combine(_environment.ContentRootPath, "ISCredential_certificate.pfx");
+            //var _certificate = new X509Certificate2(_filePath, "p@ssw0rd");
+
             services.AddIdentityServer()
                 .AddAspNetIdentity<IdentityUser>()
                 .AddInMemoryClients(ISConfig.GetClients())
@@ -51,6 +59,7 @@ namespace MyFinance.IdentityServer
                 .AddInMemoryApiResources(ISConfig.GetApiResources())
                 .AddInMemoryIdentityResources(ISConfig.GetIdentityResources())
                 .AddProfileService<ProfileService>()
+                //.AddSigningCredential(_certificate);
                 .AddDeveloperSigningCredential();
 
             services.AddControllersWithViews();

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using IdentityServer4.Services;
+using System.Security.Claims;
 
 namespace MyFinance.IdentityServer.Controllers
 {
@@ -26,30 +27,7 @@ namespace MyFinance.IdentityServer.Controllers
         [Route("[action]")]
         public IActionResult Login(string returnUrl)
         {
-            //return View();
-
-            return View(new LoginViewModel
-            {
-                UserName = "Admin",
-                Password = "p@ssw0rd",
-                ReturnUrl = returnUrl
-            });
-        }
-
-        [Route("[action]")]
-        public async Task<IActionResult> LogoutAsync(string logoutId)
-        {
-            // Signout and clean everything
-            await _signinManager.SignOutAsync();
-
-            var result = await _interactionService.GetLogoutContextAsync(logoutId);
-
-            if (string.IsNullOrEmpty(result.PostLogoutRedirectUri))
-            {
-                return RedirectToAction("Login", "Auth");
-            }
-
-            return Redirect(result.PostLogoutRedirectUri);
+            return View();
         }
 
         [HttpPost]
@@ -79,6 +57,72 @@ namespace MyFinance.IdentityServer.Controllers
             // TODO: check for other bad results
             ModelState.AddModelError("UserName", $"Signin faults: {result}");
             return View(model);
+        }
+
+        [Route("[action]")]
+        public IActionResult Register(string returnUrl)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await _userManager.FindByNameAsync(model.UserName);
+
+            if (user is not null)
+            {
+                ModelState.AddModelError("UserName", "Specified user name already exists");
+                return View(model);
+            }
+
+            user = await _userManager.FindByEmailAsync(model.Email);
+
+            if (user is not null)
+            {
+                ModelState.AddModelError("UserName", "Specified email already exists");
+                return View(model);
+            }
+
+            user = new IdentityUser
+            {
+                UserName = model.UserName,
+                Email = model.Email
+            };
+
+            var result = _userManager.CreateAsync(user, model.Password).GetAwaiter().GetResult();
+            if (result.Succeeded)
+            {
+                _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, "User")).GetAwaiter().GetResult();
+
+                return Redirect(model.ReturnUrl);
+            }
+
+            // TODO: check for other bad results
+            ModelState.AddModelError("UserName", $"Registration faults: {result}");
+            return View(model);
+        }
+
+        [Route("[action]")]
+        public async Task<IActionResult> Logout(string logoutId)
+        {
+            // Signout and clean everything
+            await _signinManager.SignOutAsync();
+
+            var result = await _interactionService.GetLogoutContextAsync(logoutId);
+
+            if (string.IsNullOrEmpty(result.PostLogoutRedirectUri))
+            {
+                return RedirectToAction("Login", "Auth");
+            }
+
+            return Redirect(result.PostLogoutRedirectUri);
         }
     }
 }

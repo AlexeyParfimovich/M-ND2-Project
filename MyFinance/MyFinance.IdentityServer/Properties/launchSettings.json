@@ -3,7 +3,7 @@
     "MyFinance.IdentityServer": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
-      "launchBrowser": false,
+      "launchBrowser": true,
       "launchUrl": "Auth/Login",
       "applicationUrl": "https://localhost:6001;http://localhost:6000",
       "environmentVariables": {
