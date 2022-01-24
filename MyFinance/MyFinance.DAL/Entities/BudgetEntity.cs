@@ -15,10 +15,10 @@ namespace MyFinance.DAL.Entities
         [JsonProperty("balance", Order = 2, Required = Required.Default)]
         public decimal Balance { get; set; }
 
-        [JsonProperty("UserId", Order = 3, Required = Required.Always)]
+        [JsonProperty("UserId", Order = 3, Required = Required.Default)]
         public Guid UserId { get; set; }
 
-        public UserEntity User { get; set; }
+        //public UserEntity User { get; set; }
 
         [JsonProperty("currencyId", Order = 4, Required = Required.Always)]
         public string CurrencyId { get; set; }

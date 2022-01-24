@@ -11,6 +11,9 @@ using MyFinance.BLL.Cards.Services;
 using MyFinance.BLL.Currencies;
 using MyFinance.BLL.Currencies.Dto;
 using MyFinance.BLL.Currencies.Services;
+using MyFinance.BLL.Users;
+using MyFinance.BLL.Users.Dto;
+using MyFinance.BLL.Users.Services;
 using MyFinance.BLL.Common.Interfaces;
 using MyFinance.DAL.Entities;
 
@@ -20,6 +23,17 @@ namespace MyFinance.BLL
     {
         public static IServiceCollection RegisterBusinessServices(this IServiceCollection services)
         {
+            // Add User services
+            services.AddScoped<IValidator<CreateUserDto>, UserCreateValidator>();
+            services.AddScoped<IValidator<UpdateUserDto>, UserUpdateValidator>();
+
+            services.AddScoped<ICreator<UserEntity, FetchUserDto, CreateUserDto>, UserCreator>();
+            services.AddScoped<IUpdater<UserEntity, FetchUserDto, UpdateUserDto>, UserUpdater>();
+            services.AddScoped<IFetcher<UserEntity, FetchUserDto>, UserFetcher>();
+            services.AddScoped<IRemover<UserEntity>, UserRemover>();
+
+            services.AddScoped<IAgregator<UserEntity, FetchUserDto, CreateUserDto, UpdateUserDto>, UserAgregator>();
+
             // Add Budget services
             services.AddScoped<IValidator<CreateBudgetDto>, BudgetCreateValidator>();
             services.AddScoped<IValidator<UpdateBudgetDto>, BudgetUpdateValidator>();

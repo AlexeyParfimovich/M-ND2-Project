@@ -71,7 +71,6 @@ namespace MyFinance.API
                         new List<string>() // must be empty based on OpenSecurityRequirements
                     }
                 });
-
             });
 
             services.AddAuthentication(options => 
@@ -109,9 +108,6 @@ namespace MyFinance.API
                 app.UseSwaggerUI(options =>
                 {
                     options.SwaggerEndpoint("/swagger/v1/swagger.json", "MyFinance.API v1");
-                    //options.DocumentTitle = "Title";
-                    //options.RoutePrefix = "Prefix";
-                    //options.DocExpansion(docExpansion: DocExpansion.List);
                     options.OAuthClientId("client_id_swagger");
                     options.OAuthClientSecret("client_secret_swagger");
                 });
@@ -127,6 +123,8 @@ namespace MyFinance.API
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseMiddleware<UserHandlerMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

@@ -33,7 +33,7 @@ namespace MyFinance.API.Controllers
         public async Task<ActionResult<BudgetModel>> Get([FromRoute] Guid id)
         {
             var qFilter = new QueryFilter()
-                .AddCondition("UserId", new Guid("49478411-92f0-4c3a-9c7e-69e7b2bbe8e7"))
+                .AddCondition("UserId", HttpContext.Items["UserId"])
                 .AddCondition("Id", id);
 
             var result = await _service.Fetcher.FetchByFilter(qFilter);
@@ -49,7 +49,7 @@ namespace MyFinance.API.Controllers
         public async Task<ActionResult<BudgetModel>> Filter([FromQuery] BudgetFilterModel filter)
         {
             var qFilter = ContractsMapper.MapQueryFilter<FetchBudgetDto>(filter)
-                .AddCondition("UserId", new Guid("49478411-92f0-4c3a-9c7e-69e7b2bbe8e7"));
+                .AddCondition("UserId", HttpContext.Items["UserId"]);
 
             var result = await _service.Fetcher.FetchByFilter(qFilter);
 
@@ -66,7 +66,7 @@ namespace MyFinance.API.Controllers
                 throw new DataNullReferenceException();
 
             var dto = ContractsMapper.Map<CreateBudgetModel, CreateBudgetDto>(model);
-            dto.UserId = new Guid("49478411-92f0-4c3a-9c7e-69e7b2bbe8e7");
+            dto.UserId = (Guid)HttpContext.Items["UserId"];
 
             var result = await _service.Creator.Create(dto);
 
@@ -81,7 +81,7 @@ namespace MyFinance.API.Controllers
                 throw new DataNullReferenceException();
 
             var dto = ContractsMapper.Map<UpdateBudgetModel, UpdateBudgetDto>(model);
-            dto.UserId = new Guid("49478411-92f0-4c3a-9c7e-69e7b2bbe8e7");
+            dto.UserId = (Guid)HttpContext.Items["UserId"];
 
             var result = await _service.Updater.Update(dto);
 
@@ -93,7 +93,7 @@ namespace MyFinance.API.Controllers
         public async Task<ActionResult> Delete([FromRoute] Guid id)
         {
             var qFilter = new QueryFilter()
-                .AddCondition("UserId", new Guid("49478411-92f0-4c3a-9c7e-69e7b2bbe8e7"))
+                .AddCondition("UserId", HttpContext.Items["UserId"])
                 .AddCondition("Id", id);
 
             await _service.Remover.Remove(qFilter);

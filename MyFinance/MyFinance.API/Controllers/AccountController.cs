@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace MyFinance.API.Controllers
 {
+    /*
     [ApiController]
     [Route("api/v1/accounts")]
  //   [Route("api/v1/budgets/{budgetid:long}/accounts")]
@@ -95,6 +96,6 @@ namespace MyFinance.API.Controllers
 
             return Ok();
         }
-        */
-    }
+
+    }*/
 }

@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace MyFinance.BLL.Currencies.Dto
 {
-    public class CurrencyDto: BaseDto
+    public class CurrencyDto : BaseDto
     {
         [JsonProperty("id", Order = 0, Required = Required.Always)]
         public string Id { get; set; }

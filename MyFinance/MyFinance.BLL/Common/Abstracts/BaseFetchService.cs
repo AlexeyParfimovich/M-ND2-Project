@@ -20,8 +20,8 @@ namespace MyFinance.BLL.Common.Abstracts
         {
             _db = database;
         }
-        
-        public async Task<IEnumerable<TDto>> FetchByFilter(QueryFilter filter)
+
+        public virtual async Task<IEnumerable<TDto>> FetchByFilter(QueryFilter filter)
         {
             var query = _db.Context.Set<TEntity>().AsQueryable();
 

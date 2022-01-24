@@ -22,7 +22,7 @@ namespace MyFinance.BLL.Common.Abstracts
             _validator = validator;
         }
 
-        public async Task<TDto> Create(TPartialDto dto)
+        public virtual async Task<TDto> Create(TPartialDto dto)
         {
             await _validator.Validate(dto);
 

@@ -20,10 +20,11 @@ namespace MyFinance.IdentityServer
                     AllowedCorsOrigins = { "https://localhost:5001" },
                     AllowedScopes =
                     {
+                        "MyFinanceAPI",
                         "MyFinanceSwagger",
-                        IdentityServerConstants.StandardScopes.OpenId, // "openid"
-                        IdentityServerConstants.StandardScopes.Profile // "profile"
-                    }
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile
+                    },
                 },
 
                 // Add MyFinance MVC Client
@@ -37,15 +38,14 @@ namespace MyFinance.IdentityServer
                     {
                         "MyFinanceAPI",
                         "MyFinanceClientMVC",
-                        IdentityServerConstants.StandardScopes.OpenId, // "openid"
-                        IdentityServerConstants.StandardScopes.Profile // "profile"
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile
                     },
 
                     RedirectUris = { "https://localhost:9001/signin-oidc" },
                     PostLogoutRedirectUris = { "https://localhost:9001/signout-callback-oidc" },
 
                     RequireConsent = false, //Specifies whether a consent page is required
-                    //AlwaysIncludeUserClaimsInIdToken = true, //Set user claims always be added to the id token
                     //AccessTokenLifetime = 10, // Lifetime of access token in seconds (defaults to 3600 seconds)
                     AllowOfflineAccess = true, // Enable Refresh Token be issued
                 },
@@ -61,8 +61,8 @@ namespace MyFinance.IdentityServer
                     {
                         "MyFinanceAPI",
                         "MyFinanceClientJS",
-                        IdentityServerConstants.StandardScopes.OpenId, // "openid"
-                        IdentityServerConstants.StandardScopes.Profile // "profile"
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile
                     },
 
                     RedirectUris = 

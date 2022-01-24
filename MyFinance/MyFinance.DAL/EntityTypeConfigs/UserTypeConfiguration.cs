@@ -19,12 +19,6 @@ namespace MyFinance.DAL.EntityTypeConfigs
             builder.Property(t => t.Email)
                 .HasMaxLength(256)
                 .IsRequired();
-
-            builder.HasData(
-                new UserEntity[]
-                {
-                    new UserEntity { Id=System.Guid.NewGuid(), UserName="Admin", Email = "admin@test.by"},
-                });
         }
     }
 }

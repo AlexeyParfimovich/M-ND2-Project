@@ -20,7 +20,7 @@ namespace MyFinance.BLL.Common.Abstracts
             _db = database;
         }
 
-        public async Task Remove(QueryFilter filter)
+        public virtual async Task Remove(QueryFilter filter)
         {
             if (filter is null || filter.Conditions is null)
             {
