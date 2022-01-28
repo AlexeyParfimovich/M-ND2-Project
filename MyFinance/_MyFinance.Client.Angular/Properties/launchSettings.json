@@ -2,6 +2,7 @@
   "profiles": {
     "MyFinance.Client.Angular": {
       "commandName": "Project",
+      "dotnetRunMessages": "true",
       "launchBrowser": true,
       "applicationUrl": "https://localhost:11001;http://localhost:11000",
       "environmentVariables": {

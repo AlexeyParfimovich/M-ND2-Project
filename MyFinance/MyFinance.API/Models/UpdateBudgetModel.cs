@@ -16,6 +16,10 @@ namespace MyFinance.API.Models
         public string? Name { get; set; }
 
         [FromBody]
+        [JsonProperty("balance", Order = 2, Required = Required.Default)]
+        public decimal Balance { get; set; }
+
+        [FromBody]
         [JsonProperty("currencyId", Order = 4, Required = Required.Always)]
         public string? CurrencyId { get; set; }
     }

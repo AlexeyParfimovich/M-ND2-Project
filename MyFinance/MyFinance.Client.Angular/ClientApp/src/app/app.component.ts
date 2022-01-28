@@ -1,22 +1,15 @@
-﻿import { Component, OnInit } from '@angular/core';
-import { BudgetService } from './services/budget.service';
-import { Budget } from './models/budget';
-
-@Component({
-    selector: 'app',
-    templateUrl: './app.component.html',
-    providers: [BudgetService]
-})
-export class AppComponent implements OnInit {
-
-    budget: Budget = new Budget();   // изменяемый товар
-    budgets: Budget[];               // массив товаров
-    tableMode: boolean = true;        // табличный режим
-
-    constructor(private budgetService: BudgetService) { }
-
-    ngOnInit() {
-        this.loadBudgets();    // загрузка данных при старте компонента  
+﻿import { Component } from '@angular/core';
+     
+class Item{
+    purchase: string;
+    done: boolean;
+    price: number;
+     
+    constructor(purchase: string, price: number) {
+  
+        this.purchase = purchase;
+        this.price = price;
+        this.done = false;
     }
 
     // получаем данные через сервис
@@ -37,7 +30,7 @@ export class AppComponent implements OnInit {
         this.cancel();
     }
 
-    change(p: Budget) {
+    edit(p: Budget) {
         this.budget = p;
     }
 
@@ -46,13 +39,10 @@ export class AppComponent implements OnInit {
         this.tableMode = true;
     }
 
-    delete(p: Budget) {
-        this.budgetService.deleteBudget(p.id)
-            .subscribe(data => this.loadBudgets());
-    }
-
-    add() {
-        this.cancel();
-        this.tableMode = false;
+    addItem(text: string, price: number): void {
+         
+        if(text==null || text.trim()=="" || price==null)
+            return;
+        this.items.push(new Item(text, price));
     }
 }
