@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+	<TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <SpaRoot>ClientApp\</SpaRoot>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="$(SpaRoot)**" />
+    <None Remove="$(SpaRoot)**" />
+    <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\src\app\models\budget.ts" />
+    <None Remove="ClientApp\src\app\oidc\auth.client.settings.ts" />
+    <None Remove="ClientApp\src\app\oidc\auth.constant.service.ts" />
+    <None Remove="ClientApp\src\app\oidc\auth.guard.ts" />
+    <None Remove="ClientApp\src\app\oidc\auth.interceptor.ts" />
+    <None Remove="ClientApp\src\app\oidc\components\login-callback.component.ts" />
+    <None Remove="ClientApp\src\app\oidc\components\logout-callback.component.ts" />
+    <None Remove="ClientApp\src\app\oidc\ng-auth.module.ts" />
+    <None Remove="ClientApp\src\app\services\authentication.service.ts" />
+    <None Remove="ClientApp\src\app\services\budget.service.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.13" />
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="4.5.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod" />
+ 
+    <ItemGroup>
+      <DistFiles Include="$(SpaRoot)dist\**; $(SpaRoot)dist-server\**" />
+      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+        <RelativePath>%(DistFiles.Identity)</RelativePath>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      </ResolvedFileToPublish>
+    </ItemGroup>
+  </Target>
+
+</Project>

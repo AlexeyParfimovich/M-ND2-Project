@@ -1,58 +1,38 @@
-﻿import { Component, OnInit } from '@angular/core';
-import { BudgetService } from './services/budget.service';
-import { Budget } from './models/budget';
-
+﻿import { Component } from '@angular/core';
+     
+class Item{
+    purchase: string;
+    done: boolean;
+    price: number;
+     
+    constructor(purchase: string, price: number) {
+  
+        this.purchase = purchase;
+        this.price = price;
+        this.done = false;
+    }
+}
+ 
 @Component({
-    selector: 'app',
-    templateUrl: './app.component.html',
-    providers: [BudgetService]
+    selector: 'purchase-app',
+    templateUrl: './app.component.html'
 })
-export class AppComponent implements OnInit {
+export class AppComponent { 
+    text: string = "";
+    price: number = 0;
+     
+    items: Item[] = 
+    [
+        { purchase: "Хлеб", done: false, price: 15.9 },
+        { purchase: "Масло", done: false, price: 60 },
+        { purchase: "Картофель", done: true, price: 22.6 },
+        { purchase: "Сыр", done: false, price:310 }
+    ];
 
-    budget: Budget = new Budget();   // изменяемый товар
-    budgets: Budget[];               // массив товаров
-    tableMode: boolean = true;        // табличный режим
-
-    constructor(private budgetService: BudgetService) { }
-
-    ngOnInit() {
-        this.loadBudgets();    // загрузка данных при старте компонента  
-    }
-
-    // получаем данные через сервис
-    loadBudgets() {
-        this.budgetService.getBudgets()
-            .subscribe((data: Budget[]) => this.budgets = data);
-    }
-
-    // сохранение данных
-    save() {
-        if (this.budget.id == null) {
-            this.budgetService.createBudget(this.budget)
-                .subscribe((data: Budget) => this.budgets.push(data));
-        } else {
-            this.budgetService.updateBudget(this.budget)
-                .subscribe(data => this.loadBudgets());
-        }
-        this.cancel();
-    }
-
-    edit(p: Budget) {
-        this.budget = p;
-    }
-
-    cancel() {
-        this.budget = new Budget();
-        this.tableMode = true;
-    }
-
-    delete(p: Budget) {
-        this.budgetService.deleteBudget(p.id)
-            .subscribe(data => this.loadBudgets());
-    }
-
-    add() {
-        this.cancel();
-        this.tableMode = false;
+    addItem(text: string, price: number): void {
+         
+        if(text==null || text.trim()=="" || price==null)
+            return;
+        this.items.push(new Item(text, price));
     }
 }

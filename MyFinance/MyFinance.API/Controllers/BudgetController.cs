@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace MyFinance.API.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("api/v1/budgets")]
     public class BudgetsController : ControllerBase
@@ -74,7 +74,6 @@ namespace MyFinance.API.Controllers
         }
 
         [HttpPut]
-        [Route("{id:guid}")]
         public async Task<ActionResult<BudgetModel>> Put(UpdateBudgetModel model)
         {
             if (model == null)
