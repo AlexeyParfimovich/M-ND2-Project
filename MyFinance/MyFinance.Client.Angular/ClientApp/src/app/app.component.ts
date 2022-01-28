@@ -37,7 +37,7 @@ export class AppComponent implements OnInit {
         this.cancel();
     }
 
-    edit(p: Budget) {
+    change(p: Budget) {
         this.budget = p;
     }
 

@@ -74,7 +74,6 @@ namespace MyFinance.API.Controllers
         }
 
         [HttpPut]
-        [Route("{id:guid}")]
         public async Task<ActionResult<BudgetModel>> Put(UpdateBudgetModel model)
         {
             if (model == null)

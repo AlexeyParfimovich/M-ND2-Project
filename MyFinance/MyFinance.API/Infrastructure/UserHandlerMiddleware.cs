@@ -1,15 +1,12 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MyFinance.BLL.Common.Exceptions;
 using MyFinance.BLL.Common.Infrastructure;
-using MyFinance.BLL.Common.Interfaces;
 using MyFinance.BLL.Users.Dto;
 using MyFinance.DAL;
 using MyFinance.DAL.Entities;
 using System;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;

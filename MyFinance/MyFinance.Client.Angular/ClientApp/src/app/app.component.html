@@ -1,4 +1,4 @@
-﻿<h1>Список моделей</h1>
+﻿<h1>Budgets</h1>
 <input type="button" value="Create new" class="btn btn-default" (click)="add()" />
 <table *ngIf="tableMode; else create" class="table table-striped">
     <thead>
@@ -10,14 +10,14 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let b of products">
+        <tr *ngFor="let b of budgets">
             <ng-template [ngIf]="budget?.id != b.id" [ngIfElse]="edit">
                 <td>{{b?.name}}</td>
                 <td>{{b?.currencyId}}</td>
                 <td>{{b?.balance}}</td>
                 <td>
-                    <button class="btn btn-sm btn-primary" (click)="edit(p)">Change</button>
-                    <button class="btn btn-sm btn-danger" (click)="delete(p)">Remove</button>
+                    <button class="btn btn-sm btn-primary" (click)="change(b)">Change</button>
+                    <button class="btn btn-sm btn-danger" (click)="delete(b)">Remove</button>
                 </td>
             </ng-template>
         </tr>
@@ -31,9 +31,6 @@
     </td>
     <td>
         <input type="text" [(ngModel)]="budget.currencyId" class="form-control" />
-    </td>
-    <td>
-        <input type="number" [(ngModel)]="budget.balance" class="form-control" />
     </td>
     <td>
         <input type="button" value="Save" (click)="save()" class="btn btn-sm btn-success" />
@@ -50,10 +47,6 @@
     <div class="form-group">
         <label>Currency</label>
         <input type="text" [(ngModel)]="budget.currencyId" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label>Balance</label>
-        <input type="number" [(ngModel)]="budget.balance" class="form-control" />
     </div>
     <div>
         <input type="button" value="Save" (click)="save()" class="btn btn-success" />
