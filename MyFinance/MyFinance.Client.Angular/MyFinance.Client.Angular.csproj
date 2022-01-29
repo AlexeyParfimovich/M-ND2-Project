@@ -21,7 +21,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\directives\bold.directive.ts" />
+    <None Remove="ClientApp\src\app\services\data.service.ts" />
+    <None Remove="ClientApp\src\app\services\log.service.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="ClientApp\src\assets\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\directives\bold.directive.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\services\data.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\services\log.service.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
