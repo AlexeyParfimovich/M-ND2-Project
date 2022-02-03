@@ -1,5 +1,5 @@
 ﻿import { Component, Input } from '@angular/core';
-import { Budget } from '../models/budget';
+import { Budget } from '../../models/budget';
 
 @Component({
     selector: "budget-form",

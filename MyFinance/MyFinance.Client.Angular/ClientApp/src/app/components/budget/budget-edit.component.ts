@@ -1,7 +1,7 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { BudgetService } from '../services/budget.service';
-import { Budget } from '../models/budget';
+import { BudgetService } from '../../services/budget.service';
+import { Budget } from '../../models/budget';
 
 @Component({
     selector: "budget-edit",

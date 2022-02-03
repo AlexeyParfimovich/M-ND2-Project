@@ -20,16 +20,8 @@
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
     <Content Remove="$(SpaRoot)**" />
-    <Content Remove="ClientApp\src\app\directives\**" />
     <None Remove="$(SpaRoot)**" />
-    <None Remove="ClientApp\src\app\directives\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="ClientApp\src\app\directives\**" />
-    <EmbeddedResource Remove="ClientApp\src\app\directives\**" />
-    <TypeScriptCompile Remove="ClientApp\src\app\directives\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,8 +32,9 @@
 
   <ItemGroup>
     <TypeScriptCompile Remove="ClientApp\src\app\app-notfound.component.ts" />
-    <TypeScriptCompile Remove="ClientApp\src\app\budget\budget-create.component.ts" />
-    <TypeScriptCompile Remove="ClientApp\src\app\budget\budget-edit.component.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\components\budget\budget-create.component.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\components\budget\budget-detail.component.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\components\budget\budget-edit.component.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -57,10 +50,10 @@
     <TypeScriptCompile Update="ClientApp\src\app\budget.component.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Update="ClientApp\src\app\budget\budget-form.component.ts">
+    <TypeScriptCompile Update="ClientApp\src\app\components\budget\budget-form.component.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Update="ClientApp\src\app\budget\budget-list.component.ts">
+    <TypeScriptCompile Update="ClientApp\src\app\components\budget\budget-list.component.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Update="ClientApp\src\app\item-details.component.ts">
@@ -75,6 +68,10 @@
     <TypeScriptCompile Update="ClientApp\src\app\not-found.component.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ClientApp\src\app\directives\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
