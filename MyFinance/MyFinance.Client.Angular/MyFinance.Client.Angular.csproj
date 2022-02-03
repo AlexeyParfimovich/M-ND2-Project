@@ -28,6 +28,7 @@
     <None Remove="ClientApp\src\app\budget-detail.component.ts" />
     <None Remove="ClientApp\src\app\budget-form.component.ts" />
     <None Remove="ClientApp\src\app\budget-list.component.ts" />
+    <None Remove="ClientApp\src\app\directives\bold.directive.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -68,10 +69,6 @@
     <TypeScriptCompile Update="ClientApp\src\app\not-found.component.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ClientApp\src\app\directives\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

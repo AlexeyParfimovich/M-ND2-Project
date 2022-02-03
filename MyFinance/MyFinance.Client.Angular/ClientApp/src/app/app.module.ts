@@ -16,6 +16,8 @@ import { BudgetEditComponent } from './components/budget/budget-edit.component';
 
 import { BudgetService } from './services/budget.service';
 
+import { BoldDirective } from './directives/bold.directive';
+
 // определение маршрутов
 const appRoutes: Routes = [
     { path: '', component: BudgetListComponent },
@@ -29,7 +31,8 @@ const appRoutes: Routes = [
     imports: [BrowserModule, FormsModule, HttpClientModule, RouterModule.forRoot(appRoutes)],
     declarations: [AppComponent, AppNotFoundComponent,
         BudgetListComponent, BudgetCreateComponent, BudgetEditComponent,
-        BudgetFormComponent, BudgetDetailComponent],
+        BudgetFormComponent, BudgetDetailComponent,
+        BoldDirective],
     providers: [BudgetService], // регистрация сервисов
     bootstrap: [AppComponent]
 })
