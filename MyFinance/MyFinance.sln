@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinance.Client.Mvc", "MyF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinance.Client.JS", "MyFinance.Client.JS\MyFinance.Client.JS.csproj", "{9C2AD8F1-8070-4FF3-BB3C-C41FEC2291AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyFinance.Client.Angular", "MyFinance.Client.Angular\MyFinance.Client.Angular.csproj", "{44C82370-E225-4F16-8E46-3499F2173510}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinance.Client.Angular", "MyFinance.Client.Angular\MyFinance.Client.Angular.csproj", "{44C82370-E225-4F16-8E46-3499F2173510}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

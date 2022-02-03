@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
+using System.Linq;
 
 namespace MyFinance.API.Controllers
 {
@@ -38,10 +39,10 @@ namespace MyFinance.API.Controllers
 
             var result = await _service.Fetcher.FetchByFilter(qFilter);
 
-            if (result == null)
+            if (result == null || !result.Any() )
                 throw new NoContentException($"Data not found");
 
-            return new ObjectResult(ContractsMapper.MapEnumarable<FetchBudgetDto, BudgetModel>(result));
+            return new ObjectResult(ContractsMapper.Map<FetchBudgetDto, BudgetModel>(result.FirstOrDefault()));
         }
 
         [HttpGet]
@@ -110,5 +111,30 @@ namespace MyFinance.API.Controllers
 
             return "Secret string from MyFinance.API";
         }
+        /*
+        [HttpGet]
+        [Route("[action]")]
+        public object Sum([FromQuery] int num1, [FromQuery] int num2)
+        {
+            var sum = num1 + num2;
+            return (new { result = sum });
+        }
+
+        public class User 
+        {
+            public string name;
+            public int age;
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public ActionResult<Object> Postuser([FromBody] User user)
+        {
+            var userName = "mr " + user.name;
+            var userAge = 10 + user.age;
+
+            return Ok(new { name = userName, age = userAge });
+        }
+        */
     }
 }

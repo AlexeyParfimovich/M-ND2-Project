@@ -11,29 +11,70 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.13" />
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="4.5.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="ClientApp\src\app\directives\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove="ClientApp\src\app\directives\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="ClientApp\src\app\directives\bold.directive.ts" />
-    <None Remove="ClientApp\src\app\services\data.service.ts" />
-    <None Remove="ClientApp\src\app\services\log.service.ts" />
+    <Compile Remove="ClientApp\src\app\directives\**" />
+    <EmbeddedResource Remove="ClientApp\src\app\directives\**" />
+    <TypeScriptCompile Remove="ClientApp\src\app\directives\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ClientApp\src\assets\" />
+    <None Remove="ClientApp\src\app\budget-detail.component.ts" />
+    <None Remove="ClientApp\src\app\budget-form.component.ts" />
+    <None Remove="ClientApp\src\app\budget-list.component.ts" />
   </ItemGroup>
 
   <ItemGroup>
-    <TypeScriptCompile Include="ClientApp\src\app\directives\bold.directive.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\services\data.service.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\services\log.service.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\app-notfound.component.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\budget\budget-create.component.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\budget\budget-edit.component.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ClientApp\src\app\app - Copy.component.js.map">
+      <DependentUpon>app.component.js.map</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Update="ClientApp\src\app\about.component.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Update="ClientApp\src\app\budget.component.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Update="ClientApp\src\app\budget\budget-form.component.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Update="ClientApp\src\app\budget\budget-list.component.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Update="ClientApp\src\app\item-details.component.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Update="ClientApp\src\app\item-stat.component.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Update="ClientApp\src\app\item.component.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Update="ClientApp\src\app\not-found.component.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
