@@ -80,6 +80,36 @@ namespace MyFinance.IdentityServer
                     AllowOfflineAccess = true,
                 },
 
+
+                // Add MyFinance Angular Http Client
+                new Client()
+                {
+                    ClientId = "client_id_angular",
+
+                    AllowedGrantTypes = GrantTypes.Code,
+                    AllowedCorsOrigins = { "https://localhost:11001" },
+                    AllowedScopes =
+                    {
+                        "MyFinanceAPI",
+                        "MyFinanceClientAngular",
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile
+                    },
+
+                    RedirectUris =
+                    {
+                        "https://localhost:11001/auth-callback",
+                        //"https://localhost:11001/auth-refresh",
+                    },
+                    PostLogoutRedirectUris = { "https://localhost:11001/" },
+
+                    RequireClientSecret = false,
+                    RequireConsent = false,
+                    RequirePkce = true,
+                    //AccessTokenLifetime = 10, // Lifetime of access token in seconds (defaults to 3600 seconds)
+                    AllowOfflineAccess = true,
+                },
+
             };
 
         internal static IEnumerable<ApiScope> GetApiScopes()
@@ -88,6 +118,7 @@ namespace MyFinance.IdentityServer
             yield return new ApiScope("MyFinanceSwagger");
             yield return new ApiScope("MyFinanceClientJS");
             yield return new ApiScope("MyFinanceClientMVC");
+            yield return new ApiScope("MyFinanceClientAngular");
         }
 
         public static IEnumerable<ApiResource> GetApiResources()
@@ -103,6 +134,7 @@ namespace MyFinance.IdentityServer
             yield return new ApiResource("MyFinanceSwagger");
             yield return new ApiResource("MyFinanceClientJS");
             yield return new ApiResource("MyFinanceClientMVC");
+            yield return new ApiResource("MyFinanceClientAngular");
         }
 
         public static IEnumerable<IdentityResource> GetIdentityResources() =>

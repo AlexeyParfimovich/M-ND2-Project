@@ -36,7 +36,13 @@ export class AuthGuard
         state: RouterStateSnapshot
     ): Observable<boolean> | boolean {
 
-        return this.service.isLoggedIn;
+        if (this.service.isLoggedIn()) {
+            return true;
+        }
+
+        this.service.startAuthentication();
+        return false;
+
         //return confirm('Are you shure, что хотите перейти?');
     }
 

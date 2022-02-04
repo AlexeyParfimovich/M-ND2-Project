@@ -7,7 +7,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { AppHomeComponent } from './app-home.component';
 import { AppAboutComponent } from './app-about.component';
-import { AppNotFoundComponent } from './app-notfound.component';
+
+import { AuthCallbackComponent } from './components/authentication/auth-callback.component';
 
 import { BudgetsComponent } from './components/budget/budgets.component';
 import { BudgetListComponent } from './components/budget/budget-list.component';
@@ -41,13 +42,14 @@ const appRoutes: Routes = [
         children: itemRoutes
     },
     { path: 'about', component: AppAboutComponent },
-    { path: '**', component: AppNotFoundComponent }
+    { path: 'auth-callback', component: AuthCallbackComponent },
+    { path: '**', redirectTo: '', }
 ];
 
 @NgModule({
     imports: [BrowserModule, FormsModule, HttpClientModule, RouterModule.forRoot(appRoutes)],
     declarations:
-        [AppComponent, AppHomeComponent, AppAboutComponent, AppNotFoundComponent,
+        [AppComponent, AppHomeComponent, AppAboutComponent,
          BudgetsComponent, BudgetListComponent, BudgetDetailComponent,
          BudgetCreateComponent, BudgetEditComponent, BudgetFormComponent,
          BoldDirective],

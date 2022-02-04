@@ -1,59 +1,81 @@
 ﻿import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { User, UserManager, WebStorageStateStore } from 'oidc-client';
-import { UserManagerSettings } from '../models/user-manager.settings';
+//import { HttpClient } from '@angular/common/http';
+import { User, UserManager, UserManagerSettings, WebStorageStateStore } from 'oidc-client';
+//import { UserManagerSettings } from '../models/user-manager.settings';
 
 @Injectable()
 export class AuthService {
 
     private accessToken = "1234567890";
-    public isLoggedIn = true;
 
     isUserDefined = false;
     private user: User | null;
-    private userManager: UserManager;
+    private manager: UserManager;
 
-    constructor(private http: HttpClient) {
+    constructor() {
+        this.getUserManager();
     }
 
-    getAccessToken() {
-        return this.accessToken;
+    getAuthHeaderValue(): string {
+        return `${this.user.token_type} ${this.user.access_token}`;
+    }
+
+    isLoggedIn(): boolean {
+        return this.user != null && !this.user.expired;
+    }
+
+    startAuthentication(): Promise<void> {
+        return this.manager.signinRedirect();
+    }
+
+    completeAuthentication(): Promise<void> {
+        return this.manager.signinRedirectCallback().then(user => {
+            this.user = user;
+        });
     }
 
     private getUserManager() {
-        if (!this.userManager) {
-            const userManagerSettings: UserManagerSettings =
-                new UserManagerSettings();
+        if (!this.manager) {
 
-            //set up settings
-            userManagerSettings.authority = 'https://localhost:6001'; //website that responsible for Authentication
-            userManagerSettings.client_id = 'client_id_angular'; //uniqe name to identify the project
-            userManagerSettings.response_type = 'code'; //desired Authentication processing flow - for angular is sutible code flow
+            this.manager = new UserManager(this.getUserManagerSettings());
+
+            this.manager.getUser()
+                .then((user) => {
+                    this.user = user;
+                    this.isUserDefined = true;
+                });
+        }
+    }
+
+    private getUserManagerSettings(): UserManagerSettings {
+        return {
+            //website that responsible for Authentication
+            authority: 'https://localhost:6001',
+
+            //uniqe name to identify the project
+            client_id: 'client_id_angular',
+
+            //desired Authentication processing flow - for angular is sutible code flow
+            response_type: 'code',
 
             //specify the access privileges, specifies the information returned about the authenticated user.
-            userManagerSettings.scope = 'openid profile MyFinanceAPI';
+            scope: 'openid profile MyFinanceAPI',
 
             //start login process
-            userManagerSettings.redirect_uri = 'http://localhost:11001/login-callback';
+            redirect_uri: 'https://localhost:11001/auth-callback',
 
             //start logout process
-            userManagerSettings.post_logout_redirect_uri = 'http://localhost:11001/logout-callback';
+            post_logout_redirect_uri: 'https://localhost:11001/',
 
             //silent renew oidc doing it automaticly 
-            userManagerSettings.automaticSilentRenew = true;
-            userManagerSettings.silent_redirect_uri = 'http://localhost:11001/silent-callback'; 
+            //silent_redirect_uri: 'https://localhost:11001/silent-callback',
+            //automaticSilentRenew: true,
+
+            //filterProtocolClaims: true,
+            //loadUserInfo: true,
 
             // store information about Authentication in localStorage
-            userManagerSettings.userStore = new WebStorageStateStore({
-                store: window.localStorage,
-            });
-
-            this.userManager = new UserManager(userManagerSettings);
-
-            this.userManager.getUser().then((user) => {
-                this.user = user;
-                this.isUserDefined = true;
-            });
+            userStore: new WebStorageStateStore({ store: window.localStorage })
         }
     }
 }
