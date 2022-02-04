@@ -32,13 +32,22 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Remove="ClientApp\src\app\app-about.component.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\app-home.component.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\app-notfound.component.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\components\budget\budget-create.component.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\components\budget\budget-detail.component.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\components\budget\budget-edit.component.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\components\budget\budgets.component.ts" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="ClientApp\src\app\app - Copy %282%29.component.js.map">
+      <DependentUpon>app.component.js.map</DependentUpon>
+    </None>
+    <None Update="ClientApp\src\app\app - Copy - Copy.component.js.map">
+      <DependentUpon>app - Copy.component.js.map</DependentUpon>
+    </None>
     <None Update="ClientApp\src\app\app - Copy.component.js.map">
       <DependentUpon>app.component.js.map</DependentUpon>
     </None>

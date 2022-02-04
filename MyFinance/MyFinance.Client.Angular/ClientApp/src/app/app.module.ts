@@ -5,9 +5,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
-//import { AppAboutComponent } from './app-about.component';
+import { AppHomeComponent } from './app-home.component';
+import { AppAboutComponent } from './app-about.component';
 import { AppNotFoundComponent } from './app-notfound.component';
 
+import { BudgetsComponent } from './components/budget/budgets.component';
 import { BudgetListComponent } from './components/budget/budget-list.component';
 import { BudgetFormComponent } from './components/budget/budget-form.component';
 import { BudgetDetailComponent } from './components/budget/budget-detail.component';
@@ -18,21 +20,30 @@ import { BudgetService } from './services/budget.service';
 
 import { BoldDirective } from './directives/bold.directive';
 
-// определение маршрутов
-const appRoutes: Routes = [
+// определение дочерних маршрутов
+const itemRoutes: Routes = [
     { path: '', component: BudgetListComponent },
     { path: 'create', component: BudgetCreateComponent },
     { path: 'edit/:id', component: BudgetEditComponent },
-    { path: 'detail/:id', component: BudgetDetailComponent },
+    { path: 'detail/:id', component: BudgetDetailComponent }
+];
+
+// определение маршрутов
+const appRoutes: Routes = [
+    { path: '', component: AppHomeComponent },
+//    { path: 'budgets', component: BudgetsComponent },
+    { path: 'budgets', component: BudgetsComponent, children: itemRoutes },
+    { path: 'about', component: AppAboutComponent },
     { path: '**', component: AppNotFoundComponent }
 ];
 
 @NgModule({
     imports: [BrowserModule, FormsModule, HttpClientModule, RouterModule.forRoot(appRoutes)],
-    declarations: [AppComponent, AppNotFoundComponent,
-        BudgetListComponent, BudgetCreateComponent, BudgetEditComponent,
-        BudgetFormComponent, BudgetDetailComponent,
-        BoldDirective],
+    declarations:
+        [AppComponent, AppHomeComponent, AppAboutComponent, AppNotFoundComponent,
+         BudgetsComponent, BudgetListComponent, BudgetDetailComponent,
+         BudgetCreateComponent, BudgetEditComponent, BudgetFormComponent,
+         BoldDirective],
     providers: [BudgetService], // регистрация сервисов
     bootstrap: [AppComponent]
 })

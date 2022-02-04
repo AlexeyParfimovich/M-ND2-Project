@@ -2,7 +2,7 @@
     <h2>Changing data of budget</h2>
     <budget-form [(item)]="item"></budget-form>
     <div class="form-group">
-        <input type="button" value="Save" (click)="save()" class="btn btn-success" />
+        <input type="button" value="Save" (click)="save()" class="btn btn-success" /> /
+        <a routerLink="/budgets" class="btn btn-warning">Cancel</a>
     </div>
 </div>
-<a routerLink="/" class="nav-link">Back to budgets</a>
