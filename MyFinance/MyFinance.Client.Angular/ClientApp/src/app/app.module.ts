@@ -1,7 +1,7 @@
 ﻿import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
@@ -16,9 +16,13 @@ import { BudgetDetailComponent } from './components/budget/budget-detail.compone
 import { BudgetCreateComponent } from './components/budget/budget-create.component';
 import { BudgetEditComponent } from './components/budget/budget-edit.component';
 
-import { BudgetService } from './services/budget.service';
-
 import { BoldDirective } from './directives/bold.directive';
+
+import { AuthGuard } from './guards/auth.guard';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
+
+import { AuthService } from './services/auth.service';
+import { BudgetService } from './services/budget.service';
 
 // определение дочерних маршрутов
 const itemRoutes: Routes = [
@@ -31,8 +35,11 @@ const itemRoutes: Routes = [
 // определение маршрутов
 const appRoutes: Routes = [
     { path: '', component: AppHomeComponent },
-//    { path: 'budgets', component: BudgetsComponent },
-    { path: 'budgets', component: BudgetsComponent, children: itemRoutes },
+    {
+        path: 'budgets', component: BudgetsComponent,
+        canActivate: [AuthGuard], canActivateChild: [AuthGuard],
+        children: itemRoutes
+    },
     { path: 'about', component: AppAboutComponent },
     { path: '**', component: AppNotFoundComponent }
 ];
@@ -44,7 +51,12 @@ const appRoutes: Routes = [
          BudgetsComponent, BudgetListComponent, BudgetDetailComponent,
          BudgetCreateComponent, BudgetEditComponent, BudgetFormComponent,
          BoldDirective],
-    providers: [BudgetService], // регистрация сервисов
+    providers: [
+        AuthGuard,
+        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+        AuthService,
+        BudgetService
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,5 +1,5 @@
 ﻿<div *ngIf="loaded">
-    <h2>Changing data of budget</h2>
+    <h2>Change budget [{{item.id}}]</h2>
     <budget-form [(item)]="item"></budget-form>
     <div class="form-group">
         <input type="button" value="Save" (click)="save()" class="btn btn-success" /> /

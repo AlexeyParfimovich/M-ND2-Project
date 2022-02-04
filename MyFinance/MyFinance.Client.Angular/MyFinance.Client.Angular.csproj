@@ -29,6 +29,8 @@
     <None Remove="ClientApp\src\app\budget-form.component.ts" />
     <None Remove="ClientApp\src\app\budget-list.component.ts" />
     <None Remove="ClientApp\src\app\directives\bold.directive.ts" />
+    <None Remove="ClientApp\src\app\guards\auth.guard.ts" />
+    <None Remove="ClientApp\src\app\interceptors\auth.interceptor.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,6 +41,8 @@
     <TypeScriptCompile Remove="ClientApp\src\app\components\budget\budget-detail.component.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\components\budget\budget-edit.component.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\components\budget\budgets.component.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\models\user-manager.settings.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\services\auth.service.ts" />
   </ItemGroup>
 
   <ItemGroup>

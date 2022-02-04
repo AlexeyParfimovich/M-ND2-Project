@@ -1,4 +1,4 @@
-﻿import { Component} from '@angular/core';
+﻿import { Component, OnInit} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BudgetService } from '../../services/budget.service';
 import { Budget } from '../../models/budget';
@@ -7,7 +7,7 @@ import { Budget } from '../../models/budget';
     selector: "budget-detail",
     templateUrl: './budget-detail.component.html'
 })
-export class BudgetDetailComponent {
+export class BudgetDetailComponent implements OnInit{
 
     id: any;
     item: Budget;    // отображаемый объект
