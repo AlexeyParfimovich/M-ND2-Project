@@ -13,7 +13,7 @@ using System.Linq;
 
 namespace MyFinance.API.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("api/v1/budgets")]
     public class BudgetsController : ControllerBase

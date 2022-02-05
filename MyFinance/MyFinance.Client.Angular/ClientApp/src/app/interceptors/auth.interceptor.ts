@@ -16,10 +16,7 @@ export class AuthInterceptor implements HttpInterceptor {
         private readonly router: Router
     ) { }
 
-    intercept(
-        req: HttpRequest<any>,
-        next: HttpHandler
-    ): Observable<HttpEvent<any>> {
+    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
         const authReq = req.clone({
             headers: req.headers.set('Authorization', this.service.getAuthHeaderValue()),

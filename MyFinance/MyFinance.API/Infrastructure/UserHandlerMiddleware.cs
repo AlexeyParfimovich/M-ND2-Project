@@ -74,7 +74,7 @@ namespace MyFinance.API.Infrastructure
             }
             else
             {
-                context.Items["UserId"] = new Guid();
+                //context.Items["UserId"] = new Guid();
             }
             
             await _next(context);

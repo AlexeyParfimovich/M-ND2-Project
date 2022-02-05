@@ -1,12 +1,8 @@
 ﻿import { Injectable } from '@angular/core';
-//import { HttpClient } from '@angular/common/http';
 import { User, UserManager, UserManagerSettings, WebStorageStateStore } from 'oidc-client';
-//import { UserManagerSettings } from '../models/user-manager.settings';
 
 @Injectable()
 export class AuthService {
-
-    private accessToken = "1234567890";
 
     isUserDefined = false;
     private user: User | null;
@@ -16,22 +12,42 @@ export class AuthService {
         this.getUserManager();
     }
 
+    getClaims() {
+        return this.user?.profile;
+    }
+
     getAuthHeaderValue(): string {
         return `${this.user.token_type} ${this.user.access_token}`;
     }
 
-    isLoggedIn(): boolean {
+    isSignedIn(): boolean {
         return this.user != null && !this.user.expired;
     }
 
-    startAuthentication(): Promise<void> {
+    startSignIn(): Promise<void> {
         return this.manager.signinRedirect();
     }
 
-    completeAuthentication(): Promise<void> {
+    completeSignIn(): Promise<void> {
         return this.manager.signinRedirectCallback().then(user => {
             this.user = user;
         });
+    }
+
+    startSignOut(): Promise<void> {
+        this.getUserManager();
+        return this.manager.signoutRedirect();
+    }
+
+    completeSignOut() {
+        this.getUserManager();
+        this.user = null;
+        return this.manager.signoutRedirectCallback();
+    }
+
+    silentSignInAuthentication() {
+        this.getUserManager();
+        return this.manager.signinSilentCallback();
     }
 
     private getUserManager() {

@@ -3,7 +3,6 @@ import {
     Router, RouterStateSnapshot, ActivatedRouteSnapshot,
     CanActivate, CanActivateChild, NavigationStart, NavigationEnd, NavigationCancel
 } from "@angular/router";
-import { Observable } from "rxjs";
 
 import { AuthService } from '../services/auth.service';
 
@@ -31,25 +30,16 @@ export class AuthGuard
         })
     }
 
-    canActivate(
-        route: ActivatedRouteSnapshot,
-        state: RouterStateSnapshot
-    ): Observable<boolean> | boolean {
-
-        if (this.service.isLoggedIn()) {
+    async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+        if (this.service.isSignedIn()) {
             return true;
         }
 
-        this.service.startAuthentication();
+        this.service.startSignIn();
         return false;
-
-        //return confirm('Are you shure, что хотите перейти?');
     }
 
-    canActivateChild(
-        route: ActivatedRouteSnapshot,
-        state: RouterStateSnapshot
-    ): Observable<boolean> | boolean {
+    async canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         return this.canActivate(route, state)
     }
 }

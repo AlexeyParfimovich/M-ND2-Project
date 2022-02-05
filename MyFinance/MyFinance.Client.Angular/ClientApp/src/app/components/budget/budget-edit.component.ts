@@ -27,6 +27,6 @@ export class BudgetEditComponent implements OnInit {
     }
 
     save() {
-        this.service.updateItem(this.item).subscribe(data => this.router.navigateByUrl("/"));
+        this.service.updateItem(this.item).subscribe(data => this.router.navigateByUrl("/budgets"));
     }
 }

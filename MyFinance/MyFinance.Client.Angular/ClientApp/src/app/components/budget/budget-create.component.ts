@@ -14,6 +14,6 @@ export class BudgetCreateComponent {
     constructor(private service: BudgetService, private router: Router) { }
 
     save() {
-        this.service.createItem(this.item).subscribe(data => this.router.navigateByUrl("/"));
+        this.service.createItem(this.item).subscribe(data => this.router.navigateByUrl("/budgets"));
     }
 }

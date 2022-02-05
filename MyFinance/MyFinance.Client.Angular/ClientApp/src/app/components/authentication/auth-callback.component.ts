@@ -1,4 +1,5 @@
 ﻿import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -7,9 +8,16 @@ import { AuthService } from '../../services/auth.service';
 })
 export class AuthCallbackComponent implements OnInit {
 
-    constructor(private service: AuthService) { }
+    constructor(
+        private service: AuthService,
+        private readonly router: Router    ) { }
 
     ngOnInit() {
-        this.service.completeAuthentication();
+        this.service.completeSignIn();
+
+        this.router.navigate(
+            //[this._authUrlConstantService.getAuthSuccessCallbackRedirectUrl()]
+            ['/budgets']
+        );
     }
 }
