@@ -98,10 +98,10 @@ namespace MyFinance.IdentityServer
 
                     RedirectUris =
                     {
-                        "https://localhost:11001/auth-callback",
-                        //"https://localhost:11001/auth-refresh",
+                        "https://localhost:11001/signin-callback",
+                        "https://localhost:11001/silent-callback.html",
                     },
-                    PostLogoutRedirectUris = { "https://localhost:11001/" },
+                    PostLogoutRedirectUris = { "https://localhost:11001/signout-callback" },
 
                     RequireClientSecret = false,
                     RequireConsent = false,

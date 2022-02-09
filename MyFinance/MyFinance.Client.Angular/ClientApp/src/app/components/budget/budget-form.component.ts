@@ -6,5 +6,7 @@ import { Budget } from '../../models/budget';
     templateUrl: './budget-form.component.html'
 })
 export class BudgetFormComponent {
-    @Input() item: Budget;
+
+    @Input()
+    item: Budget;
 }

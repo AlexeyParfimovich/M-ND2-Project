@@ -9,7 +9,7 @@ import { Budget } from '../../models/budget';
 })
 export class BudgetCreateComponent {
 
-    item: Budget = new Budget();    // добавляемый объект
+    item: Budget = new Budget(); // добавляемый объект
 
     constructor(private service: BudgetService, private router: Router) { }
 

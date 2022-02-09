@@ -6,9 +6,9 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { AppHomeComponent } from './app-home.component';
-import { AppAboutComponent } from './app-about.component';
 
-import { AuthCallbackComponent } from './components/authentication/auth-callback.component';
+import { SignInCallbackComponent } from './oidc/signin-callback.component';
+import { SignOutCallbackComponent } from './oidc/signout-callback.component';
 
 import { BudgetsComponent } from './components/budget/budgets.component';
 import { BudgetListComponent } from './components/budget/budget-list.component';
@@ -19,10 +19,10 @@ import { BudgetEditComponent } from './components/budget/budget-edit.component';
 
 import { BoldDirective } from './directives/bold.directive';
 
-import { AuthGuard } from './guards/auth.guard';
-import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { AuthGuard } from './oidc/auth.guard';
+import { AuthInterceptor } from './oidc/auth.interceptor';
+import { AuthService } from './oidc/auth.service';
 
-import { AuthService } from './services/auth.service';
 import { BudgetService } from './services/budget.service';
 
 // определение дочерних маршрутов
@@ -41,15 +41,15 @@ const appRoutes: Routes = [
         canActivate: [AuthGuard], canActivateChild: [AuthGuard],
         children: itemRoutes
     },
-    { path: 'about', component: AppAboutComponent },
-    { path: 'auth-callback', component: AuthCallbackComponent },
+    { path: 'signin-callback', component: SignInCallbackComponent },
+    { path: 'signout-callback', component: SignOutCallbackComponent },
     { path: '**', redirectTo: '', }
 ];
 
 @NgModule({
     imports: [BrowserModule, FormsModule, HttpClientModule, RouterModule.forRoot(appRoutes)],
     declarations:
-        [AppComponent, AppHomeComponent, AppAboutComponent,
+        [AppComponent, AppHomeComponent,
          BudgetsComponent, BudgetListComponent, BudgetDetailComponent,
          BudgetCreateComponent, BudgetEditComponent, BudgetFormComponent,
          BoldDirective],

@@ -10,7 +10,7 @@ import { Budget } from '../../models/budget';
 export class BudgetEditComponent implements OnInit {
 
     id: any;
-    item: Budget;    // изменяемый объект
+    item: Budget; // изменяемый объект
     loaded: boolean = false;
 
     constructor(private service: BudgetService, private router: Router, activeRoute: ActivatedRoute) {

@@ -1,39 +1,43 @@
-﻿import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+﻿import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
 import {
-    HttpEvent, HttpInterceptor, HttpHandler,
-    HttpRequest, HttpErrorResponse
-} from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+    HttpErrorResponse, HttpEvent, HttpHandler,
+    HttpInterceptor, HttpRequest, HttpResponse
+} from "@angular/common/http";
+import { Observable, tap } from "rxjs";
 
-import { AuthenticationService } from './authentication.service';
+import { AuthService } from './auth.service';
+import { AuthUrlConstants } from "./auth.constants";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
     constructor(
-        private readonly _authService: AuthenticationService,
-        private readonly _router: Router
+        private readonly service: AuthService,
+        private readonly router: Router
     ) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-        const accessToken = this._authService.getAccessToken();
-        const headers = req.headers.set('Authorization', `Bearer ${accessToken}`);
-        const authReq = req.clone({ headers });
+        const authReq = req.clone({
+            headers: req.headers.set('Authorization', this.service.getAuthHeaderValue()),
+        })
 
         return next.handle(authReq).pipe(
             tap(
-                () => { },
-                error => {
-                    const respError = error as HttpErrorResponse;
-                    if (respError && (respError.status === 401 || respError.status === 403)) {
-                        //debugger;
-                        this._router.navigate(['/unauthorized']);
+                (event) => {
+                    if (event instanceof HttpResponse)
+                        console.log('Server response:', event.statusText)
+                },
+                (err) => {
+                    if (err instanceof HttpErrorResponse) {
+                        if (err.status == 401 || err.status === 403) {
+                            console.log('Unauthorized');
+                            this.router.navigate([AuthUrlConstants.LOGIN_CALLBACK_REDIRECT_URI]);
+                        }
                     }
                 }
             )
-        );
+        )
     }
 }

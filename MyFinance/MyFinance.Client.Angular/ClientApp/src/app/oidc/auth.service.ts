@@ -45,7 +45,7 @@ export class AuthService {
         return this.manager.signoutRedirectCallback();
     }
 
-    silentSignInAuthentication() {
+    silentSignIn() {
         this.getUserManager();
         return this.manager.signinSilentCallback();
     }
@@ -78,14 +78,14 @@ export class AuthService {
             scope: 'openid profile MyFinanceAPI',
 
             //start login process
-            redirect_uri: 'https://localhost:11001/auth-callback',
+            redirect_uri: 'https://localhost:11001/signin-callback',
 
             //start logout process
-            post_logout_redirect_uri: 'https://localhost:11001/',
+            post_logout_redirect_uri: 'https://localhost:11001/signout-callback',
 
             //silent renew oidc doing it automaticly 
-            //silent_redirect_uri: 'https://localhost:11001/silent-callback',
-            //automaticSilentRenew: true,
+            silent_redirect_uri: 'https://localhost:11001/silent-callback.html',
+            automaticSilentRenew: true,
 
             //filterProtocolClaims: true,
             //loadUserInfo: true,
