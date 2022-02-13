@@ -75,6 +75,8 @@ namespace MyFinance.IdentityServer
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseStaticFiles();
+
             app.UseRouting();
 
             app.UseIdentityServer();

@@ -31,12 +31,8 @@ namespace MyFinance.IdentityServer.Controllers
         }
 
         [Route("[action]")]
-        public IActionResult Login(string status)
+        public IActionResult Login(string returnUrl)
         {
-            if (!string.IsNullOrWhiteSpace(status))
-            {
-                ModelState.AddModelError("All", $"{status}");
-            } 
             return View();
         }
 
