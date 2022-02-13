@@ -5,11 +5,11 @@ using MyFinance.BLL.Common.Exceptions;
 using MyFinance.BLL.Common.Interfaces;
 using MyFinance.BLL.Common.Infrastructure;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
-using System.Linq;
 
 namespace MyFinance.API.Controllers
 {

@@ -2,9 +2,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using MyFinance.IdentityServer.Database;
 using MyFinance.IdentityServer.Infrastructure;
 using System.IO;
@@ -25,6 +25,8 @@ namespace MyFinance.IdentityServer
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IEmailService, EmailService>();
+
             services.AddDbContext<AuthDbContext>(config =>
             {
                 config
@@ -39,7 +41,8 @@ namespace MyFinance.IdentityServer
                 config.Password.RequireUppercase = false;
                 config.Password.RequiredLength = 6;
             })
-            .AddEntityFrameworkStores<AuthDbContext>();
+            .AddEntityFrameworkStores<AuthDbContext>()
+            .AddDefaultTokenProviders();
 
             services.ConfigureApplicationCookie(config => 
             {
