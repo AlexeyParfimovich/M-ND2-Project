@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using MyFinance.BLL.Common.Exceptions;
 using MyFinance.BLL.Common.Infrastructure;
@@ -16,13 +17,16 @@ namespace MyFinance.API.Infrastructure
     public class UserHandlerMiddleware
     {
         private readonly RequestDelegate _next;
+        private readonly IDistributedCache _cache;
         private readonly ILogger<UserHandlerMiddleware> _logger;
 
         public UserHandlerMiddleware(
             RequestDelegate next,
+            IDistributedCache cache,
             ILogger<UserHandlerMiddleware> logger)
         {
             _next = next;
+            _cache = cache;
             _logger = logger;
         }
 
@@ -74,12 +78,30 @@ namespace MyFinance.API.Infrastructure
             }
         }
 
-        private static async Task<Guid> GetUser(IFinanceDbContext database, FetchUserDto user)
+        private async Task<Guid> GetUser(IFinanceDbContext database, FetchUserDto user)
         {
+            var cachedUserId = await _cache.GetStringAsync(user.Email);
+
+            if (cachedUserId is not null)
+            {
+                return Guid.Parse(cachedUserId);
+            }
+            
             var entity = await database.Context.Users
                 .FirstOrDefaultAsync(x => x.UserName == user.UserName && x.Email == user.Email);
 
-            return entity is null ? Guid.Empty : entity.Id;
+            if (entity is not null)
+            {
+                var options = new DistributedCacheEntryOptions()
+                    .SetSlidingExpiration(TimeSpan.FromSeconds(300))
+                    .SetAbsoluteExpiration(DateTime.Now.AddMinutes(60));
+
+                await _cache.SetStringAsync(entity.Email, entity.Id.ToString());
+
+                return entity.Id;
+            }
+
+            return Guid.Empty;
         }
     }
 }

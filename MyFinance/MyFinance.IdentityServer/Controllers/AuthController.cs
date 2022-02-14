@@ -102,6 +102,14 @@ namespace MyFinance.IdentityServer.Controllers
                     return View(model);
                 }
 
+                user = await _userManager.FindByEmailAsync(model.Email);
+
+                if (user is not null)
+                {
+                    ModelState.AddModelError("UserName", "Specified email already exists");
+                    return View(model);
+                }
+
                 user = new IdentityUser
                 {
                     UserName = model.UserName,

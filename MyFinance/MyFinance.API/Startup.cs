@@ -28,6 +28,12 @@ namespace MyFinance.API
 
             services.AddControllers().AddNewtonsoftJson();
 
+            //services.AddMemoryCache();
+            services.AddStackExchangeRedisCache(options => 
+            {
+                options.Configuration = "localhost:6379";
+            });
+
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo 
