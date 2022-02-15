@@ -14,12 +14,12 @@ namespace MyFinance.API
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -31,7 +31,7 @@ namespace MyFinance.API
             //services.AddMemoryCache();
             services.AddStackExchangeRedisCache(options => 
             {
-                options.Configuration = "localhost:6379";
+                options.Configuration = Configuration.GetConnectionString("RedisServer");
             });
 
             services.AddSwaggerGen(options =>
