@@ -22,9 +22,12 @@ namespace MyFinance.RabbitMQ.Send
                 var message = GetMessage(args);
                 var body = Encoding.UTF8.GetBytes(message);
 
+                var properties = channel.CreateBasicProperties();
+                properties.Persistent = true;
+
                 channel.BasicPublish(exchange: "",
                     routingKey: "hello",
-                    basicProperties: null,
+                    basicProperties: properties, //null,
                     body: body);
                 
                 Console.WriteLine(" [x] Sent {0}", message);

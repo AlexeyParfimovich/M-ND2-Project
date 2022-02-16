@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Threading;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -25,11 +26,14 @@ namespace MyFinance.RabbitMQ.Receive
                     var body = args.Body.ToArray();
                     var message = Encoding.UTF8.GetString(body);
                     Console.WriteLine(" [x] Received {0}", message);
+                    
+                    // Fake task proceed simulation
+                    int dots = message.Split('.').Length - 1;
+                    Thread.Sleep(dots * 1000);
+                    Console.WriteLine(" [x] Tack done");
                 };
 
-                channel.BasicConsume(queue: "hello",
-                                     autoAck: true,
-                                     consumer: consumer);
+                channel.BasicConsume(queue: "hello", autoAck: true, consumer: consumer);
 
                 Console.WriteLine(" Press [enter] to exit.");
                 Console.ReadLine();
