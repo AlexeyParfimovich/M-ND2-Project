@@ -31,9 +31,14 @@ namespace MyFinance.RabbitMQ.Receive
                     int dots = message.Split('.').Length - 1;
                     Thread.Sleep(dots * 1000);
                     Console.WriteLine(" [x] Tack done");
+
+                    // Manual acknowledge delivered message(s)
+                    channel.BasicAck(deliveryTag: args.DeliveryTag, multiple: false);
                 };
 
-                channel.BasicConsume(queue: "hello", autoAck: true, consumer: consumer);
+                channel.BasicConsume(queue: "hello", 
+                    autoAck: false, //true, 
+                    consumer: consumer);
 
                 Console.WriteLine(" Press [enter] to exit.");
                 Console.ReadLine();
