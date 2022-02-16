@@ -13,8 +13,8 @@ namespace MyFinance.RabbitMQ.Send
             using (var connection = factory.CreateConnection())
             using (var channel = connection.CreateModel())
             {
-                channel.QueueDeclare(queue: "hello",
-                    durable: false,
+                channel.QueueDeclare(queue: "tack_queue",
+                    durable: true,
                     exclusive: false,
                     autoDelete: false,
                     arguments: null);
@@ -26,7 +26,7 @@ namespace MyFinance.RabbitMQ.Send
                 properties.Persistent = true;
 
                 channel.BasicPublish(exchange: "",
-                    routingKey: "hello",
+                    routingKey: "tack_queue",
                     basicProperties: properties, //null,
                     body: body);
                 

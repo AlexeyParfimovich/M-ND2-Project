@@ -14,11 +14,16 @@ namespace MyFinance.RabbitMQ.Receive
             using (var connection = factory.CreateConnection())
             using (var channel = connection.CreateModel())
             {
-                channel.QueueDeclare(queue: "hello",
-                                     durable: false,
+                channel.QueueDeclare(queue: "tack_queue", // Just change the queue name to redefine it with new parameters
+                                     durable: true, // Make the queue durable - prevent it from deleting when the Server quits or crashes
                                      exclusive: false,
                                      autoDelete: false,
                                      arguments: null);
+
+                // Don't dispatch a new message until the previous one has processed and acknowledged
+                channel.BasicQos(prefetchSize: 0, prefetchCount: 1, global: false);
+
+                Console.WriteLine(" [*] Waiting for messages.");
 
                 var consumer = new EventingBasicConsumer(channel);
                 consumer.Received += (model, args) =>
@@ -36,8 +41,8 @@ namespace MyFinance.RabbitMQ.Receive
                     channel.BasicAck(deliveryTag: args.DeliveryTag, multiple: false);
                 };
 
-                channel.BasicConsume(queue: "hello", 
-                    autoAck: false, //true, 
+                channel.BasicConsume(queue: "tack_queue", 
+                    autoAck: false, //true
                     consumer: consumer);
 
                 Console.WriteLine(" Press [enter] to exit.");
