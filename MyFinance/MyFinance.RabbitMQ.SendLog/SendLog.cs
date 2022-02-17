@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using RabbitMQ.Client;
 
@@ -13,15 +14,15 @@ namespace MyFinance.RabbitMQ.SendLog
             using (var connection = factory.CreateConnection())
             using (var channel = connection.CreateModel())
             {
-				channel.ExchangeDeclare(exchange: "logs", type: ExchangeType.Direct);
+				channel.ExchangeDeclare(exchange: "logs", type: ExchangeType.Topic);
 
-                var severity = (args.Length > 0) ? args[0] : "info";
+                var routingKey = (args.Length > 0) ? args[0] : "anonymous.info";
                 var message = GetMessage(args);
                 var body = Encoding.UTF8.GetBytes(message);
 
-                channel.BasicPublish(exchange: "logs", routingKey: severity, basicProperties: null, body: body);
+                channel.BasicPublish(exchange: "logs", routingKey: routingKey, basicProperties: null, body: body);
                 
-                Console.WriteLine(" [x] Sent {0}:{1}", severity, message);
+                Console.WriteLine(" [x] Sent {0}:{1}", routingKey, message);
             }
 
             Console.WriteLine(" Press [enter] to exit.");
@@ -30,7 +31,9 @@ namespace MyFinance.RabbitMQ.SendLog
 
         private static string GetMessage(string[] args)
         {
-            return ((args.Length > 1) ? string.Join(" ", args) : "Hello World!");
+            return ((args.Length > 1)
+                    ? string.Join(" ", args.Skip(1).ToArray())
+                    : "Hello World!");
         }
     }
 }
