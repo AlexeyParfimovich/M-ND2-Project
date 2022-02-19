@@ -43,7 +43,6 @@ namespace MyFinance.IdentityServer.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByNameAsync(model.UserName);
-
                 if (user is null)
                 {
                     ModelState.AddModelError("UserName", "User not found");
@@ -57,7 +56,6 @@ namespace MyFinance.IdentityServer.Controllers
                 }
 
                 var result = await _signinManager.PasswordSignInAsync(user, model.Password, false, false);
-
                 if (result.Succeeded)
                 {
                     await _emailService.SendTextAsync(user.Email, "MyFinance signin notification", 
@@ -65,12 +63,8 @@ namespace MyFinance.IdentityServer.Controllers
 
                     if (string.IsNullOrWhiteSpace(model.ReturnUrl))
                     {
-                        return RedirectToAction("ViewUser", "Auth", 
-                            new RegisterViewModel() 
-                            { 
-                                UserName = user.UserName,
-                                Email = user.Email
-                            });
+                        ModelState.AddModelError("All", $"Signin succeed: return Url not specified");
+                        return View(model);
                     }
 
                     return Redirect(model.ReturnUrl);
@@ -81,6 +75,21 @@ namespace MyFinance.IdentityServer.Controllers
             
             return View(model);
         }
+
+        [Route("[action]")]
+        public async Task<IActionResult> Logout(string logoutId)
+        {
+            await _signinManager.SignOutAsync();
+
+            var result = await _interactionService.GetLogoutContextAsync(logoutId);
+            if (string.IsNullOrEmpty(result.PostLogoutRedirectUri))
+            {
+                return RedirectToAction("Login", "Auth");
+            }
+
+            return Redirect(result.PostLogoutRedirectUri);
+        }
+
 
         [Route("[action]")]
         public IActionResult Register()
@@ -95,7 +104,6 @@ namespace MyFinance.IdentityServer.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByNameAsync(model.UserName);
-
                 if (user is not null)
                 {
                     ModelState.AddModelError("UserName", "Specified user name already exists");
@@ -103,7 +111,6 @@ namespace MyFinance.IdentityServer.Controllers
                 }
 
                 user = await _userManager.FindByEmailAsync(model.Email);
-
                 if (user is not null)
                 {
                     ModelState.AddModelError("UserName", "Specified email already exists");
@@ -120,11 +127,7 @@ namespace MyFinance.IdentityServer.Controllers
                 if (result.Succeeded)
                 {
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var callbackUrl = Url.Action(
-                        "ConfirmEmail",
-                        "Auth",
-                        new { userId = user.Id, code },
-                        protocol: HttpContext.Request.Scheme);
+                    var callbackUrl = Url.Action("ConfirmEmail", "Auth", new { userId = user.Id, code }, protocol: HttpContext.Request.Scheme);
 
                     await _emailService.SendHtmlAsync(model.Email, "Confirm your account",
                         $"Confirm your registration by clicking on the link: <a href='{callbackUrl}'>link</a>");
@@ -145,6 +148,7 @@ namespace MyFinance.IdentityServer.Controllers
 
         [HttpGet]
         [AllowAnonymous]
+        [Route("[action]")]
         public async Task<IActionResult> ConfirmEmail(string userId, string code)
         {
             if (userId == null || code == null)
@@ -153,14 +157,12 @@ namespace MyFinance.IdentityServer.Controllers
             }
 
             var user = await _userManager.FindByIdAsync(userId);
-
             if (user == null)
             {
                 return View("Error");
             }
 
             var result = await _userManager.ConfirmEmailAsync(user, code);
-
             if (result.Succeeded)
             {
                 _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, "User")).GetAwaiter().GetResult();
@@ -170,31 +172,135 @@ namespace MyFinance.IdentityServer.Controllers
             return View("Error");
         }
 
+        [HttpGet]
+        [AllowAnonymous]
         [Route("[action]")]
-        public IActionResult EditUser(RegisterViewModel model)
+        public IActionResult ForgotPassword()
         {
-            return View(model);
+            return View();
         }
 
+        [HttpPost]
+        [AllowAnonymous]
         [Route("[action]")]
-        public IActionResult ViewUser(RegisterViewModel model)
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
-            return View(model);
-        }
-
-        [Route("[action]")]
-        public async Task<IActionResult> Logout(string logoutId)
-        {
-            await _signinManager.SignOutAsync();
-
-            var result = await _interactionService.GetLogoutContextAsync(logoutId);
-
-            if (string.IsNullOrEmpty(result.PostLogoutRedirectUri))
+            if (ModelState.IsValid)
             {
-                return RedirectToAction("Login", "Auth");
+                var user = await _userManager.FindByNameAsync(model.UserName);
+                if (user is null || user.NormalizedEmail != model.Email.ToUpper() || !(await _userManager.IsEmailConfirmedAsync(user)))
+                {
+                    return View("Error");
+                }
+
+                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var callbackUrl = Url.Action("ResetPassword", "Auth", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+                
+                await _emailService.SendHtmlAsync(model.Email, "Reset Password",
+                    $"To reset your password follow the link: <a href='{callbackUrl}'>link</a>");
+
+                return View("ForgotPasswordNotification");
             }
 
-            return Redirect(result.PostLogoutRedirectUri);
+            return View(model);
+        }
+
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("[action]")]
+        public IActionResult ResetPassword(string code = null)
+        {
+            return code == null ? View("Error") : View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("[action]")]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByNameAsync(model.UserName);
+                if (user is null || user.NormalizedEmail != model.Email.ToUpper() || !(await _userManager.IsEmailConfirmedAsync(user)))
+                {
+                    return View("Error");
+                }
+
+                var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
+                if (result.Succeeded)
+                {
+                    return View("ResetPasswordConfirmation");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+            }
+
+            return View(model);
+        }
+
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("[action]")]
+        public IActionResult ChangeEmail()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("[action]")]
+        public async Task<IActionResult> ChangeEmail(ChangeEmailViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByNameAsync(model.UserName);
+                if (user is null || user.NormalizedEmail != model.Email.ToUpper() 
+                                 || !await _userManager.IsEmailConfirmedAsync(user)
+                                 || !await _userManager.CheckPasswordAsync(user, model.Password))
+                {
+                    return View("Error");
+                }
+
+                var code = await _userManager.GenerateChangeEmailTokenAsync(user, model.NewEmail);
+                var callbackUrl = Url.Action("SetNewEmail", "Auth", new { userId = user.Id, email = model.NewEmail, code }, protocol: HttpContext.Request.Scheme);
+
+                await _emailService.SendHtmlAsync(model.NewEmail, "Validate your email",
+                    $"Confirm your email by clicking on the link: <a href='{callbackUrl}'>link</a>");
+
+                return View("ChangeEmailNotification");
+            }
+
+            return View(model);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("[action]")]
+        public async Task<IActionResult> SetNewEmail(string userId, string email, string code)
+        {
+            if (userId == null || email == null || code == null)
+            {
+                return View("Error");
+            }
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return View("Error");
+            }
+
+            var result = await _userManager.ChangeEmailAsync(user, email, code);
+            if (result.Succeeded)
+            {
+                return View("ChangeEmailConfirmation");
+            }
+
+            return View("Error");
         }
     }
 }

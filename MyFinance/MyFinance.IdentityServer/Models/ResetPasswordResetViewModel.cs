@@ -2,7 +2,7 @@
 
 namespace MyFinance.IdentityServer.Models
 {
-    public class RegisterViewModel
+    public class ResetPasswordViewModel
     {
         [Required(ErrorMessage = "User name is required")]
         [Display(Name = "User name")]
@@ -23,6 +23,6 @@ namespace MyFinance.IdentityServer.Models
         [Compare("Password", ErrorMessage = "Password mismatch")]
         public string PasswordConfirm { get; set; }
 
-        public string ReturnUrl { get; set; }
+        public string Code { get; set; }
     }
 }

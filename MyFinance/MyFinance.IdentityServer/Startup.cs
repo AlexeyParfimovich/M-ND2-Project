@@ -65,7 +65,8 @@ namespace MyFinance.IdentityServer
                 //.AddSigningCredential(_certificate);
                 .AddDeveloperSigningCredential();
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews()
+                .AddRazorRuntimeCompilation();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

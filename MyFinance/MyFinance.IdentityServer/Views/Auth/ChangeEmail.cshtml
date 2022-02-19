@@ -1,11 +1,10 @@
-﻿@model RegisterViewModel
-<h2>User registration</h2>
+﻿@model ChangeEmailViewModel
+<h2>Change user email</h2>
 
-<form class="form-group" asp-controller="Auth" , asp-action="Register" method="post">
-    <h4>Fill in the new user credentials.</h4>
+<form class="form-group" asp-controller="Auth" , asp-action="ChangeEmail" method="post">
+    <h4>Enter user credentials and new email address</h4>
     <hr />
     <div asp-validation-summary="All" class="text-danger"></div>
-    <input hidden asp-for="ReturnUrl" value="Login" />
     <div class="form-group">
         <label asp-for="UserName"></label>
         <input asp-for="UserName" class="form-control" />
@@ -17,16 +16,16 @@
         <span asp-validation-for="Email" class="text-danger"></span>
     </div>
     <div class="form-group">
+        <label asp-for="NewEmail"></label>
+        <input asp-for="NewEmail" class="form-control" />
+        <span asp-validation-for="NewEmail" class="text-danger"></span>
+    </div>
+    <div class="form-group">
         <label asp-for="Password"></label>
         <input asp-for="Password" class="form-control" />
         <span asp-validation-for="Password" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="PasswordConfirm"></label>
-        <input asp-for="PasswordConfirm" class="form-control" />
-        <span asp-validation-for="PasswordConfirm" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Register" class="btn btn-primary" />
+        <input type="submit" value="Send" class="btn btn-primary" />
     </div>
 </form>

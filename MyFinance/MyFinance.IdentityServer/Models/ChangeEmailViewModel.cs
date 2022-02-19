@@ -2,7 +2,7 @@
 
 namespace MyFinance.IdentityServer.Models
 {
-    public class RegisterViewModel
+    public class ChangeEmailViewModel
     {
         [Required(ErrorMessage = "User name is required")]
         [Display(Name = "User name")]
@@ -10,19 +10,17 @@ namespace MyFinance.IdentityServer.Models
 
         [Required(ErrorMessage = "Email address is required")]
         [DataType(DataType.EmailAddress)]
-        [Display(Name = "Email")]
+        [Display(Name = "Verified email")]
         public string Email { get; set; }
+
+        [Required(ErrorMessage = "Email address is required")]
+        [DataType(DataType.EmailAddress)]
+        [Display(Name = "New email")]
+        public string NewEmail { get; set; }
 
         [Required(ErrorMessage = "Password is required")]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
-
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "Password mismatch")]
-        public string PasswordConfirm { get; set; }
-
-        public string ReturnUrl { get; set; }
     }
 }

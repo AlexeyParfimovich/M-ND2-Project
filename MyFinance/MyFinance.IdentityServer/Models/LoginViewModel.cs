@@ -5,7 +5,7 @@ namespace MyFinance.IdentityServer.Models
     public class LoginViewModel
     {
         [Required(ErrorMessage = "The User name is required")]
-        [Display(Name = "Login")]
+        [Display(Name = "User name")]
         public string UserName { get; set; }
 
         [Required(ErrorMessage = "The Password is required")]
@@ -13,7 +13,6 @@ namespace MyFinance.IdentityServer.Models
         [Display(Name = "Password")]
         public string Password { get; set; }
 
-        //[Required]
         public string ReturnUrl { get; set; }
     }
 }
