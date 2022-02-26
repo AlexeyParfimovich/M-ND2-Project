@@ -1,76 +1,68 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using MyFinance.API.Models;
 using MyFinance.BLL.Common.Exceptions;
+using MyFinance.BLL.Common.Infrastructure;
 using MyFinance.BLL.Common.Interfaces;
 using MyFinance.BLL.Currencies.Dto;
 using MyFinance.DAL.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace MyFinance.API.Controllers
 {
-    /*
+    //[Authorize]
     [ApiController]
     //[Route("api/v1/budgets/{budgetid:int}/Currencys")]
-    [Route("api/v1/Currencies")]
-    public class CurrencysController : ControllerBase
+    [Route("api/v1/currencies")]
+    public class CurrenciesController : ControllerBase
     {
-        readonly IContractMapper _mapper;
-        readonly IAgregator<CurrencyEntity, string, CurrencyDto, CreateCurrencyDto, UpdateCurrencyDto> _service;
+        private readonly ILogger<CurrenciesController> _logger;
+        readonly IAgregator<CurrencyEntity, FetchCurrencyDto, CreateCurrencyDto, UpdateCurrencyDto> _service;
 
-        public CurrencysController(
-            IContractMapper mapper,
-            IAgregator<CurrencyEntity, string, CurrencyDto, CreateCurrencyDto, UpdateCurrencyDto> service)
+        public CurrenciesController(
+            ILogger<CurrenciesController> logger,
+            IAgregator<CurrencyEntity, FetchCurrencyDto, CreateCurrencyDto, UpdateCurrencyDto> service)
         {
-            _mapper = mapper;
+            _logger = logger;
             _service = service;
         }
 
-        // GET api/Currencys
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CurrencyModel>>> Get()
         {
-            var result = await _service.Fetcher.FetchAll();
-
+            var result = await _service.Fetcher.FetchByFilter(new QueryFilter());
             if (result == null)
                 throw new NoContentException($"Data not found");
 
-            List<CurrencyModel> models = new();
-            foreach (var dto in result)
-            {
-                models.Add(_mapper.Map<CurrencyDto, CurrencyModel>(dto));
-            }
-
-            return new ObjectResult(models);
+            return new ObjectResult(ContractsMapper.MapEnumarable<FetchCurrencyDto, CurrencyModel>(result));
         }
 
-        // GET api/Currencys/id
         [HttpGet("{id:alpha:length(3)}")]
-        public async Task<ActionResult<CurrencyDto>> Get(string id)
+        public async Task<ActionResult<CurrencyModel>> Get([FromRoute] string id)
         {
-            var result = await _service.Fetcher.FetchByKey(id);
-
-            if (result == null)
+            var qFilter = new QueryFilter().AddCondition("Id", id);
+            var result = await _service.Fetcher.FetchByFilter(qFilter);
+            if (result == null || !result.Any())
                 throw new NoContentException($"Data not found");
 
-            return new ObjectResult(_mapper.Map<CurrencyDto, CurrencyModel>(result));
+            return new ObjectResult(ContractsMapper.Map<FetchCurrencyDto, CurrencyModel>(result.FirstOrDefault()));
         }
 
-        // POST api/Currencys
         [HttpPost]
         public async Task<ActionResult<CurrencyModel>> Post(CreateCurrencyModel model)
         {
             if (model == null)
                 throw new DataNullReferenceException();
 
-            var dto = _mapper.Map<CreateCurrencyModel, CreateCurrencyDto>(model);
-
+            var dto = ContractsMapper.Map<CreateCurrencyModel, CreateCurrencyDto>(model);
             var result = await _service.Creator.Create(dto);
 
-            return Ok(_mapper.Map<CurrencyDto, CurrencyModel>(result));
+            return Ok(ContractsMapper.Map<FetchCurrencyDto, CurrencyModel>(result));
         }
 
-        // PUT api/Currencys
         [HttpPut]
         public async Task<ActionResult<CurrencyModel>> Put(UpdateCurrencyModel model)
         {
@@ -80,24 +72,18 @@ namespace MyFinance.API.Controllers
             if (string.IsNullOrWhiteSpace(model.Id))
                 throw new ValueNotSpecifiedException();
 
-            var dto = _mapper.Map<UpdateCurrencyModel, UpdateCurrencyDto>(model);
-
+            var dto = ContractsMapper.Map<UpdateCurrencyModel, UpdateCurrencyDto>(model);
             var result = await _service.Updater.Update(dto);
-
-            return Ok(_mapper.Map<CurrencyDto, CurrencyModel>(result));
+            return Ok(ContractsMapper.Map<FetchCurrencyDto, CurrencyModel>(result));
         }
 
-        // DELETE api/Currencys/id
         [HttpDelete("{id:alpha:length(3)}")]
-        public async Task<ActionResult> Delete(string id)
+        public async Task<ActionResult> Delete([FromRoute] string id)
         {
-            if (string.IsNullOrWhiteSpace(id))
-                throw new ValueNotSpecifiedException();
+            var qFilter = new QueryFilter().AddCondition("Id", id);
 
-            await _service.Remover.Remove(id);
-
+            await _service.Remover.Remove(qFilter);
             return Ok();
         }
     }
-    */
 }

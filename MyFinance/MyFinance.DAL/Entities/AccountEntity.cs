@@ -32,6 +32,5 @@ namespace MyFinance.DAL.Entities
 
         [JsonProperty("lastTransaction", Order = 5, Required = Required.Default)]
         public ulong? LastTransaction { get; set; }
-
     }
 }

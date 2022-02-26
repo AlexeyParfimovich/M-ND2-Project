@@ -1,6 +1,5 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using System;
+using Newtonsoft.Json;
 
 namespace MyFinance.DAL.Entities
 {
@@ -14,7 +13,5 @@ namespace MyFinance.DAL.Entities
 
         [JsonProperty("email", Order = 2, Required = Required.Always)]
         public string Email { get; set; }
-
-        //public ICollection<BudgetEntity> Budgets { get; set; }
     }
 }

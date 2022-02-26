@@ -14,7 +14,6 @@ namespace MyFinance.BLL.Users
             IUpdater<UserEntity, FetchUserDto, UpdateUserDto> updater,
             IFetcher<UserEntity, FetchUserDto> fetcher,
             IRemover<UserEntity> remover) : base(creator, updater, fetcher, remover)
-        {
-        }
+        {}
     }
 }

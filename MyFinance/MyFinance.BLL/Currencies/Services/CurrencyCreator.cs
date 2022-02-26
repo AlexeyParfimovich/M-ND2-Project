@@ -6,12 +6,11 @@ using MyFinance.BLL.Currencies.Dto;
 
 namespace MyFinance.BLL.Currencies.Services
 {
-    public class CurrencyCreator : BaseCreateService<CurrencyEntity, CurrencyDto, CreateCurrencyDto>, ICreator<CurrencyEntity, CurrencyDto, CreateCurrencyDto>
+    public class CurrencyCreator : BaseCreateService<CurrencyEntity, FetchCurrencyDto, CreateCurrencyDto>, ICreator<CurrencyEntity, FetchCurrencyDto, CreateCurrencyDto>
     {
         public CurrencyCreator(
             IFinanceDbContext database,
             IValidator<CreateCurrencyDto> validator) : base(database, validator)
-        {
-        }
+        {}
     }
 }

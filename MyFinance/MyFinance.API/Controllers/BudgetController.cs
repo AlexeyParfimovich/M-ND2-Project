@@ -111,30 +111,5 @@ namespace MyFinance.API.Controllers
 
             return "Secret string from MyFinance.API";
         }
-        /*
-        [HttpGet]
-        [Route("[action]")]
-        public object Sum([FromQuery] int num1, [FromQuery] int num2)
-        {
-            var sum = num1 + num2;
-            return (new { result = sum });
-        }
-
-        public class User 
-        {
-            public string name;
-            public int age;
-        }
-
-        [HttpPost]
-        [Route("[action]")]
-        public ActionResult<Object> Postuser([FromBody] User user)
-        {
-            var userName = "mr " + user.name;
-            var userAge = 10 + user.age;
-
-            return Ok(new { name = userName, age = userAge });
-        }
-        */
     }
 }

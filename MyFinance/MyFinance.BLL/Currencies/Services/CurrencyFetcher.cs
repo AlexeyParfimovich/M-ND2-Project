@@ -6,14 +6,10 @@ using MyFinance.BLL.Currencies.Dto;
 
 namespace MyFinance.BLL.Currencies.Services
 {
-    /*
-    public class CurrencyFetcher : BaseFetchService<CurrencyEntity, string, CurrencyDto>, IFetcher<CurrencyEntity, string, CurrencyDto>
+    public class CurrencyFetcher : BaseFetchService<CurrencyEntity, FetchCurrencyDto>, IFetcher<CurrencyEntity, FetchCurrencyDto>
     {
         public CurrencyFetcher(
-            IFinanceDbContext database,
-            IContractMapper mapper) : base (database, mapper)
-        {
-        }
+            IFinanceDbContext database) : base (database)
+        {}
     }
-    */
 }

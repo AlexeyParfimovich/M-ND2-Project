@@ -14,7 +14,10 @@ namespace MyFinance.API.Models
         [StringLength(256, MinimumLength = 1, ErrorMessage = "Value length out of range")]
         public string Name { get; set; }
 
-        //[DataMember(Name = "exchangeRate", Order = 2, IsRequired = false)]
-        //public decimal ExchangeRate { get; set; }
+        [DataMember(Name = "isMainCurrency", Order = 2, IsRequired = false)]
+        public bool IsMainCurrency { get; set; }
+
+        [DataMember(Name = "exchangeRate", Order = 2, IsRequired = false)]
+        public decimal ExchangeRate { get; set; }
     }
 }

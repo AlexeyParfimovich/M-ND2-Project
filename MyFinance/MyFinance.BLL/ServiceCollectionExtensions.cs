@@ -26,7 +26,6 @@ namespace MyFinance.BLL
             // Add User services
             services.AddScoped<IValidator<CreateUserDto>, UserCreateValidator>();
             services.AddScoped<IValidator<UpdateUserDto>, UserUpdateValidator>();
-
             services.AddScoped<ICreator<UserEntity, FetchUserDto, CreateUserDto>, UserCreator>();
             services.AddScoped<IUpdater<UserEntity, FetchUserDto, UpdateUserDto>, UserUpdater>();
             services.AddScoped<IFetcher<UserEntity, FetchUserDto>, UserFetcher>();
@@ -67,18 +66,17 @@ namespace MyFinance.BLL
             services.AddScoped<IRemover<CardEntity, string>, CardRemover>();
 
             services.AddScoped<IAgregator<CardEntity, string, CardDto, CreateCardDto, UpdateCardDto>, CardAgregator>();
+            */
 
             // add Currency services
             services.AddScoped<IValidator<CreateCurrencyDto>, CurrencyCreateValidator>();
             services.AddScoped<IValidator<UpdateCurrencyDto>, CurrencyUpdateValidator>();
+            services.AddScoped<ICreator<CurrencyEntity, FetchCurrencyDto, CreateCurrencyDto>, CurrencyCreator>();
+            services.AddScoped<IUpdater<CurrencyEntity, FetchCurrencyDto, UpdateCurrencyDto>, CurrencyUpdater>();
+            services.AddScoped<IFetcher<CurrencyEntity, FetchCurrencyDto>, CurrencyFetcher>();
+            services.AddScoped<IRemover<CurrencyEntity>, CurrencyRemover>();
 
-            services.AddScoped<ICreator<CurrencyEntity, CurrencyDto, CreateCurrencyDto>, CurrencyCreator>();
-            services.AddScoped<IUpdater<CurrencyEntity, CurrencyDto, UpdateCurrencyDto>, CurrencyUpdater>();
-            services.AddScoped<IFetcher<CurrencyEntity, string, CurrencyDto>, CurrencyFetcher>();
-            services.AddScoped<IRemover<CurrencyEntity, string>, CurrencyRemover>();
-
-            services.AddScoped<IAgregator<CurrencyEntity, string, CurrencyDto, CreateCurrencyDto, UpdateCurrencyDto>, CurrencyAgregator>();
-            */
+            services.AddScoped<IAgregator<CurrencyEntity, FetchCurrencyDto, CreateCurrencyDto, UpdateCurrencyDto>, CurrencyAgregator>();
 
             return services;
         }

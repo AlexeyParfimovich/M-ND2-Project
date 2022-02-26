@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using MyFinance.BLL.Common.Abstracts;
+using Newtonsoft.Json;
 
 namespace MyFinance.BLL.Common.Infrastructure
 {
@@ -23,6 +24,11 @@ namespace MyFinance.BLL.Common.Infrastructure
             });
 
             return this;
+        }
+
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(Conditions);
         }
     }
 }

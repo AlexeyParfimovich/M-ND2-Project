@@ -5,18 +5,15 @@ using MyFinance.BLL.Common.Interfaces;
 
 namespace MyFinance.BLL.Currencies
 {
-    /*
     public class CurrencyAgregator :
-        BaseAgregator<CurrencyEntity, string, CurrencyDto, CreateCurrencyDto, UpdateCurrencyDto>,
-        IAgregator<CurrencyEntity, string, CurrencyDto, CreateCurrencyDto, UpdateCurrencyDto>
+        BaseAgregator<CurrencyEntity, FetchCurrencyDto, CreateCurrencyDto, UpdateCurrencyDto>,
+        IAgregator<CurrencyEntity, FetchCurrencyDto, CreateCurrencyDto, UpdateCurrencyDto>
     {
         public CurrencyAgregator(
-            ICreator<CurrencyEntity, CurrencyDto, CreateCurrencyDto> creator,
-            IUpdater<CurrencyEntity, CurrencyDto, UpdateCurrencyDto> updater,
-            IFetcher<CurrencyEntity, string, CurrencyDto> fetcher,
-            IRemover<CurrencyEntity, string> remover) : base(creator, updater, fetcher, remover)
-        {
-        }
+            ICreator<CurrencyEntity, FetchCurrencyDto, CreateCurrencyDto> creator,
+            IUpdater<CurrencyEntity, FetchCurrencyDto, UpdateCurrencyDto> updater,
+            IFetcher<CurrencyEntity, FetchCurrencyDto> fetcher,
+            IRemover<CurrencyEntity> remover) : base(creator, updater, fetcher, remover)
+        {}
     }
-    */
 }

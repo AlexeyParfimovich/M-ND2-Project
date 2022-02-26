@@ -8,7 +8,6 @@ namespace MyFinance.BLL.Budgets.Services
     public class BudgetRemover : BaseRemoveService<BudgetEntity>, IRemover<BudgetEntity>
     {
         public BudgetRemover(IFinanceDbContext database): base(database)
-        {
-        }
+        {}
     }
 }

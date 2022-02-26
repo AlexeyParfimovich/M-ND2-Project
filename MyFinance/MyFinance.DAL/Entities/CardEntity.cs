@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
+using Newtonsoft.Json;
 
 namespace MyFinance.DAL.Entities
 {
@@ -19,6 +19,5 @@ namespace MyFinance.DAL.Entities
 
         [JsonProperty("lastTransaction", Order = 3, Required = Required.Default)]
         public ulong? LastTransaction { get; set; }
-
     }
 }

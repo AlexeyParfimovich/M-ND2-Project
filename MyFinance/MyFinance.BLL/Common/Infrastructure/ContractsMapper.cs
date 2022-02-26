@@ -1,10 +1,9 @@
-﻿using MyFinance.BLL.Common.Exceptions;
-using MyFinance.BLL.Common.Interfaces;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Linq;
 using System.Collections.Generic;
 using MyFinance.BLL.Common.Abstracts;
+using MyFinance.BLL.Common.Exceptions;
 
 namespace MyFinance.BLL.Common.Infrastructure
 {
@@ -61,7 +60,6 @@ namespace MyFinance.BLL.Common.Infrastructure
                         foreach (var v in (string[])fValue)
                         {
                             var p = v.Split(':');
-
                             if (p is null || p.Length == 0 || p.Length > 2)
                                 throw new Exception($"Условия '{fProp.Name}' фильтра заданы не корректно: {fValue}");
 

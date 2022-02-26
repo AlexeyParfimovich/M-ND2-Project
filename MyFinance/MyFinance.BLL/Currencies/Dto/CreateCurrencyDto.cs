@@ -8,7 +8,7 @@ namespace MyFinance.BLL.Currencies.Dto
         [JsonProperty("id", Order = 0, Required = Required.Always)]
         public string Id { get; set; }
 
-        [JsonProperty("name", Order = 1, Required = Required.Always)]
+        [JsonProperty("name", Order = 1, Required = Required.Default)]
         public string Name { get; set; }
 
         [JsonProperty("isMainCurrency", Order = 2, Required = Required.Default)]

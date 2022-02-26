@@ -8,7 +8,6 @@ namespace MyFinance.BLL.Currencies.Services
     public class CurrencyRemover : BaseRemoveService<CurrencyEntity>, IRemover<CurrencyEntity>
     {
         public CurrencyRemover(IFinanceDbContext database): base(database)
-        {
-        }
+        {}
     }
 }

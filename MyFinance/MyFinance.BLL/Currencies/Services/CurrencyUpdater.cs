@@ -6,12 +6,11 @@ using MyFinance.BLL.Currencies.Dto;
 
 namespace MyFinance.BLL.Currencies.Services
 {
-    public class CurrencyUpdater : BaseUpdateService<CurrencyEntity, CurrencyDto, UpdateCurrencyDto>, IUpdater<CurrencyEntity, CurrencyDto, UpdateCurrencyDto>
+    public class CurrencyUpdater : BaseUpdateService<CurrencyEntity, FetchCurrencyDto, UpdateCurrencyDto>, IUpdater<CurrencyEntity, FetchCurrencyDto, UpdateCurrencyDto>
     {
         public CurrencyUpdater(
              IFinanceDbContext database,
              IValidator<UpdateCurrencyDto> validator) : base(database, validator)
-        {
-        }
+        {}
     }
 }
