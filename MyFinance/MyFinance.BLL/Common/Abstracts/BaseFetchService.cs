@@ -28,12 +28,12 @@ namespace MyFinance.BLL.Common.Abstracts
             if (filter is not null && filter.Conditions.Count > 0)
             {
                 var parameter = Expression.Parameter(typeof(TEntity), "p");
-
-                var lambdaExpr = Expression.Lambda(
-                    FilterExpressionCreator.GetConditionsExpression(filter.Conditions.ToArray(), parameter),
-                    new ParameterExpression[] { parameter });
-
-                query = query.Where((Expression<Func<TEntity, bool>>)lambdaExpr);
+                var filterExpr = FilterExpressionCreator.GetConditionsExpression(filter.Conditions.ToArray(), parameter);
+                if (filterExpr is not null)
+                {
+                    var lambdaExpr = Expression.Lambda(filterExpr, new ParameterExpression[] { parameter });
+                    query = query.Where((Expression<Func<TEntity, bool>>)lambdaExpr);
+                }
             }
 
             var entities = await query.ToListAsync();

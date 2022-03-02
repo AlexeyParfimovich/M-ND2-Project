@@ -3,7 +3,7 @@ using System;
 
 namespace MyFinance.BLL.Cards.Dto
 {
-    public class CardDto: BaseDto
+    public class FetchCardDto: BaseDto
     {
         public string Id { get; set; }
 

@@ -6,12 +6,11 @@ using MyFinance.BLL.Common.Interfaces;
 
 namespace MyFinance.BLL.Accounts.Services
 {
-    public class AccountCreator : BaseCreateService<AccountEntity, AccountDto, CreateAccountDto>, ICreator<AccountEntity, AccountDto, CreateAccountDto>
+    public class AccountCreator : BaseCreateService<AccountEntity, FetchAccountDto, CreateAccountDto>, ICreator<AccountEntity, FetchAccountDto, CreateAccountDto>
     {
         public AccountCreator(
             IFinanceDbContext database,
             IValidator<CreateAccountDto> validator) : base(database, validator)
-        {
-        }
+        {}
     }
 }

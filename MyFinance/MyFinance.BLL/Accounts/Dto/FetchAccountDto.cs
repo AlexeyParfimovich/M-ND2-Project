@@ -4,12 +4,12 @@ using System;
 
 namespace MyFinance.BLL.Accounts.Dto
 {
-    public class AccountDto: BaseDto
+    public class FetchAccountDto: BaseDto
     {
         [JsonProperty("id", Order = 0, Required = Required.Always)]
         public long Id { get; set; }
 
-        [JsonProperty("name", Order = 1, Required = Required.Always)]
+        [JsonProperty("name", Order = 1, Required = Required.Default)]
         public string Name { get; set; }
 
         [JsonProperty("balance", Order = 2, Required = Required.Default)]

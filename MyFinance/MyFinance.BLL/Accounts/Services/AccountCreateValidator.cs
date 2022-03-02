@@ -2,6 +2,7 @@
 using MyFinance.BLL.Accounts.Dto;
 using MyFinance.BLL.Common.Exceptions;
 using MyFinance.BLL.Common.Interfaces;
+using System;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,20 +19,18 @@ namespace MyFinance.BLL.Accounts.Services
         public async Task<Task> Validate(CreateAccountDto dto)
         {
             if (dto is null)
-            {
                 throw new DataNullReferenceException();
-            }
+
+            if (dto.BudgetId == Guid.Empty)
+                throw new ValueNotSpecifiedException($"Budget Id not specified");
 
             if (string.IsNullOrWhiteSpace(dto.Name))
-            {
                 throw new ValueNotSpecifiedException($"Name property not specified");
-            }
 
             var entity = await _db.Context.Currencies.AsNoTracking().FirstOrDefaultAsync(x => x.Id == dto.CurrencyId);
+
             if (entity is null)
-            {
                 throw new ValueNotFoundException($"Specified currency type {dto.CurrencyId} was not found");
-            }
 
             return Task.CompletedTask;
         }

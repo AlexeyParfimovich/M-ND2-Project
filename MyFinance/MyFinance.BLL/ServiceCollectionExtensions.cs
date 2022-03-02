@@ -44,29 +44,25 @@ namespace MyFinance.BLL
 
             services.AddScoped<IAgregator<BudgetEntity, FetchBudgetDto, CreateBudgetDto, UpdateBudgetDto>, BudgetAgregator>();
 
-            /*
             // add Account services
             services.AddScoped<IValidator<CreateAccountDto>, AccountCreateValidator>();
             services.AddScoped<IValidator<UpdateAccountDto>, AccountUpdateValidator>();
+            services.AddScoped<ICreator<AccountEntity, FetchAccountDto, CreateAccountDto>, AccountCreator>();
+            services.AddScoped<IUpdater<AccountEntity, FetchAccountDto, UpdateAccountDto>, AccountUpdater>();
+            services.AddScoped<IFetcher<AccountEntity, FetchAccountDto>, AccountFetcher>();
+            services.AddScoped<IRemover<AccountEntity>, AccountRemover>();
 
-            services.AddScoped<ICreator<AccountEntity, AccountDto, CreateAccountDto>, AccountCreator>();
-            services.AddScoped<IUpdater<AccountEntity, AccountDto, UpdateAccountDto>, AccountUpdater>();
-            services.AddScoped<IFetcher<AccountEntity, long, AccountDto>, AccountFetcher>();
-            services.AddScoped<IRemover<AccountEntity, long>, AccountRemover>();
-
-            services.AddScoped<IAgregator<AccountEntity, long, AccountDto, CreateAccountDto, UpdateAccountDto>, AccountAgregator>();
+            services.AddScoped<IAgregator<AccountEntity, FetchAccountDto, CreateAccountDto, UpdateAccountDto>, AccountAgregator>();
 
             // add Card services
             services.AddScoped<IValidator<CreateCardDto>, CardCreateValidator>();
             services.AddScoped<IValidator<UpdateCardDto>, CardUpdateValidator>();
+            services.AddScoped<ICreator<CardEntity, FetchCardDto, CreateCardDto>, CardCreator>();
+            services.AddScoped<IUpdater<CardEntity, FetchCardDto, UpdateCardDto>, CardUpdater>();
+            services.AddScoped<IFetcher<CardEntity, FetchCardDto>, CardFetcher>();
+            services.AddScoped<IRemover<CardEntity>, CardRemover>();
 
-            services.AddScoped<ICreator<CardEntity, CardDto, CreateCardDto>, CardCreator>();
-            services.AddScoped<IUpdater<CardEntity, CardDto, UpdateCardDto>, CardUpdater>();
-            services.AddScoped<IFetcher<CardEntity, string, CardDto>, CardFetcher>();
-            services.AddScoped<IRemover<CardEntity, string>, CardRemover>();
-
-            services.AddScoped<IAgregator<CardEntity, string, CardDto, CreateCardDto, UpdateCardDto>, CardAgregator>();
-            */
+            services.AddScoped<IAgregator<CardEntity, FetchCardDto, CreateCardDto, UpdateCardDto>, CardAgregator>();
 
             // add Currency services
             services.AddScoped<IValidator<CreateCurrencyDto>, CurrencyCreateValidator>();

@@ -1,76 +1,77 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using MyFinance.API.Models;
 using MyFinance.BLL.Accounts.Dto;
 using MyFinance.BLL.Common.Exceptions;
+using MyFinance.BLL.Common.Infrastructure;
 using MyFinance.BLL.Common.Interfaces;
 using MyFinance.DAL.Entities;
-using System.Collections.Generic;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace MyFinance.API.Controllers
 {
-    /*
+    //[Authorize]
     [ApiController]
-    [Route("api/v1/accounts")]
- //   [Route("api/v1/budgets/{budgetid:long}/accounts")]
+    //[Route("api/v1/accounts")]
+    [Route("api/v1/budgets/{budgetid:guid}/accounts")]
     public class AccountsController : ControllerBase
     {
-        readonly IAgregator<AccountEntity, AccountDto, CreateAccountDto, UpdateAccountDto> _service;
+        private readonly ILogger<BudgetsController> _logger;
+        readonly IAgregator<AccountEntity, FetchAccountDto, CreateAccountDto, UpdateAccountDto> _service;
 
         public AccountsController(
-            IAgregator<AccountEntity, AccountDto, CreateAccountDto, UpdateAccountDto> service)
+            ILogger<BudgetsController> logger,
+            IAgregator<AccountEntity, FetchAccountDto, CreateAccountDto, UpdateAccountDto> service)
         {
+            _logger = logger;
             _service = service;
         }
 
-        /*
-        // GET api/Accounts
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AccountModel>>> Get()
+        public async Task<ActionResult<IEnumerable<AccountModel>>> Get([FromRoute] Guid budgetid)
         {
-            var result = await _service.Fetcher.FetchAll();
+            var qFilter = new QueryFilter().AddCondition("BudgetId", budgetid);
 
+            var result = await _service.Fetcher.FetchByFilter(qFilter);
             if (result == null)
                 throw new NoContentException($"Data not found");
 
-            List<AccountModel> models = new();
-            foreach (var dto in result)
-            {
-                models.Add(_mapper.Map<AccountDto, AccountModel>(dto));
-            }
-
-            return new ObjectResult(models);
+            return new ObjectResult(ContractsMapper.MapEnumarable<FetchAccountDto, AccountModel>(result));
         }
 
-        // GET api/Accounts/id
-        [HttpGet("{id:long}")]
-        public async Task<ActionResult<AccountDto>> Get(long id)
+        [HttpGet("{id:long:min(1)}")]
+        public async Task<ActionResult<AccountModel>> Get([FromRoute] Guid budgetid, [FromRoute] long id)
         {
-            var dto = await _service.Fetcher.FetchByKey(id);
+            var qFilter = new QueryFilter()
+                .AddCondition("BudgetId", budgetid)
+                .AddCondition("Id", id);
 
-            if (dto == null)
+            var result = await _service.Fetcher.FetchByFilter(qFilter);
+            if (result == null || !result.Any())
                 throw new NoContentException($"Data not found");
 
-            return new ObjectResult(_mapper.Map<AccountDto, AccountModel>(dto));
+            return new ObjectResult(ContractsMapper.Map<FetchAccountDto, AccountModel>(result.FirstOrDefault()));
         }
 
-        // POST api/Accounts
         [HttpPost]
-        public async Task<ActionResult<AccountModel>> Post(CreateAccountModel model)
+        public async Task<ActionResult<AccountModel>> Post([FromRoute] Guid budgetid, CreateAccountModel model)
         {
             if (model == null)
                 throw new DataNullReferenceException();
 
-            var dto = _mapper.Map<CreateAccountModel, CreateAccountDto>(model);
+            var dto = ContractsMapper.Map<CreateAccountModel, CreateAccountDto>(model);
+            dto.BudgetId = budgetid;
 
             var result = await _service.Creator.Create(dto);
 
-            return Ok(_mapper.Map<AccountDto, AccountModel>(result));
+            return Ok(ContractsMapper.Map<FetchAccountDto, AccountModel>(result));
         }
 
-        // PUT api/Accounts
         [HttpPut]
-        public async Task<ActionResult<AccountModel>> Put(UpdateAccountModel model)
+        public async Task<ActionResult<AccountModel>> Put([FromRoute] Guid budgetid, UpdateAccountModel model)
         {
             if (model == null)
                 throw new DataNullReferenceException();
@@ -78,24 +79,22 @@ namespace MyFinance.API.Controllers
             if (model.Id <= 0)
                 throw new ValueOutOfRangeException();
 
-            var dto = _mapper.Map<UpdateAccountModel, UpdateAccountDto>(model);
-
+            var dto = ContractsMapper.Map<UpdateAccountModel, UpdateAccountDto>(model);
             var result = await _service.Updater.Update(dto);
 
-            return Ok(_mapper.Map<AccountDto, AccountModel>(result));
+            return Ok(ContractsMapper.Map<FetchAccountDto, AccountModel>(result));
         }
 
-        // DELETE api/Accounts/id
-        [HttpDelete("{id:long}")]
-        public async Task<ActionResult> Delete(long id)
+        [HttpDelete("{id:long:min(1)}")]
+        public async Task<ActionResult> Delete([FromRoute] Guid budgetid, [FromRoute] long id)
         {
             if (id <= 0)
                 throw new ValueOutOfRangeException();
 
-            await _service.Remover.Remove(id);
+            var qFilter = new QueryFilter().AddCondition("Id", id);
 
+            await _service.Remover.Remove(qFilter);
             return Ok();
         }
-
-    }*/
+    }
 }

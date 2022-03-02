@@ -6,12 +6,11 @@ using MyFinance.BLL.Cards.Dto;
 
 namespace MyFinance.BLL.Cards.Services
 {
-    public class CardCreator : BaseCreateService<CardEntity, CardDto, CreateCardDto>, ICreator<CardEntity, CardDto, CreateCardDto>
+    public class CardCreator : BaseCreateService<CardEntity, FetchCardDto, CreateCardDto>, ICreator<CardEntity, FetchCardDto, CreateCardDto>
     {
         public CardCreator(
             IFinanceDbContext database,
             IValidator<CreateCardDto> validator) : base(database, validator)
-        {
-        }
+        {}
     }
 }

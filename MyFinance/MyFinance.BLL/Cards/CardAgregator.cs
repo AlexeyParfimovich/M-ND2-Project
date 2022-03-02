@@ -5,18 +5,15 @@ using MyFinance.DAL.Entities;
 
 namespace MyFinance.BLL.Cards
 {
-    /*
     public class CardAgregator : 
-        BaseAgregator<CardEntity, string, CardDto, CreateCardDto, UpdateCardDto>,
-        IAgregator<CardEntity, string, CardDto, CreateCardDto, UpdateCardDto>
+        BaseAgregator<CardEntity, FetchCardDto, CreateCardDto, UpdateCardDto>,
+        IAgregator<CardEntity, FetchCardDto, CreateCardDto, UpdateCardDto>
     {
         public CardAgregator(
-            ICreator<CardEntity, CardDto, CreateCardDto> creator,
-            IUpdater<CardEntity, CardDto, UpdateCardDto> updater,
-            IFetcher<CardEntity, string, CardDto> fetcher,
-            IRemover<CardEntity, string> remover) : base(creator, updater, fetcher, remover)
-        {
-        }
+            ICreator<CardEntity, FetchCardDto, CreateCardDto> creator,
+            IUpdater<CardEntity, FetchCardDto, UpdateCardDto> updater,
+            IFetcher<CardEntity, FetchCardDto> fetcher,
+            IRemover<CardEntity> remover) : base(creator, updater, fetcher, remover)
+        {}
     }
-    */
 }

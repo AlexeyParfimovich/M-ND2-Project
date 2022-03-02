@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Runtime.Serialization;
 
 namespace MyFinance.API.Models
@@ -6,18 +7,20 @@ namespace MyFinance.API.Models
     [DataContract()]
     public class CreateCurrencyModel
     {
-        [DataMember(Name = "id", Order = 0, IsRequired = true)]
-        [StringLength(3, MinimumLength = 3, ErrorMessage = "Value length must be 3")]
+        [FromBody]
+        [JsonProperty("id", Order = 0, Required = Required.Always)]
         public string Id { get; set; }
 
-        [DataMember(Name = "name", Order = 1, IsRequired = true)]
-        [StringLength(256, MinimumLength = 1, ErrorMessage = "Value length out of range")]
+        [FromBody]
+        [JsonProperty("name", Order = 1, Required = Required.Always)]
         public string Name { get; set; }
 
-        [DataMember(Name = "isMainCurrency", Order = 2, IsRequired = false)]
+        [FromBody]
+        [JsonProperty("isMainCurrency", Order = 2, Required = Required.Default)]
         public bool IsMainCurrency { get; set; }
 
-        [DataMember(Name = "exchangeRate", Order = 2, IsRequired = false)]
+        [FromBody]
+        [JsonProperty("exchangeRate", Order = 3, Required = Required.Default)]
         public decimal ExchangeRate { get; set; }
     }
 }

@@ -6,14 +6,10 @@ using MyFinance.BLL.Cards.Dto;
 
 namespace MyFinance.BLL.Cards.Services
 {
-    /*
-    public class CardFetcher : BaseFetchService<CardEntity, string, CardDto>, IFetcher<CardEntity, string, CardDto>
+    public class CardFetcher : BaseFetchService<CardEntity, FetchCardDto>, IFetcher<CardEntity, FetchCardDto>
     {
         public CardFetcher(
-            IFinanceDbContext database,
-            IContractMapper mapper) : base (database, mapper)
-        {
-        }
+            IFinanceDbContext database) : base (database)
+        {}
     }
-    */
 }

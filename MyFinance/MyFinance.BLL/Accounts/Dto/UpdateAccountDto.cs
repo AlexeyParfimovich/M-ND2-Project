@@ -9,13 +9,13 @@ namespace MyFinance.BLL.Accounts.Dto
         [JsonProperty("id", Order = 0, Required = Required.Always)]
         public long Id { get; set; }
 
-        [JsonProperty("name", Order = 1, Required = Required.Always)]
+        [JsonProperty("name", Order = 1, Required = Required.Default)]
         public string Name { get; set; }
 
         [JsonProperty("budgetId", Order = 3, Required = Required.Always)]
         public Guid BudgetId { get; set; }
 
-        [JsonProperty("currencyId", Order = 4, Required = Required.Always)]
+        [JsonProperty("currencyId", Order = 4, Required = Required.Default)]
         public string CurrencyId { get; set; }
     }
 }

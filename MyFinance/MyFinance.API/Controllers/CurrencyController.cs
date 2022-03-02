@@ -33,7 +33,7 @@ namespace MyFinance.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CurrencyModel>>> Get()
         {
-            var result = await _service.Fetcher.FetchByFilter(new QueryFilter());
+            var result = await _service.Fetcher.FetchByFilter(null);
             if (result == null)
                 throw new NoContentException($"Data not found");
 
@@ -57,6 +57,9 @@ namespace MyFinance.API.Controllers
             if (model == null)
                 throw new DataNullReferenceException();
 
+            if (string.IsNullOrWhiteSpace(model.Id))
+                throw new ValueOutOfRangeException();
+
             var dto = ContractsMapper.Map<CreateCurrencyModel, CreateCurrencyDto>(model);
             var result = await _service.Creator.Create(dto);
 
@@ -74,6 +77,7 @@ namespace MyFinance.API.Controllers
 
             var dto = ContractsMapper.Map<UpdateCurrencyModel, UpdateCurrencyDto>(model);
             var result = await _service.Updater.Update(dto);
+
             return Ok(ContractsMapper.Map<FetchCurrencyDto, CurrencyModel>(result));
         }
 

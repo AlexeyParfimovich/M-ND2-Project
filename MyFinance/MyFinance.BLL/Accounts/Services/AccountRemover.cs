@@ -8,7 +8,6 @@ namespace MyFinance.BLL.Accounts.Services
     public class AccountRemover : BaseRemoveService<AccountEntity>, IRemover<AccountEntity>
     {
         public AccountRemover(IFinanceDbContext database): base(database)
-        {
-        }
+        {}
     }
 }

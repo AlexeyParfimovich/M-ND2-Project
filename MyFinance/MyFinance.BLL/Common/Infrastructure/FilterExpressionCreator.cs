@@ -20,8 +20,13 @@ namespace MyFinance.BLL.Common.Infrastructure
 
         public static Expression GetExpression(QueryCondition condition, ParameterExpression parameter)
         {
+            if (condition.Data is null)
+                return null;
+
             var property = Expression.Property(parameter, condition.Property);
-            var data = Expression.Constant(condition.Data);
+            var data = condition.Data is null 
+                ? Expression.Constant(condition.Data, property.Type) 
+                : Expression.Constant(condition.Data);
 
             switch (condition.Operator.ToLower())
             {

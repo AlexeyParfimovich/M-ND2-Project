@@ -5,6 +5,7 @@ namespace MyFinance.BLL.Common.Abstracts
 {
     public abstract class BaseFilterDto: BaseDto
     {
+        /*
         [JsonProperty("limit", Required = Required.Default)]
         public long? Limit { get; set; }
 
@@ -13,5 +14,6 @@ namespace MyFinance.BLL.Common.Abstracts
 
         [JsonProperty("orderBy", Required = Required.Default)]
         public string? OrderBy { get; set; }
+        */
     }
 }
