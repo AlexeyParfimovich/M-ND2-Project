@@ -41,8 +41,7 @@ namespace MyFinance.BLL.Common.Abstracts
 
         protected IQueryable<TEntity> AddFilterQuery(QueryFilter filter, IQueryable<TEntity> query = null)
         {
-            if (query is null)
-                _db.Context.Set<TEntity>().AsQueryable();
+            var q = query is null ? _db.Context.Set<TEntity>().AsQueryable() : query;
 
             if (filter is not null && filter.Conditions.Count > 0)
             {
@@ -51,11 +50,11 @@ namespace MyFinance.BLL.Common.Abstracts
                 if (filterExpr is not null)
                 {
                     var lambdaExpr = Expression.Lambda(filterExpr, new ParameterExpression[] { parameter });
-                    query = query.Where((Expression<Func<TEntity, bool>>)lambdaExpr);
+                    q = q.Where((Expression<Func<TEntity, bool>>)lambdaExpr);
                 }
             }
 
-            return query;
+            return q;
         }
     }
 }
