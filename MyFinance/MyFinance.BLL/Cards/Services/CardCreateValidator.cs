@@ -18,26 +18,16 @@ namespace MyFinance.BLL.Cards.Services
         public async Task<Task> Validate(CreateCardDto dto)
         {
             if (dto is null)
-            {
                 throw new DataNullReferenceException();
-            }
 
-            if (string.IsNullOrWhiteSpace(dto.Id))
-            {
-                throw new ValueNotSpecifiedException($"Id property not specified");
-            }
+            if (string.IsNullOrWhiteSpace(dto.Name))
+                throw new ValueNotSpecifiedException($"Card name property not specified");
 
-            var card = await _db.Context.Cards.AsNoTracking().FirstOrDefaultAsync(x => x.Id == dto.Id);
-            if (card is not null)
-            {
-                throw new ValueConflictException($"Specified account Id value {dto.Id} already exists");
-            }
+            if (await _db.Context.Budgets.AsNoTracking().FirstOrDefaultAsync(x => x.Id == dto.BudgetId) is null)
+                throw new ValueNotFoundException($"Specified budget Id value {dto.BudgetId} was not found");
 
-            var account = await _db.Context.Accounts.AsNoTracking().FirstOrDefaultAsync(x => x.Id == dto.AccountId);
-            if (account is null)
-            {
-                throw new ValueNotFoundException($"Specified account Id value {dto.Id} was not found");
-            }
+            if (await _db.Context.Accounts.AsNoTracking().FirstOrDefaultAsync(x => x.Id == dto.AccountId) is null)
+                throw new ValueNotFoundException($"Specified account Id value {dto.AccountId} was not found");
 
             return Task.CompletedTask;
         }

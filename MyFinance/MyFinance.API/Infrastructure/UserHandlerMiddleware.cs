@@ -80,11 +80,15 @@ namespace MyFinance.API.Infrastructure
 
         private async Task<Guid> GetUser(IFinanceDbContext database, FetchUserDto user)
         {
-            var cachedUserId = await _cache.GetStringAsync(user.Email);
-
-            if (cachedUserId is not null)
+            try
             {
-                return Guid.Parse(cachedUserId);
+                var cachedUserId = await _cache.GetStringAsync(user.Email);
+                if (cachedUserId is not null)
+                    return Guid.Parse(cachedUserId);
+            }
+            catch 
+            {
+                _logger.LogError($"Error accessing Redis server");
             }
             
             var entity = await database.Context.Users
@@ -92,11 +96,18 @@ namespace MyFinance.API.Infrastructure
 
             if (entity is not null)
             {
-                var options = new DistributedCacheEntryOptions()
+                try
+                {
+                    var options = new DistributedCacheEntryOptions()
                     .SetSlidingExpiration(TimeSpan.FromSeconds(300))
                     .SetAbsoluteExpiration(DateTime.Now.AddMinutes(60));
 
-                await _cache.SetStringAsync(entity.Email, entity.Id.ToString());
+                    await _cache.SetStringAsync(entity.Email, entity.Id.ToString());
+                }
+                catch
+                {
+                    _logger.LogError($"Error accessing Redis server");
+                }
 
                 return entity.Id;
             }

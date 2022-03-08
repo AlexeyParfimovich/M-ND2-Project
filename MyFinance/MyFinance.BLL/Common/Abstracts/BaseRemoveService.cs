@@ -24,25 +24,19 @@ namespace MyFinance.BLL.Common.Abstracts
         public virtual async Task Remove(QueryFilter filter)
         {
             if (filter is null)
-            {
                 throw new DataNullReferenceException();
-            }
 
             if (filter.Conditions is null)
-            {
                 throw new ValueNotSpecifiedException($"Filter conditions not specified");
-            }
 
             var parameter = Expression.Parameter(typeof(TEntity), "p");
             var lambdaExpr = Expression.Lambda(
-                        FilterExpressionCreator.GetConditionsExpression(filter.Conditions.ToArray(), parameter),
+                        FilterExpressionCreator.GetConditionsExpression(filter, parameter),
                         new List<ParameterExpression>() { parameter });
 
             var entity = await _db.Context.Set<TEntity>().FirstOrDefaultAsync((Expression<Func<TEntity, bool>>)lambdaExpr);
             if (entity is null)
-            {
                 throw new ValueNotFoundException($"Entities specified by the filter conditions {{ {filter} }} were not found");
-            }
 
             _db.Context.Set<TEntity>().Remove(entity);
             await _db.Context.SaveChangesAsync();

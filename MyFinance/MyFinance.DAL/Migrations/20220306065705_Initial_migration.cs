@@ -36,8 +36,6 @@ namespace MyFinance.DAL.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -72,13 +70,6 @@ namespace MyFinance.DAL.Migrations
                         column: x => x.CurrencyId,
                         principalSchema: "finance",
                         principalTable: "Currencies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Budgets_Users_UserId",
-                        column: x => x.UserId,
-                        principalSchema: "finance",
-                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -124,7 +115,9 @@ namespace MyFinance.DAL.Migrations
                 schema: "finance",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     ValidThru = table.Column<DateTime>(type: "datetime2", nullable: true),
                     AccountId = table.Column<long>(type: "bigint", nullable: false),
                     LastTransaction = table.Column<decimal>(type: "decimal(20,0)", nullable: true),
@@ -162,12 +155,6 @@ namespace MyFinance.DAL.Migrations
                     { "EUR", null, null, "Евро", null, null }
                 });
 
-            migrationBuilder.InsertData(
-                schema: "finance",
-                table: "Users",
-                columns: new[] { "Id", "CreatedAt", "CreatedBy", "Email", "FirstName", "LastName", "UpdatedAt", "UpdatedBy", "UserName" },
-                values: new object[] { new Guid("7cc9ded4-cb29-468d-a143-5048772a8b27"), null, null, "test@test.by", "Test", "Testov", null, null, "TestUser" });
-
             migrationBuilder.CreateIndex(
                 name: "IX_Accounts_BudgetId",
                 schema: "finance",
@@ -187,12 +174,6 @@ namespace MyFinance.DAL.Migrations
                 column: "CurrencyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Budgets_UserId",
-                schema: "finance",
-                table: "Budgets",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Cards_AccountId",
                 schema: "finance",
                 table: "Cards",
@@ -206,6 +187,10 @@ namespace MyFinance.DAL.Migrations
                 schema: "finance");
 
             migrationBuilder.DropTable(
+                name: "Users",
+                schema: "finance");
+
+            migrationBuilder.DropTable(
                 name: "Accounts",
                 schema: "finance");
 
@@ -215,10 +200,6 @@ namespace MyFinance.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "Currencies",
-                schema: "finance");
-
-            migrationBuilder.DropTable(
-                name: "Users",
                 schema: "finance");
         }
     }

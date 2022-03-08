@@ -36,6 +36,7 @@ namespace MyFinance.API
 
             services.AddSwaggerGen(options =>
             {
+                options.EnableAnnotations();
                 options.SwaggerDoc("v1", new OpenApiInfo 
                 { 
                     Description = "Swager demo API v1",

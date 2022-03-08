@@ -11,9 +11,8 @@ namespace MyFinance.DAL.EntityTypeConfigs
         {
             builder.ToTable(_tableName).HasKey(t => t.Id);
 
-            builder.Property(t => t.Id)
+            builder.Property(t => t.Name)
                 .HasMaxLength(256)
-                .ValueGeneratedNever()
                 .IsRequired();
 
             builder.Property(t => t.AccountId)

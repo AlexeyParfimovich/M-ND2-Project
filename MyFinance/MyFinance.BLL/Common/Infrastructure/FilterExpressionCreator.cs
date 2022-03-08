@@ -5,14 +5,28 @@ namespace MyFinance.BLL.Common.Infrastructure
 {
     public static class FilterExpressionCreator
     {
-
-        public static Expression GetConditionsExpression(QueryCondition[] conditions, ParameterExpression parameter)
+        public static Expression GetConditionsExpression(QueryFilter filter, ParameterExpression parameter)
         {
-            Expression expr = GetExpression(conditions[0], parameter);
-            for (var i = 1; i < conditions.Length; i++)
+            Expression expr = null;
+               
+            foreach(var condition in filter.Conditions)
             {
-                expr = Expression.AndAlso(expr,
-                    GetExpression(conditions[i], parameter));
+                if(expr is null)
+                {
+                    expr = GetExpression(condition, parameter);
+                }
+                else
+                {
+                    switch (filter.Operator)
+                    {
+                        case ConditionOperator.AndAlso:
+                            expr = Expression.AndAlso(expr, GetExpression(condition, parameter));
+                            break;
+                        case ConditionOperator.OrElse:
+                            expr = Expression.OrElse(expr, GetExpression(condition, parameter));
+                            break;
+                    }
+                }
             }
 
             return expr;
@@ -47,6 +61,9 @@ namespace MyFinance.BLL.Common.Infrastructure
                 case "lte":
                     CheckPropertyIsNotString(property);
                     return Expression.LessThanOrEqual(property, data);
+                //case "in":
+                //    CheckPropertyIsString(property);
+                //    return Expression.Call(data, typeof(string).GetMethod("Contains", new[] { typeof(string) }), property);
                 case "cs":
                     CheckPropertyIsString(property);
                     return Expression.Call(property, typeof(string).GetMethod("Contains", new[] { typeof(string) }), data);

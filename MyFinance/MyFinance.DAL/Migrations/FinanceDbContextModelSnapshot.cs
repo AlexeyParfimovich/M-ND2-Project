@@ -110,9 +110,10 @@ namespace MyFinance.DAL.Migrations
 
             modelBuilder.Entity("MyFinance.DAL.Entities.CardEntity", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<long>("AccountId")
                         .HasColumnType("bigint");
@@ -125,6 +126,11 @@ namespace MyFinance.DAL.Migrations
 
                     b.Property<decimal?>("LastTransaction")
                         .HasColumnType("decimal(20,0)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");

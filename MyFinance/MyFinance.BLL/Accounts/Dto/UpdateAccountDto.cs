@@ -12,7 +12,7 @@ namespace MyFinance.BLL.Accounts.Dto
         [JsonProperty("name", Order = 1, Required = Required.Default)]
         public string Name { get; set; }
 
-        [JsonProperty("budgetId", Order = 3, Required = Required.Always)]
+        [JsonProperty("budgetId", Order = 3, Required = Required.Default)]
         public Guid BudgetId { get; set; }
 
         [JsonProperty("currencyId", Order = 4, Required = Required.Default)]

@@ -21,14 +21,33 @@ namespace MyFinance.BLL.Common.Abstracts
             _db = database;
         }
 
-        public virtual async Task<IEnumerable<TDto>> FetchByFilter(QueryFilter filter)
+        public virtual async Task<TDto> FetchFirst(QueryFilter filter)
         {
-            var query = _db.Context.Set<TEntity>().AsQueryable();
+            var query = AddFilterQuery(filter);
+
+            var entity = await query.FirstOrDefaultAsync();
+
+            return ContractsMapper.Map<TEntity, TDto>(entity);
+        }
+
+        public virtual async Task<IEnumerable<TDto>> FetchFiltered(QueryFilter filter)
+        {
+            var query = AddFilterQuery(filter);
+
+            var entities = await query.ToListAsync();
+
+            return ContractsMapper.MapEnumarable<TEntity, TDto>(entities);
+        }
+
+        protected IQueryable<TEntity> AddFilterQuery(QueryFilter filter, IQueryable<TEntity> query = null)
+        {
+            if (query is null)
+                _db.Context.Set<TEntity>().AsQueryable();
 
             if (filter is not null && filter.Conditions.Count > 0)
             {
                 var parameter = Expression.Parameter(typeof(TEntity), "p");
-                var filterExpr = FilterExpressionCreator.GetConditionsExpression(filter.Conditions.ToArray(), parameter);
+                var filterExpr = FilterExpressionCreator.GetConditionsExpression(filter, parameter);
                 if (filterExpr is not null)
                 {
                     var lambdaExpr = Expression.Lambda(filterExpr, new ParameterExpression[] { parameter });
@@ -36,9 +55,7 @@ namespace MyFinance.BLL.Common.Abstracts
                 }
             }
 
-            var entities = await query.ToListAsync();
-
-            return ContractsMapper.MapEnumarable<TEntity, TDto>(entities);
+            return query;
         }
     }
 }

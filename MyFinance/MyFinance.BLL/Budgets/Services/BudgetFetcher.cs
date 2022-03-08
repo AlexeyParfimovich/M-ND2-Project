@@ -10,7 +10,6 @@ namespace MyFinance.BLL.Budgets.Services
     {
         public BudgetFetcher(
             IFinanceDbContext database) : base (database)
-        {
-        }
+        {}
     }
 }

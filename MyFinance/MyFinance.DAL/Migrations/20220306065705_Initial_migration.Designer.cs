@@ -10,7 +10,7 @@ using MyFinance.DAL;
 namespace MyFinance.DAL.Migrations
 {
     [DbContext(typeof(FinanceDbContext))]
-    [Migration("20220117144849_Initial_migration")]
+    [Migration("20220306065705_Initial_migration")]
     partial class Initial_migration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -107,16 +107,15 @@ namespace MyFinance.DAL.Migrations
 
                     b.HasIndex("CurrencyId");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("Budgets");
                 });
 
             modelBuilder.Entity("MyFinance.DAL.Entities.CardEntity", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<long>("AccountId")
                         .HasColumnType("bigint");
@@ -129,6 +128,11 @@ namespace MyFinance.DAL.Migrations
 
                     b.Property<decimal?>("LastTransaction")
                         .HasColumnType("decimal(20,0)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -231,14 +235,6 @@ namespace MyFinance.DAL.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<string>("FirstName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("LastName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
@@ -253,16 +249,6 @@ namespace MyFinance.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("7cc9ded4-cb29-468d-a143-5048772a8b27"),
-                            Email = "test@test.by",
-                            FirstName = "Test",
-                            LastName = "Testov",
-                            UserName = "TestUser"
-                        });
                 });
 
             modelBuilder.Entity("MyFinance.DAL.Entities.AccountEntity", b =>
@@ -290,15 +276,7 @@ namespace MyFinance.DAL.Migrations
                         .HasForeignKey("CurrencyId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("MyFinance.DAL.Entities.UserEntity", "User")
-                        .WithMany("Budgets")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("Currency");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MyFinance.DAL.Entities.CardEntity", b =>
@@ -326,11 +304,6 @@ namespace MyFinance.DAL.Migrations
                 {
                     b.Navigation("Accounts");
 
-                    b.Navigation("Budgets");
-                });
-
-            modelBuilder.Entity("MyFinance.DAL.Entities.UserEntity", b =>
-                {
                     b.Navigation("Budgets");
                 });
 #pragma warning restore 612, 618

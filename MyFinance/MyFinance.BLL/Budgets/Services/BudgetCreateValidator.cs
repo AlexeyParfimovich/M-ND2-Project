@@ -18,20 +18,13 @@ namespace MyFinance.BLL.Budgets.Services
         public async Task<Task> Validate(CreateBudgetDto dto)
         {
             if (dto is null)
-            {
                 throw new DataNullReferenceException();
-            }
 
             if (string.IsNullOrWhiteSpace(dto.Name))
-            {
                 throw new ValueNotSpecifiedException($"Name property not specified");
-            }
 
-            var entity = await _db.Context.Currencies.AsNoTracking().FirstOrDefaultAsync(x => x.Id == dto.CurrencyId);
-            if (entity is null)
-            {
+            if (await _db.Context.Currencies.AsNoTracking().FirstOrDefaultAsync(x => x.Id == dto.CurrencyId) is null)
                 throw new ValueNotFoundException($"Specified currency type {dto.CurrencyId} was not found");
-            }
 
             return Task.CompletedTask;
         }

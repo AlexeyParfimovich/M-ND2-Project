@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 using MyFinance.API.Models;
 using MyFinance.BLL.Common.Exceptions;
 using MyFinance.BLL.Common.Infrastructure;
@@ -33,7 +33,7 @@ namespace MyFinance.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CurrencyModel>>> Get()
         {
-            var result = await _service.Fetcher.FetchByFilter(null);
+            var result = await _service.Fetcher.FetchFiltered(null);
             if (result == null)
                 throw new NoContentException($"Data not found");
 
@@ -44,11 +44,11 @@ namespace MyFinance.API.Controllers
         public async Task<ActionResult<CurrencyModel>> Get([FromRoute] string id)
         {
             var qFilter = new QueryFilter().AddCondition("Id", id);
-            var result = await _service.Fetcher.FetchByFilter(qFilter);
-            if (result == null || !result.Any())
+            var result = await _service.Fetcher.FetchFirst(qFilter);
+            if (result == null)
                 throw new NoContentException($"Data not found");
 
-            return new ObjectResult(ContractsMapper.Map<FetchCurrencyDto, CurrencyModel>(result.FirstOrDefault()));
+            return new ObjectResult(ContractsMapper.Map<FetchCurrencyDto, CurrencyModel>(result));
         }
 
         [HttpPost]

@@ -21,15 +21,13 @@ namespace MyFinance.BLL.Accounts.Services
             if (dto is null)
                 throw new DataNullReferenceException();
 
-            if (dto.BudgetId == Guid.Empty)
-                throw new ValueNotSpecifiedException($"Budget Id not specified");
-
             if (string.IsNullOrWhiteSpace(dto.Name))
                 throw new ValueNotSpecifiedException($"Name property not specified");
 
-            var entity = await _db.Context.Currencies.AsNoTracking().FirstOrDefaultAsync(x => x.Id == dto.CurrencyId);
+            if (await _db.Context.Budgets.AsNoTracking().FirstOrDefaultAsync(x => x.Id == dto.BudgetId) is null)
+                throw new ValueNotFoundException($"Specified budget {dto.BudgetId} was not found");
 
-            if (entity is null)
+            if (await _db.Context.Currencies.AsNoTracking().FirstOrDefaultAsync(x => x.Id == dto.CurrencyId) is null)
                 throw new ValueNotFoundException($"Specified currency type {dto.CurrencyId} was not found");
 
             return Task.CompletedTask;

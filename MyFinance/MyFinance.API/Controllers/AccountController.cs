@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 using MyFinance.API.Models;
 using MyFinance.BLL.Accounts.Dto;
 using MyFinance.BLL.Common.Exceptions;
@@ -15,15 +16,14 @@ namespace MyFinance.API.Controllers
 {
     //[Authorize]
     [ApiController]
-    //[Route("api/v1/accounts")]
     [Route("api/v1/budgets/{budgetid:guid}/accounts")]
     public class AccountsController : ControllerBase
     {
-        private readonly ILogger<BudgetsController> _logger;
+        private readonly ILogger<AccountsController> _logger;
         readonly IAgregator<AccountEntity, FetchAccountDto, CreateAccountDto, UpdateAccountDto> _service;
 
         public AccountsController(
-            ILogger<BudgetsController> logger,
+            ILogger<AccountsController> logger,
             IAgregator<AccountEntity, FetchAccountDto, CreateAccountDto, UpdateAccountDto> service)
         {
             _logger = logger;
@@ -35,7 +35,7 @@ namespace MyFinance.API.Controllers
         {
             var qFilter = new QueryFilter().AddCondition("BudgetId", budgetid);
 
-            var result = await _service.Fetcher.FetchByFilter(qFilter);
+            var result = await _service.Fetcher.FetchFiltered(qFilter);
             if (result == null)
                 throw new NoContentException($"Data not found");
 
@@ -49,11 +49,11 @@ namespace MyFinance.API.Controllers
                 .AddCondition("BudgetId", budgetid)
                 .AddCondition("Id", id);
 
-            var result = await _service.Fetcher.FetchByFilter(qFilter);
-            if (result == null || !result.Any())
+            var result = await _service.Fetcher.FetchFirst(qFilter);
+            if (result == null)
                 throw new NoContentException($"Data not found");
 
-            return new ObjectResult(ContractsMapper.Map<FetchAccountDto, AccountModel>(result.FirstOrDefault()));
+            return new ObjectResult(ContractsMapper.Map<FetchAccountDto, AccountModel>(result));
         }
 
         [HttpPost]
@@ -80,6 +80,8 @@ namespace MyFinance.API.Controllers
                 throw new ValueOutOfRangeException();
 
             var dto = ContractsMapper.Map<UpdateAccountModel, UpdateAccountDto>(model);
+            dto.BudgetId = budgetid;
+
             var result = await _service.Updater.Update(dto);
 
             return Ok(ContractsMapper.Map<FetchAccountDto, AccountModel>(result));
@@ -91,7 +93,9 @@ namespace MyFinance.API.Controllers
             if (id <= 0)
                 throw new ValueOutOfRangeException();
 
-            var qFilter = new QueryFilter().AddCondition("Id", id);
+            var qFilter = new QueryFilter()
+                .AddCondition("Id", id)
+                .AddCondition("BudgetId", budgetid);
 
             await _service.Remover.Remove(qFilter);
             return Ok();

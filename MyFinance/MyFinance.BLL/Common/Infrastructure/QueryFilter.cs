@@ -4,9 +4,11 @@ using Newtonsoft.Json;
 
 namespace MyFinance.BLL.Common.Infrastructure
 {
-    public class QueryFilter: BaseFilterDto
+    public class QueryFilter : BaseFilterDto
     {
         public List<QueryCondition> Conditions { set; get; }
+
+        public ConditionOperator Operator { set; get; } = ConditionOperator.AndAlso;
 
         public QueryFilter()
         {
@@ -15,7 +17,6 @@ namespace MyFinance.BLL.Common.Infrastructure
 
         public QueryFilter AddCondition(string property, object data, string operation = "")
         {
-
             Conditions?.Add(new QueryCondition
             {
                 Property = property,
@@ -24,6 +25,30 @@ namespace MyFinance.BLL.Common.Infrastructure
             });
 
             return this;
+        }
+
+        public QueryFilter AddConditions(string property, object[] data, string operation = "")
+        {
+            foreach(var item in data)
+                Conditions?.Add(new QueryCondition
+                {
+                    Property = property,
+                    Operator = operation,
+                    Data = item
+                });
+
+            return this;
+        }
+
+        public QueryFilter RemoveCondition(string property)
+        {
+            Conditions.RemoveAll(c => c.Property == property);
+            return this;
+        }
+
+        public QueryCondition GetCondition(string property)
+        {
+            return Conditions.Find(c => c.Property == property);
         }
 
         public override string ToString()

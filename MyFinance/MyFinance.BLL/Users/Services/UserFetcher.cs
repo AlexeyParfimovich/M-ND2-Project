@@ -10,7 +10,6 @@ namespace MyFinance.BLL.Users.Services
     {
         public UserFetcher(
             IFinanceDbContext database) : base(database)
-        {
-        }
+        {}
     }
 }

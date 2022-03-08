@@ -6,6 +6,8 @@ namespace MyFinance.BLL.Common.Interfaces
 {
     public interface IFetcher<TEntity, TDto>
     {
-        Task<IEnumerable<TDto>> FetchByFilter(QueryFilter filter);
+        Task<TDto> FetchFirst(QueryFilter filter);
+
+        Task<IEnumerable<TDto>> FetchFiltered(QueryFilter filter);
     }
 }
