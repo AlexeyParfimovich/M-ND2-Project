@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>MyFinance Identity Server</title>
+    <link rel="shortcut icon" href='@Url.Content("~/images/favicon.ico")'>
+    <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css" />
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <h1>MyFinance Identity Server</h1>
+            <div>
+                <partial name="_Menu" />
+            </div>
+            <hr />
+        </div>
+    </nav>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>© 2022 - M-ND2</p>
+        </footer>
+    </div>
+</body>
+</html>

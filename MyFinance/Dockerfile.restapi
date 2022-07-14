@@ -1,0 +1,8 @@
+FROM mcr.microsoft.com/dotnet/aspnet:5.0-alpine
+
+WORKDIR /app
+COPY MyFinance.API/bin/Release/net5.0/publish/ /app
+
+EXPOSE 80
+
+ENTRYPOINT ["dotnet", "MyFinance.API.dll"]

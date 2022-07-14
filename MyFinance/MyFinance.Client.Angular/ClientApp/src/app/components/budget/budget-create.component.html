@@ -1,0 +1,8 @@
+﻿<div>
+    <h2>Add new budget</h2>
+    <budget-form [(item)]="item"></budget-form>
+    <div class="form-group">
+        <input type="button" value="Save" (click)="save()" class="btn btn-success" /> / 
+        <a routerLink="/budgets" class="btn btn-warning">Cancel</a>
+    </div>
+</div>
